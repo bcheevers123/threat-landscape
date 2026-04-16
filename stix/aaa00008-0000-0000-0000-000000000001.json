@@ -1,0 +1,100 @@
+{
+  "type": "bundle",
+  "id": "bundle--dc3ac54b-b9d2-4c33-b39e-6260f41a10be",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--514a5285-b791-4bdf-9fab-f5c0f3fa67ee",
+      "created": "2026-04-13T19:44:29.000Z",
+      "modified": "2026-04-13T19:44:29.000Z",
+      "name": "Business Email Compromise Attacks Surge 45% Targeting Finance and Legal Sectors",
+      "description": "Proofpoint's quarterly threat report documents a 45% year-on-year increase in business email compromise (BEC) attacks across its customer base. Finance, insurance, and legal sectors account for over 60% of observed incidents. Attackers are exploiting compromised Microsoft 365 accounts as launch platforms, using the trusted sender reputation to bypass email filtering. A growing proportion of attacks feature AI-generated email content that closely mimics executive writing styles, significantly increasing their effectiveness. Average financial loss per successful BEC incident reached $287,000 in Q1 2025. Organisations are urged to implement DMARC, enforce MFA on all email accounts, and provide regular security awareness training.",
+      "published": "2025-04-10T13:00:00.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "attack-pattern--ef1ae3d4-fba3-48df-bf1b-1de55bf1a678",
+        "attack-pattern--00b9a3e0-7d3b-44f5-9970-0978fcf291ea",
+        "attack-pattern--4d82a843-467a-4572-8d6a-52eea6efe7eb"
+      ],
+      "external_references": [
+        {
+          "source_name": "Proofpoint Threat Intelligence",
+          "url": "https://www.proofpoint.com/us/blog/threat-insight/bec-surge-2025",
+          "description": "Business Email Compromise Attacks Surge 45% Targeting Finance and Legal Sectors"
+        }
+      ],
+      "labels": [
+        "Finance",
+        "Insurance",
+        "Technology",
+        "Legal"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--ef1ae3d4-fba3-48df-bf1b-1de55bf1a678",
+      "created": "2026-04-13T19:44:29.000Z",
+      "modified": "2026-04-13T19:44:29.000Z",
+      "name": "Phishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1566",
+          "url": "https://attack.mitre.org/techniques/T1566/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--00b9a3e0-7d3b-44f5-9970-0978fcf291ea",
+      "created": "2026-04-13T19:44:29.000Z",
+      "modified": "2026-04-13T19:44:29.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--4d82a843-467a-4572-8d6a-52eea6efe7eb",
+      "created": "2026-04-13T19:44:29.000Z",
+      "modified": "2026-04-13T19:44:29.000Z",
+      "name": "Internal Spearphishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1534",
+          "url": "https://attack.mitre.org/techniques/T1534/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    }
+  ]
+}

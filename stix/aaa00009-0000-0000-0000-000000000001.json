@@ -1,0 +1,133 @@
+{
+  "type": "bundle",
+  "id": "bundle--b9dbebce-f689-4b4d-a26a-afd16a28acdc",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--61664dde-9bd9-49a6-ad23-f65349bcdc73",
+      "created": "2026-04-13T19:44:29.000Z",
+      "modified": "2026-04-13T19:44:29.000Z",
+      "name": "Iranian APT33 Launches Destructive Wiper Campaign Against Energy Sector in Middle East and Europe",
+      "description": "SentinelOne's threat research team has identified an active destructive cyber campaign attributed with moderate confidence to APT33, an Iranian state-sponsored threat actor also known as Refined Kitten. The campaign targets oil and gas companies, electricity generation firms, and energy sector suppliers across Saudi Arabia, the United Arab Emirates, and Germany. Initial access is achieved via spear-phishing emails containing malicious attachments exploiting a recently patched Microsoft Office vulnerability. After gaining a foothold, attackers conduct extensive credential dumping and lateral movement before deploying a previously undocumented wiper malware, which overwrites the master boot record and file system structures, rendering affected systems unbootable. The campaign appears timed to coincide with regional geopolitical tensions. Organisations in the energy sector are urged to review their exposure and implement network segmentation.",
+      "published": "2025-04-11T08:00:00.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "threat-actor--1dbfb199-728e-4562-8549-502141e7838c",
+        "attack-pattern--0e536c60-6790-44cc-b7a8-53beb6a4686b",
+        "attack-pattern--eccf1c61-2d33-42ec-8e62-4ca8da67ee00",
+        "attack-pattern--db7a2ed3-b92e-447a-94eb-5103500d7c3b",
+        "attack-pattern--681fd785-c129-4a82-a829-b9c2cad28140"
+      ],
+      "external_references": [
+        {
+          "source_name": "SentinelOne Blog",
+          "url": "https://www.sentinelone.com/blog/apt33-wiper-campaign-2025",
+          "description": "Iranian APT33 Launches Destructive Wiper Campaign Against Energy Sector in Middle East and Europe"
+        }
+      ],
+      "labels": [
+        "Energy",
+        "Technology"
+      ]
+    },
+    {
+      "type": "threat-actor",
+      "spec_version": "2.1",
+      "id": "threat-actor--1dbfb199-728e-4562-8549-502141e7838c",
+      "created": "2026-04-13T19:44:29.000Z",
+      "modified": "2026-04-13T19:44:29.000Z",
+      "name": "APT33",
+      "threat_actor_types": [
+        "unknown"
+      ],
+      "confidence": 25
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--0e536c60-6790-44cc-b7a8-53beb6a4686b",
+      "created": "2026-04-13T19:44:29.000Z",
+      "modified": "2026-04-13T19:44:29.000Z",
+      "name": "Phishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1566",
+          "url": "https://attack.mitre.org/techniques/T1566/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--eccf1c61-2d33-42ec-8e62-4ca8da67ee00",
+      "created": "2026-04-13T19:44:29.000Z",
+      "modified": "2026-04-13T19:44:29.000Z",
+      "name": "Remote Services",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1021",
+          "url": "https://attack.mitre.org/techniques/T1021/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--db7a2ed3-b92e-447a-94eb-5103500d7c3b",
+      "created": "2026-04-13T19:44:29.000Z",
+      "modified": "2026-04-13T19:44:29.000Z",
+      "name": "OS Credential Dumping",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1003",
+          "url": "https://attack.mitre.org/techniques/T1003/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "credential-access"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--681fd785-c129-4a82-a829-b9c2cad28140",
+      "created": "2026-04-13T19:44:29.000Z",
+      "modified": "2026-04-13T19:44:29.000Z",
+      "name": "Data Destruction",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1485",
+          "url": "https://attack.mitre.org/techniques/T1485/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "impact"
+        }
+      ]
+    }
+  ]
+}

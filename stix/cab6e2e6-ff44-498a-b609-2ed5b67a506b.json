@@ -1,0 +1,89 @@
+{
+  "type": "bundle",
+  "id": "bundle--b1156fa1-f676-418a-be6c-cd85c82f8900",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--88908f46-3125-4e31-b265-acc3ab9176b2",
+      "created": "2026-04-13T21:36:22.000Z",
+      "modified": "2026-04-13T21:36:22.000Z",
+      "name": "Adobe issues emergency fix for Acrobat Reader flaw exploited in the wild (CVE-2026-34621)",
+      "description": "Adobe has pushed out an emergency security update for Adobe Acrobat Reader, patching a zero-day vulnerability (CVE-2026-34621) exploited in the wild since November 2025. About CVE-2026-34621 CVE-2026-34621 is a critical prototype pollution vulnerability \u2013 a type of vulnerability that occurs in JavaScript and allows attackers to add or modify an application\u2019s JavaScript objects and properties. CVE-2026-34621 can lead to arbitrary code execution in the context of the current user, but it cannot be triggered remotely. \u2026 More \u2192 The post Adobe issues emergency fix for Acrobat Reader flaw exploited in the wild (CVE-2026-34621) appeared first on Help Net Security .",
+      "published": "2026-04-13T10:04:51.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--2555059e-f654-4496-80e4-6171a922738f",
+        "attack-pattern--e863ba95-c250-490f-9601-da92c0542a11",
+        "attack-pattern--09dac5af-9783-40d5-9e21-000f0ebe51ac"
+      ],
+      "external_references": [
+        {
+          "source_name": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/04/13/adobe-acrobat-reader-cve-2026-34621-emergency-fix",
+          "description": "Adobe issues emergency fix for Acrobat Reader flaw exploited in the wild (CVE-2026-34621)"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--2555059e-f654-4496-80e4-6171a922738f",
+      "created": "2026-04-13T21:36:22.000Z",
+      "modified": "2026-04-13T21:36:22.000Z",
+      "name": "CVE-2026-34621",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-34621",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-34621"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--e863ba95-c250-490f-9601-da92c0542a11",
+      "created": "2026-04-13T21:36:22.000Z",
+      "modified": "2026-04-13T21:36:22.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--09dac5af-9783-40d5-9e21-000f0ebe51ac",
+      "created": "2026-04-13T21:36:22.000Z",
+      "modified": "2026-04-13T21:36:22.000Z",
+      "name": "Exploit Public-Facing Application",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1190",
+          "url": "https://attack.mitre.org/techniques/T1190/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ]
+    }
+  ]
+}

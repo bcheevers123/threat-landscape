@@ -1,0 +1,73 @@
+{
+  "type": "bundle",
+  "id": "bundle--37654d6c-ce9e-498d-8747-59b37287529b",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--d1ab137b-d5a6-4719-ac13-8f91002b9dc6",
+      "created": "2026-04-13T21:21:43.000Z",
+      "modified": "2026-04-13T21:21:43.000Z",
+      "name": "GPL Odorizers GPL750",
+      "description": "View CSAF Summary Successful exploitation of this vulnerability could allow a low privileged remote attacker to manipulate register values, which would result in too much or too little odorant being injected into a gas line. The following versions of GPL Odorizers GPL750 are affected: GPL750 (XL4) >=v1.0| GPL750 (XL4 Prime) >=v4.0| GPL750 (XL7) >=v13.0| GPL750 (XL7 Prime) >=v18.4| CVSS Vendor Equipment Vulnerabilities v3 8.6 GPL Odorizers GPL Odorizers GPL750 Missing Authentication for Critical Function Background Critical Infrastructure Sectors: Critical Manufacturing Countries/Areas Deployed: Worldwide Company Headquarters Location: United States Vulnerabilities Expand All + CVE-2026-4436 A low-privileged remote attacker can send Modbus packets to manipulate register values that are inputs to the odorant injection logic such that too much or too little odorant is injected into a gas line. https://hornerautomation.com/controller-firmware/ Relevant CWE: CWE-306 Missing Authentication for Critical Function Metrics CVSS Version Base Score Base Severity Vector String 3.1 8.6 HIGH CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:H/A:N Acknowledgments An anonymous researcher reported this vulnerability to CISA Legal Notice and Terms of Use This product is provided subject to this Notification (https://www.cisa.gov/notification) and this Privacy & Use policy (https://www.cisa.gov/privacy-policy). Recommended Practices CISA recommends users take defensive measures to minimize the risk of exploitation of this vulnerability.",
+      "published": "2026-04-09T12:00:00.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--e12c1fdd-3431-4119-86ec-dd136e895dc6",
+        "attack-pattern--8f1e438b-6510-47a6-8e7b-0f12326344d7"
+      ],
+      "external_references": [
+        {
+          "source_name": "CISA Advisories",
+          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-099-02",
+          "description": "GPL Odorizers GPL750"
+        }
+      ],
+      "labels": [
+        "Energy",
+        "Government",
+        "Critical Infrastructure",
+        "Manufacturing",
+        "Media"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--e12c1fdd-3431-4119-86ec-dd136e895dc6",
+      "created": "2026-04-13T21:21:43.000Z",
+      "modified": "2026-04-13T21:21:43.000Z",
+      "name": "CVE-2026-4436",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-4436",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-4436"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--8f1e438b-6510-47a6-8e7b-0f12326344d7",
+      "created": "2026-04-13T21:21:43.000Z",
+      "modified": "2026-04-13T21:21:43.000Z",
+      "name": "Phishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1566",
+          "url": "https://attack.mitre.org/techniques/T1566/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ]
+    }
+  ]
+}

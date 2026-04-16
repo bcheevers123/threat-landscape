@@ -1,0 +1,67 @@
+{
+  "type": "bundle",
+  "id": "bundle--de035d54-e6e6-4053-9d05-212c7584c1e2",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--febab5c0-312d-49d2-9be4-e487d46d389e",
+      "created": "2026-04-14T16:27:56.000Z",
+      "modified": "2026-04-14T16:27:56.000Z",
+      "name": "ShowDoc RCE Flaw CVE-2025-0520 Actively Exploited on Unpatched Servers",
+      "description": "A critical security vulnerability impacting ShowDoc, a document management and collaboration service popular in China, has come under active exploitation in the wild. The vulnerability in question is CVE-2025-0520 (aka CNVD-2020-26585), which carries a CVSS score of 9.4 out of 10.0. It relates to a case of unrestricted file upload that stems from improper validation of",
+      "published": "2026-04-14T05:50:00.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--76cde42e-9cae-4e60-9a2e-e551216789ae",
+        "attack-pattern--2d83c415-cf2b-46a7-9b2a-d2ff2e48b906"
+      ],
+      "external_references": [
+        {
+          "source_name": "The Hacker News",
+          "url": "https://thehackernews.com/2026/04/showdoc-rce-flaw-cve-2025-0520-actively.html",
+          "description": "ShowDoc RCE Flaw CVE-2025-0520 Actively Exploited on Unpatched Servers"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--76cde42e-9cae-4e60-9a2e-e551216789ae",
+      "created": "2026-04-14T16:27:56.000Z",
+      "modified": "2026-04-14T16:27:56.000Z",
+      "name": "CVE-2025-0520",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2025-0520",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-0520"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--2d83c415-cf2b-46a7-9b2a-d2ff2e48b906",
+      "created": "2026-04-14T16:27:56.000Z",
+      "modified": "2026-04-14T16:27:56.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    }
+  ]
+}

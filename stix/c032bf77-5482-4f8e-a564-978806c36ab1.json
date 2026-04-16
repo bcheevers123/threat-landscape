@@ -1,0 +1,89 @@
+{
+  "type": "bundle",
+  "id": "bundle--6aa6a172-2434-4a4d-b3b1-c1a358f99bd3",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--7b37716e-3ec8-461e-b680-8e58e6c9ae87",
+      "created": "2026-04-13T21:21:42.000Z",
+      "modified": "2026-04-13T21:21:42.000Z",
+      "name": "Fortinet security advisory (AV26-096) \u2013 Update 2",
+      "description": "Serial number: AV26-096 Date: February 9, 2026 Updated: April 13, 2026 On February 6, 2026, Fortinet published a security advisory to address a critical vulnerability in the following product: FortiClientEMS 7.4 \u2013 version 7.4.4 Update 1 Open-source reporting indicates that CVE-2026-21643 is being exploited in the wild. Update 2 On April 13, 2026, Cybersecurity and Infrastructure Security Agency (CISA) added CVE-2026-21643 to their Known Exploited Vulnerabilities (KEV) Database. The Cyber Centre encourages users and administrators to review the provided web links and apply the necessary updates. SQLi in administrative interface \u2013 FG-IR-25-1142 (CVE-2026-21643) CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') Fortinet PSIRT Advisories CISA KEV: CVE-2026-21643",
+      "published": "2026-04-13T18:50:26.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--925b25f0-1736-4d89-a7ed-49384efb2073",
+        "attack-pattern--527c1b46-5b21-4df8-a26b-b6ba2be7cec4",
+        "attack-pattern--b4d98d40-d1d1-4d73-884f-5050123e7b1c"
+      ],
+      "external_references": [
+        {
+          "source_name": "Canadian Centre for Cyber Security",
+          "url": "https://cyber.gc.ca/en/alerts-advisories/fortinet-security-advisory-av26-096",
+          "description": "Fortinet security advisory (AV26-096) \u2013 Update 2"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--925b25f0-1736-4d89-a7ed-49384efb2073",
+      "created": "2026-04-13T21:21:42.000Z",
+      "modified": "2026-04-13T21:21:42.000Z",
+      "name": "CVE-2026-21643",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-21643",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-21643"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--527c1b46-5b21-4df8-a26b-b6ba2be7cec4",
+      "created": "2026-04-13T21:21:42.000Z",
+      "modified": "2026-04-13T21:21:42.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--b4d98d40-d1d1-4d73-884f-5050123e7b1c",
+      "created": "2026-04-13T21:21:42.000Z",
+      "modified": "2026-04-13T21:21:42.000Z",
+      "name": "Exploit Public-Facing Application",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1190",
+          "url": "https://attack.mitre.org/techniques/T1190/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ]
+    }
+  ]
+}

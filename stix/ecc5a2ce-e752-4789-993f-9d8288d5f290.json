@@ -1,0 +1,130 @@
+{
+  "type": "bundle",
+  "id": "bundle--517a9813-ce46-4931-837a-fdbc8477b2d9",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--19afcdc8-2efe-4329-982f-b7d2a8d02236",
+      "created": "2026-04-14T16:28:15.000Z",
+      "modified": "2026-04-14T16:28:15.000Z",
+      "name": "Mitsubishi Electric GENESIS64 and ICONICS Suite products",
+      "description": "View CSAF Summary Successful exploitation of these vulnerabilities could allow a local attacker to disclose SQL Server credentials used by the affected products and use them to disclose, tamper with, or destroy data, or to cause a denial-of-service (DoS) condition on the system. The following versions of Mitsubishi Electric GENESIS64 and ICONICS Suite products are affected: GENESIS64 <=10.97.3 (CVE-2025-14815, CVE-2025-14816) ICONICS Suite <=10.97.3 (CVE-2025-14815, CVE-2025-14816) MobileHMI <=10.97.3 (CVE-2025-14815, CVE-2025-14816) Hyper Historian <=10.97.3 (CVE-2025-14815, CVE-2025-14816) AnalytiX <=10.97.3 (CVE-2025-14815, CVE-2025-14816) MC Works 64 vers:all/* (CVE-2025-14815, CVE-2025-14816) GENESIS <=11.02 (CVE-2025-14815, CVE-2025-14816) CVSS Vendor Equipment Vulnerabilities v3 8.8 Mitsubishi Electric Mitsubishi Electric GENESIS64 and ICONICS Suite products Cleartext Storage of Sensitive Information, Cleartext Storage of Sensitive Information in GUI Background Critical Infrastructure Sectors: Critical Manufacturing Countries/Areas Deployed: Worldwide Company Headquarters Location: Japan, United States Vulnerabilities Expand All + CVE-2025-14815 When the local caching feature using SQLite is enabled and SQL authentication is used for the SQL Server authentication, the SQL Server credentials are stored in plaintext within the local SQLite file. For more information on the fixed version, refer to the Mitsubishi Electric security advisory at \"https://www.mitsubishielectric.co.jp/psirt/vulnerability/pdf/2025-023.pdf\". For more information on the fixed version, refer to the Mitsubishi Electric security advisory at \"https://www.mitsubishielectric.co.jp/psirt/vulnerability/pdf/2025-023.pdf\".",
+      "published": "2026-04-07T12:00:00.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--f871ec6b-f44c-4713-b5af-f32a137884cb",
+        "vulnerability--91f2aa06-95df-4b1a-aaa7-19b677db2173",
+        "attack-pattern--3366d832-5d3f-4113-8fa1-3b10f08261cd",
+        "attack-pattern--eadd921b-0e43-4cc3-8203-bdc806bba453",
+        "attack-pattern--a5172f09-999b-46b3-8746-b0bc4ae567d0"
+      ],
+      "external_references": [
+        {
+          "source_name": "CISA Advisories",
+          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-097-01",
+          "description": "Mitsubishi Electric GENESIS64 and ICONICS Suite products"
+        }
+      ],
+      "labels": [
+        "Critical Infrastructure",
+        "Manufacturing"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--f871ec6b-f44c-4713-b5af-f32a137884cb",
+      "created": "2026-04-14T16:28:15.000Z",
+      "modified": "2026-04-14T16:28:15.000Z",
+      "name": "CVE-2025-14815",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2025-14815",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-14815"
+        }
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--91f2aa06-95df-4b1a-aaa7-19b677db2173",
+      "created": "2026-04-14T16:28:15.000Z",
+      "modified": "2026-04-14T16:28:15.000Z",
+      "name": "CVE-2025-14816",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2025-14816",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-14816"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--3366d832-5d3f-4113-8fa1-3b10f08261cd",
+      "created": "2026-04-14T16:28:15.000Z",
+      "modified": "2026-04-14T16:28:15.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--eadd921b-0e43-4cc3-8203-bdc806bba453",
+      "created": "2026-04-14T16:28:15.000Z",
+      "modified": "2026-04-14T16:28:15.000Z",
+      "name": "Exploit Public-Facing Application",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1190",
+          "url": "https://attack.mitre.org/techniques/T1190/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--a5172f09-999b-46b3-8746-b0bc4ae567d0",
+      "created": "2026-04-14T16:28:15.000Z",
+      "modified": "2026-04-14T16:28:15.000Z",
+      "name": "Network Denial of Service",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1498",
+          "url": "https://attack.mitre.org/techniques/T1498/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "impact"
+        }
+      ]
+    }
+  ]
+}
