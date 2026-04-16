@@ -1,0 +1,496 @@
+===============================================================================
+  THREAT LANDSCAPE PIPELINE — WINDOWS 10 SETUP INSTRUCTIONS
+  Barry Cheevers | barrycheevers.co.uk
+  Deployment target: GitHub Pages
+===============================================================================
+
+These instructions cover:
+  A. Prerequisites and first-time setup on Windows 10
+  B. Installing dependencies
+  C. Create and configure the GitHub Pages repository
+  D. Configuring credentials
+  E. Running the pipeline
+  F. Scheduling daily automation with Task Scheduler
+  G. Linking from your WordPress site
+  H. Optional: custom subdomain (e.g. threats.barrycheevers.co.uk)
+  I. Ongoing maintenance
+  J. Troubleshooting
+
+
+===============================================================================
+  A. PREREQUISITES AND FIRST-TIME SETUP
+===============================================================================
+
+1. CHECK YOUR PYTHON VERSION
+------------------------------
+   Open Command Prompt (press Win+R, type cmd, press Enter) and run:
+
+     python --version
+
+   You need Python 3.8 or later.  If Python is not installed or is too old:
+
+     a. Go to https://www.python.org/downloads/
+     b. Download the latest Python 3.x installer (Windows 64-bit)
+     c. Run the installer.  IMPORTANT: tick "Add Python to PATH" on the first
+        screen before clicking Install Now.
+     d. Close and reopen Command Prompt, then run python --version again.
+
+
+2. CHECK GIT IS INSTALLED
+---------------------------
+   The pipeline uses git to push files to GitHub Pages.  In Command Prompt:
+
+     git --version
+
+   If git is not found, download and install it from https://git-scm.com/
+   Accept all defaults during installation.  Close and reopen Command Prompt
+   afterwards.
+
+
+3. LOCATE THE PROJECT FOLDER
+------------------------------
+   The project is at:
+
+     C:\Users\barry\PycharmProjects\ThreatLandscape
+
+   All commands below assume you are in that folder.  Open Command Prompt and
+   navigate to it:
+
+     cd C:\Users\barry\PycharmProjects\ThreatLandscape
+
+
+4. CREATE A VIRTUAL ENVIRONMENT (first time only)
+---------------------------------------------------
+   If the venv\ folder already exists and contains Scripts\python.exe, skip
+   this step.  To create it fresh:
+
+     python -m venv venv
+
+   Activate the environment:
+
+     venv\Scripts\activate
+
+   Your prompt will change to show (venv) at the start.  All python and pip
+   commands below assume the environment is active.  If you close the window
+   and come back later, activate it again with the same command.
+
+
+===============================================================================
+  B. INSTALLING DEPENDENCIES
+===============================================================================
+
+   With the virtual environment active, install all required packages:
+
+     pip install -r requirements.txt
+
+   This takes a minute or two on first run.  You only need to repeat this if
+   requirements.txt changes.
+
+   To verify everything installed correctly, run the test suite:
+
+     python -m pytest tests\ -q
+
+   You should see:  47 passed
+
+
+===============================================================================
+  C. CREATE AND CONFIGURE THE GITHUB PAGES REPOSITORY
+===============================================================================
+
+1. CREATE A GITHUB ACCOUNT (if you do not have one)
+-----------------------------------------------------
+   Sign up at https://github.com/
+
+
+2. CREATE A NEW REPOSITORY
+----------------------------
+   a. Log in to GitHub and click the + icon > New repository.
+   b. Name it something like  threat-landscape  (this will be part of the URL).
+   c. Set it to Public (required for free GitHub Pages hosting).
+   d. Do NOT initialise it with a README — leave it completely empty.
+   e. Click Create repository.
+   f. Copy the HTTPS clone URL shown on the next page.  It will look like:
+        https://github.com/yourusername/threat-landscape.git
+
+
+3. GENERATE A PERSONAL ACCESS TOKEN
+-------------------------------------
+   GitHub requires a token for HTTPS push operations.
+
+   a. Go to GitHub > Settings (your profile) > Developer settings >
+      Personal access tokens > Tokens (classic).
+   b. Click Generate new token (classic).
+   c. Give it a note like  threat-landscape-deploy
+   d. Set Expiration to No expiration (or a long period — you will need to
+      update it in the .env file when it expires).
+   e. Under Select scopes, tick  repo  (the top-level checkbox).
+   f. Click Generate token.
+   g. COPY THE TOKEN NOW — GitHub only shows it once.
+
+
+4. UPDATE config/config.yaml
+------------------------------
+   Open config\config.yaml in a text editor and fill in the github_pages
+   section:
+
+     github_pages:
+       repo_url: "https://github.com/yourusername/threat-landscape.git"
+       branch: gh-pages
+       staging_dir: gh-pages-staging
+       commit_name: "Barry Cheevers"
+       commit_email: "theradiant26@gmail.com"
+       custom_domain: ""
+
+   Replace https://github.com/yourusername/threat-landscape.git with your
+   actual repository URL from step 2.
+
+   Leave custom_domain blank for now (see section H if you want to set one
+   up later).
+
+
+5. ENABLE GITHUB PAGES ON THE REPOSITORY
+------------------------------------------
+   After the first deploy (section E) has pushed a gh-pages branch, do this:
+
+   a. Go to your repository on GitHub.
+   b. Click Settings > Pages.
+   c. Under Source, select  Deploy from a branch.
+   d. Under Branch, choose  gh-pages  and folder  / (root).
+   e. Click Save.
+
+   GitHub will display the public URL of your page.  It will look like:
+     https://yourusername.github.io/threat-landscape/
+
+   NOTE: This step only needs to be done once.  Subsequent deploys
+   automatically update the live page.
+
+
+===============================================================================
+  D. CONFIGURING CREDENTIALS
+===============================================================================
+
+1. CREATE THE .env FILE
+------------------------
+   In the project folder, create a .env file using Notepad:
+
+     notepad .env
+
+   Notepad will ask if you want to create a new file — click Yes.
+   Add the following line, pasting in the token you generated in section C.3:
+
+     GITHUB_TOKEN=ghp_yourtokenhere
+
+   Save and close Notepad.
+
+   NOTE: Do not add quotes around the token value.  Do not add spaces around
+   the = sign.  The .env file is never committed to version control.
+
+
+===============================================================================
+  E. RUNNING THE PIPELINE
+===============================================================================
+
+   All commands below are run from the project folder with the venv active.
+   To activate:  venv\Scripts\activate
+
+1. BUILD ONLY (collect, score, render — no upload)
+----------------------------------------------------
+     python -m src.main build
+
+   Output files will appear in the output\ folder:
+     output\index.html       — the threat landscape page
+     output\latest.json      — structured data
+     output\stix\            — one STIX 2.1 JSON file per threat
+     output\static\          — CSS and JS
+
+   A successful run ends with:
+     Build complete — 10 threat(s) rendered.
+
+
+2. PREVIEW IN THE BROWSER
+---------------------------
+     python -m src.main preview
+
+   Starts a local web server.  Open http://localhost:8080 in your browser
+   to see the page before deploying.  Press Ctrl+C to stop.
+
+
+3. DEPLOY ONLY (push existing output\ to GitHub Pages)
+-------------------------------------------------------
+     python -m src.main deploy
+
+   This commits and pushes the output files to the gh-pages branch of your
+   GitHub repository.  The live page updates within a minute or two.
+
+
+4. FULL PIPELINE (build then deploy in one command)
+-----------------------------------------------------
+     python -m src.main run-all
+
+   This is the command the daily automation uses.
+
+
+5. FIRST RUN CHECKLIST
+------------------------
+   Run these steps in order the first time:
+
+     a.  python -m src.main build
+         Confirm output\index.html is created.
+
+     b.  python -m src.main preview
+         Open http://localhost:8080 and check the page looks correct.
+         Press Ctrl+C to stop the preview server.
+
+     c.  python -m src.main deploy
+         This creates the gh-pages branch on GitHub for the first time.
+
+     d.  Enable GitHub Pages in the repository settings (section C.5).
+
+     e.  Visit https://yourusername.github.io/threat-landscape/ to confirm
+         the page is live.
+
+
+===============================================================================
+  F. SCHEDULING DAILY AUTOMATION (TASK SCHEDULER)
+===============================================================================
+
+   The setup_pc.py script manages a Windows background service that runs the
+   pipeline automatically every day at 07:00 UTC.
+
+1. INSTALL THE SCHEDULED TASK (run once)
+------------------------------------------
+   Open Command Prompt as Administrator (right-click Command Prompt in the
+   Start menu and choose "Run as administrator"), then run:
+
+     cd C:\Users\barry\PycharmProjects\ThreatLandscape
+     venv\Scripts\python.exe setup_pc.py install
+
+   This creates a Task Scheduler task called ThreatLandscapePipeline that
+   starts the background service automatically each time you log in.
+
+   To verify the task was created:
+
+     schtasks /query /tn ThreatLandscapePipeline
+
+
+2. START THE SERVICE NOW
+-------------------------
+     venv\Scripts\python.exe setup_pc.py start
+
+   The service runs in the background with no console window.  It runs the
+   pipeline immediately on start, then repeats daily at 07:00 UTC.
+
+
+3. CHECK SERVICE STATUS
+------------------------
+     venv\Scripts\python.exe setup_pc.py status
+
+   Shows whether the service is running and when the next scheduled run is.
+
+
+4. VIEW LOGS
+-------------
+   Logs are written to logs\pc_service.log
+
+   To view the last 50 lines:
+
+     powershell -command "Get-Content logs\pc_service.log -Tail 50"
+
+   Or open it in Notepad:
+
+     notepad logs\pc_service.log
+
+
+5. STOP THE SERVICE
+--------------------
+     venv\Scripts\python.exe setup_pc.py stop
+
+
+6. RUN THE PIPELINE ONCE IN THE FOREGROUND (for testing)
+---------------------------------------------------------
+     venv\Scripts\python.exe setup_pc.py run-now
+
+
+7. REMOVE THE SCHEDULED TASK
+------------------------------
+     venv\Scripts\python.exe setup_pc.py uninstall
+
+
+===============================================================================
+  G. LINKING FROM YOUR WORDPRESS SITE
+===============================================================================
+
+   Your threat landscape page is hosted on GitHub Pages at a URL like:
+     https://yourusername.github.io/threat-landscape/
+
+   Because you are on the WordPress.com Personal plan you cannot install
+   plugins, but you can add a link to the page from your WordPress site in
+   several ways:
+
+   OPTION 1 — Add it to your navigation menu
+     WordPress admin > Appearance > Menus.
+     Add a Custom Link with the GitHub Pages URL and a label like
+     "Cyber Threat Landscape".  Save the menu.
+
+   OPTION 2 — Add a button or link on any page
+     Edit any WordPress page.  In the block editor, add a Button block or a
+     Paragraph block containing a hyperlink to the GitHub Pages URL.
+
+   OPTION 3 — Create a redirect page
+     Create a WordPress page called "Threats" or "Cyber Threat Landscape".
+     In the page content, add a single line:
+       <a href="https://yourusername.github.io/threat-landscape/">
+         Click here to view today's cyber threat landscape →
+       </a>
+     Visitors land on your WordPress page and are taken to the live report.
+
+
+===============================================================================
+  H. OPTIONAL: CUSTOM SUBDOMAIN (threats.barrycheevers.co.uk)
+===============================================================================
+
+   You can serve the GitHub Pages site at a subdomain of your own domain
+   instead of yourusername.github.io.
+
+1. ADD THE SUBDOMAIN DNS RECORD
+---------------------------------
+   Log in to wherever you manage your domain's DNS (your domain registrar
+   or DNS provider).  Add a new CNAME record:
+
+     Name (Host):   threats
+     Value (Points to):  yourusername.github.io
+     TTL:           3600 (or Auto)
+
+   This makes threats.barrycheevers.co.uk point to GitHub Pages.
+
+
+2. SET THE CUSTOM DOMAIN IN config/config.yaml
+------------------------------------------------
+   Under the github_pages section, fill in custom_domain:
+
+     custom_domain: "threats.barrycheevers.co.uk"
+
+   The next deploy will write a CNAME file to the gh-pages branch, which
+   tells GitHub Pages to serve the site at that domain.
+
+
+3. ENABLE THE CUSTOM DOMAIN IN GITHUB
+---------------------------------------
+   a. Go to your repository > Settings > Pages.
+   b. Under Custom domain, enter  threats.barrycheevers.co.uk
+   c. Click Save.
+   d. Tick "Enforce HTTPS" once the certificate has provisioned
+      (this can take up to 24 hours after the DNS change propagates).
+
+   After this the page will be live at https://threats.barrycheevers.co.uk
+
+
+===============================================================================
+  I. ONGOING MAINTENANCE
+===============================================================================
+
+ADDING OR REMOVING SOURCES
+   Edit config\sources.yaml.  Set enabled: false to disable a source without
+   deleting it.  No code changes needed.
+
+ADJUSTING SCORING WEIGHTS
+   Edit the scoring section in config\config.yaml.  Weights must sum to 1.0.
+
+CHANGING THE NUMBER OF THREATS SHOWN
+   Edit top_n in config\config.yaml (default: 10).
+
+UPDATING PYTHON DEPENDENCIES
+   With the venv active:
+
+     pip install --upgrade -r requirements.txt
+
+ROTATING THE GITHUB TOKEN
+   When your token expires, generate a new one (section C.3) and update the
+   GITHUB_TOKEN value in your .env file.  No other changes needed.
+
+CREATING THE LOGS FOLDER MANUALLY (if it does not exist)
+   In Command Prompt from the project folder:
+
+     mkdir logs
+
+
+===============================================================================
+  J. TROUBLESHOOTING
+===============================================================================
+
+VENV\SCRIPTS\ACTIVATE IS BLOCKED BY EXECUTION POLICY
+   Windows may block running scripts in PowerShell.  Open PowerShell as
+   Administrator and run:
+
+     Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
+   Alternatively, use Command Prompt (cmd.exe) instead of PowerShell — the
+   .bat activator works without any policy change:
+
+     venv\Scripts\activate.bat
+
+
+"GIT IS NOT RECOGNISED AS AN INTERNAL OR EXTERNAL COMMAND"
+   Git is not installed or not on the PATH.  Install it from https://git-scm.com/
+   and reopen Command Prompt.
+
+
+DEPLOY FAILS WITH "AUTHENTICATION FAILED" OR "INVALID CREDENTIALS"
+   Check that:
+     - The GITHUB_TOKEN value in .env is correct and has not expired
+     - The token has the  repo  scope (not just public_repo)
+     - There are no extra spaces or quote marks around the token value in .env
+   Generate a fresh token if in doubt (section C.3).
+
+
+DEPLOY FAILS WITH "REPOSITORY NOT FOUND"
+   Check that:
+     - The repo_url in config.yaml is correct and the repository exists
+     - The repository is set to Public
+     - Your GitHub username in the URL is correct
+
+
+GITHUB PAGES SHOWS "404 NOT FOUND" AFTER DEPLOY
+   The gh-pages branch has been pushed but Pages may not be enabled yet.
+   Go to your repository > Settings > Pages and enable it (section C.5).
+   It can take a few minutes for GitHub to build and publish the site.
+
+
+BUILD PRODUCES FEWER THAN 10 THREATS
+   Fewer than 10 items met the quality threshold — often because several
+   sources were unreachable.  Check the log output for "Failed to collect"
+   warnings.  The pipeline degrades gracefully; it will still produce
+   whatever threats scored above the minimum.
+
+
+SERVICE STARTS THEN IMMEDIATELY STOPS
+   Run the pipeline directly to see any error output:
+
+     venv\Scripts\python.exe setup_pc.py run-now
+
+
+TASK SCHEDULER TASK DOES NOT RUN
+   Check the task exists:
+
+     schtasks /query /tn ThreatLandscapePipeline
+
+   View the service log for errors:
+
+     powershell -command "Get-Content logs\pc_service.log -Tail 50"
+
+
+PAGE LOOKS BROKEN ON GITHUB PAGES (missing CSS/JS)
+   This usually means the paths to static assets are absolute rather than
+   relative.  Run python -m src.main preview locally first to confirm the
+   page looks correct, then deploy.  If the issue only appears on GitHub
+   Pages and not in preview, check whether your repo serves from a
+   subdirectory (e.g. /threat-landscape/) — a custom domain avoids this.
+
+
+"PYTHON IS NOT RECOGNISED AS AN INTERNAL OR EXTERNAL COMMAND"
+   Python is not on the system PATH.  Either:
+     a. Reinstall Python and tick "Add Python to PATH" during installation, or
+     b. Use the full path directly:
+          C:\Users\barry\PycharmProjects\ThreatLandscape\venv\Scripts\python.exe
+
+===============================================================================

@@ -1,0 +1,79 @@
+# Threat Landscape Pipeline Configuration
+# All paths are relative to the project root unless absolute.
+
+# --- Pipeline settings ---
+output_dir: output
+template_dir: templates
+static_dir: static
+
+# Maximum items to collect per source feed
+max_items_per_source: 50
+
+# Look-back window for published items (hours)
+lookback_hours: 48
+
+# How many top threats to output
+top_n: 10
+
+# --- Scoring weights ---
+# These must sum to 1.0.  Adjust to change ranking behaviour.
+# diversity_cap: max items from the same source domain in the top-N.
+# 0 = disabled.  2 = at most 2 items from any single site (e.g. bleepingcomputer.com).
+scoring:
+  recency: 0.25
+  source_credibility: 0.20
+  corroboration: 0.15
+  severity: 0.20
+  breadth: 0.10
+  actionability: 0.10
+  diversity_cap: 2
+
+# --- Mainstream scoring weights ---
+# Used for the "Mainstream" view — favours recency and breadth of coverage
+# over technical severity/credibility.  Must also sum to 1.0.
+scoring_mainstream:
+  recency: 0.40
+  source_credibility: 0.10
+  corroboration: 0.30
+  severity: 0.10
+  breadth: 0.05
+  actionability: 0.05
+  diversity_cap: 2
+
+# --- Enrichment ---
+enrichment:
+  # provider options: deterministic (no API needed), openai, anthropic
+  provider: deterministic
+  max_summary_words: 80
+
+# --- Deployment ---
+# deploy_target: github_pages | sftp
+deploy_target: github_pages
+
+# GitHub Pages deployment
+# Set GITHUB_TOKEN in your .env file to authenticate via HTTPS.
+# Leave custom_domain blank if you are not using a custom domain.
+github_pages:
+  repo_url: "https://github.com/bcheevers123/threat-landscape.git"          # e.g. https://github.com/barrycheevers/threat-landscape.git
+  branch: gh-pages
+  staging_dir: gh-pages-staging
+  commit_name: "Barry Cheevers"
+  commit_email: "theradiant26@gmail.com"
+  custom_domain: ""     # e.g. threats.barrycheevers.co.uk — leave blank if not using one
+
+# SFTP deployment (not used when deploy_target is github_pages)
+# Credentials should be set via environment variables (.env) rather than here.
+deploy:
+  sftp_host: ""         # override with env var SFTP_HOST
+  sftp_port: 22
+  sftp_user: ""         # override with env var SFTP_USER
+  sftp_key_path: ""     # override with env var SFTP_KEY_PATH
+  remote_base_path: "/public_html/wp-content/uploads/barry-threat-landscape"
+
+# --- Branding ---
+branding:
+  site_name: "Barry Cheevers"
+  page_title: "Cyber Threat Landscape Today"
+  subtitle: "A daily briefing on the top active cyber threats"
+  site_url: "https://barrycheevers.co.uk"
+  theme: light          # light | dark

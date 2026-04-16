@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "threat-landscape"
+version = "1.0.0"
+description = "Daily cyber threat landscape generator for barrycheevers.co.uk"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+dependencies = []  # See requirements.txt
+
+[project.scripts]
+threat-landscape = "src.main:cli"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["tests/*"]

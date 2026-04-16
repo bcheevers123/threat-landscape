@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{ branding.get('subtitle', 'Daily ML and AI landscape briefing') }}">
+  <title>{{ branding.get('page_title', 'ML/AI Landscape Today') }} — {{ branding.get('site_name', '') }}</title>
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="{{ branding.get('page_title', 'ML/AI Landscape Today') }}">
+  <meta property="og:description" content="{{ branding.get('subtitle', 'A daily briefing on the top ML research and AI developments') }}">
+  {% if branding.get('site_url') %}<meta property="og:url" content="{{ branding.site_url }}">{% endif %}
+  <!-- Twitter / X -->
+  <meta name="twitter:card"        content="summary">
+  <meta name="twitter:title"       content="{{ branding.get('page_title', 'ML/AI Landscape Today') }}">
+  <meta name="twitter:description" content="{{ branding.get('subtitle', 'A daily briefing on the top ML research and AI developments') }}">
+  <link rel="stylesheet" href="static/style.css">
+  <link rel="stylesheet" href="static/theme.css">
+</head>
+<body data-theme="aiml">
+
+<!-- ═══════════════════════════════════════════════════════ HEADER -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <div class="header-text">
+        <p class="header-eyebrow">{{ branding.get('site_name', 'AI Intelligence') }}</p>
+        <h1 class="header-title">{{ branding.get('page_title', 'ML/AI Landscape Today') }}</h1>
+        <p class="header-subtitle">{{ branding.get('subtitle', 'A daily briefing on the top ML research and AI developments') }}</p>
+      </div>
+      <div class="header-meta">
+        <div class="updated-badge">
+          <span class="updated-label">Last updated</span>
+          <span class="updated-value">{{ generated_at }}</span>
+        </div>
+        <div class="stats-pills">
+          <span class="stat-pill">Today&rsquo;s top {{ threats|length }} ML</span>
+          <span class="stat-pill">Top {{ mainstream_threats|length }} AI</span>
+          <span class="stat-pill">{{ total_collected }} articles analysed</span>
+          {% if total_after_dedupe > 0 %}
+          <span class="stat-pill">{{ total_after_dedupe }} unique stories</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════ MAIN -->
+<main class="site-main">
+  <div class="container">
+
+    {% if generation_notes %}
+    <div class="pipeline-notices">
+      {% for note in generation_notes %}
+      <p class="pipeline-notice">{{ note }}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if threats or mainstream_threats %}
+
+    {# ── Card macro — shared by ML and AI lists ── #}
+    {% macro story_card(threat, rank) %}
+    <li class="threat-card" id="threat-{{ threat.list_idx }}"
+        data-stream="{{ threat.stream }}"
+        data-title="{{ threat.title | lower }}"
+        data-sectors="{{ threat.industries_affected | join(',') | lower }}"
+        data-sources="{{ threat.primary_source | lower }}"
+        data-threat-types="{{ threat.threat_types | join(',') | lower }}">
+
+      <div class="card-header">
+        <div class="rank-badge" aria-label="Rank {{ rank }}">
+          <span class="rank-number">{{ rank }}</span>
+        </div>
+        <div class="card-title-block">
+          <h2 class="card-title">
+            <a href="{{ threat.primary_url }}" target="_blank" rel="noopener noreferrer"
+               class="card-title-link">{{ threat.title }}</a>
+          </h2>
+          <div class="card-meta-line">
+            {% for tt in threat.threat_types %}
+            <span class="threat-type-badge threat-type-badge--{{ tt | lower | replace(' ', '-') | replace('/', '-') | replace('&', '') }}">{{ tt }}</span>
+            {% endfor %}
+            <span class="source-badge">{{ threat.primary_source }}</span>
+            {% for src in threat.supporting_sources[:3] %}
+            <span class="source-badge source-badge--secondary">{{ src }}</span>
+            {% endfor %}
+            {% if threat.supporting_sources|length > 3 %}
+            <span class="source-badge source-badge--secondary">+{{ threat.supporting_sources|length - 3 }} more</span>
+            {% endif %}
+            <span class="meta-separator">&middot;</span>
+            <span class="pub-date">{{ threat.published_at }}</span>
+            {% if threat.corroboration_count > 1 %}
+            <span class="meta-separator">&middot;</span>
+            <span class="corroboration-badge" title="{{ threat.corroboration_count }} outlets reported this">
+              {{ threat.corroboration_count }} outlets
+            </span>
+            {% endif %}
+          </div>
+        </div>
+        <div class="card-score" aria-label="Relevance score {{ threat.score }}">
+          <span class="score-value">{{ "%.2f"|format(threat.score) }}</span>
+          <span class="score-tier score-tier--{{ threat.score_tier }}">{{ threat.score_tier_label }}</span>
+          <div class="score-tooltip-data" hidden aria-hidden="true">
+            <p class="stt-total">Score: {{ "%.4f"|format(threat.score) }}</p>
+            <table class="stt-table">
+              {% for dim, val in threat.score_breakdown.items() %}
+              {% if dim != 'total' %}
+              <tr data-dim="{{ dim }}">
+                <td>{{ dim | replace("_", " ") | title }}</td>
+                <td>{{ "%.3f"|format(val) }}</td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <p class="card-summary">{{ threat.summary }}</p>
+      </div>
+
+      <div class="badge-row">
+        {% for tt in threat.threat_types %}
+        <span class="badge badge--malware">{{ tt }}</span>
+        {% endfor %}
+        {% for sector in threat.industries_affected %}
+        {% if sector != "Unknown" %}
+        <span class="badge badge--sector">{{ sector }}</span>
+        {% endif %}
+        {% endfor %}
+        {% for country in threat.countries_affected %}
+        {% if country != "Unknown" %}
+        <span class="badge badge--country">{{ country }}</span>
+        {% endif %}
+        {% endfor %}
+        {% for co in threat.companies_affected %}
+        <span class="badge badge--company">{{ co }}</span>
+        {% endfor %}
+      </div>
+
+      <div class="card-footer">
+        <button class="expand-toggle"
+                aria-expanded="false"
+                aria-controls="detail-{{ threat.list_idx }}"
+                data-idx="{{ threat.list_idx }}">
+          <span class="expand-label"></span>
+          <svg class="expand-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0
+                 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="detail-panel" id="detail-{{ threat.list_idx }}" hidden>
+
+        {% if threat.why_it_matters %}
+        <div class="detail-section">
+          <h3 class="detail-heading">Why it matters</h3>
+          <p class="detail-text">{{ threat.why_it_matters }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Scope -->
+        <div class="detail-section detail-section--grid">
+          {% if threat.countries_affected and threat.countries_affected != ["Unknown"] %}
+          <div>
+            <h3 class="detail-heading">Countries mentioned</h3>
+            <div class="badge-group">
+              {% for c in threat.countries_affected %}
+              <span class="badge badge--country">{{ c }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if threat.industries_affected and threat.industries_affected != ["Unknown"] %}
+          <div>
+            <h3 class="detail-heading">Industries / sectors</h3>
+            <div class="badge-group">
+              {% for s in threat.industries_affected %}
+              <span class="badge badge--sector">{{ s }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if threat.companies_affected %}
+          <div>
+            <h3 class="detail-heading">Companies mentioned</h3>
+            <div class="badge-group">
+              {% for co in threat.companies_affected %}
+              <span class="badge badge--company">{{ co }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="detail-section">
+          <h3 class="detail-heading">Score breakdown</h3>
+          {% set ns = namespace(max_dim=0.001) %}
+          {% for dim, val in threat.score_breakdown.items() %}
+            {% if dim != 'total' and val > ns.max_dim %}{% set ns.max_dim = val %}{% endif %}
+          {% endfor %}
+          <div class="score-grid">
+            {% for dim, val in threat.score_breakdown.items() %}
+            {% if dim != "total" %}
+            {% set bar_pct = ((val / ns.max_dim) * 100) | int if ns.max_dim > 0 else 0 %}
+            <div class="score-dim" data-dim="{{ dim }}">
+              <span class="score-dim-name">{{ dim | replace("_", " ") | title }}</span>
+              <div class="score-bar-track" title="{{ "%.0f"|format(bar_pct) }}% of top dimension">
+                <div class="score-bar-fill" style="width: {{ bar_pct }}%"></div>
+              </div>
+              <span class="score-dim-val">{{ "%.3f"|format(val) }}</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+
+        {% if threat.supporting_source_details %}
+        <div class="detail-section">
+          <h3 class="detail-heading">Also covered by</h3>
+          <ul class="supporting-sources-list">
+            {% for src in threat.supporting_source_details %}
+            <li>
+              <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer"
+                 class="supporting-source-link">
+                <span class="badge badge--source">{{ src.name }}</span>
+                <span class="supporting-source-url">{{ src.url }}</span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% elif threat.supporting_sources %}
+        <div class="detail-section">
+          <h3 class="detail-heading">Also covered by</h3>
+          <div class="badge-group">
+            {% for src in threat.supporting_sources %}
+            <span class="badge badge--source">{{ src }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        {% if threat.confidence_note %}
+        <div class="detail-section">
+          <p class="confidence-note">
+            <strong>Analytical note:</strong> {{ threat.confidence_note }}
+          </p>
+        </div>
+        {% endif %}
+
+      </div><!-- /detail-panel -->
+    </li>
+    {% endmacro %}
+
+    <!-- ── View toggle ──────────────────────────────────────────────── -->
+    <div class="view-toggle-bar" role="group" aria-label="Switch view">
+      <button class="view-toggle-btn active" data-view="ml" aria-pressed="true">
+        <svg class="view-toggle-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <!-- Neural network icon -->
+          <circle cx="4" cy="10" r="1.5" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="10" cy="5" r="1.5" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="10" cy="15" r="1.5" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="16" cy="10" r="1.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M5.5 10 L8.5 5.5M5.5 10 L8.5 14.5M11.5 5.5 L14.5 9.5M11.5 14.5 L14.5 10.5"
+                stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <span class="view-toggle-label">ML</span>
+        <span class="view-toggle-desc">Research &amp; models</span>
+      </button>
+      <button class="view-toggle-btn" data-view="ai" aria-pressed="false">
+        <svg class="view-toggle-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <!-- Chip / circuit icon -->
+          <rect x="6" y="6" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M9 6V4M11 6V4M9 16v-2M11 16v-2M6 9H4M6 11H4M14 9h2M14 11h2"
+                stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <span class="view-toggle-label">AI</span>
+        <span class="view-toggle-desc">Industry &amp; policy</span>
+      </button>
+    </div>
+
+    <!-- ── Search / filter toolbar ──────────────────────────────────── -->
+    <div class="toolbar">
+      <div class="toolbar-row">
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13 13l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <input
+            type="search"
+            id="threat-search"
+            class="search-input"
+            placeholder="Filter stories by keyword..."
+            aria-label="Filter stories"
+          >
+        </div>
+        <button id="clear-filters" class="btn-clear-filters" type="button">Clear filters</button>
+      </div>
+      <div class="filter-groups-row">
+        <div class="filter-group" id="filter-group-types">
+          <span class="filter-group-label">Topic type</span>
+          <div class="filter-chips" id="threat-type-filters" aria-label="Filter by topic type">
+            <!-- populated by JS -->
+          </div>
+        </div>
+        <div class="filter-group" id="filter-group-sectors">
+          <span class="filter-group-label">Industry</span>
+          <div class="filter-chips" id="sector-filters" aria-label="Filter by sector">
+            <!-- populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ML stories list ────────────────────────────────────────── -->
+    {% if threats %}
+    <ol class="threat-list" id="threat-list-ml" aria-label="Top ML research and model stories">
+      {% for threat in threats %}
+      {{ story_card(threat, loop.index) }}
+      {% endfor %}
+    </ol>
+    {% else %}
+    <div id="threat-list-ml" class="empty-state">
+      <p>No ML items available for this period. Try running the pipeline again.</p>
+    </div>
+    {% endif %}
+
+    <!-- ── AI stories list ───────────────────────────────────────── -->
+    {% if mainstream_threats %}
+    <ol class="threat-list" id="threat-list-ai" aria-label="Top AI industry and policy stories" hidden>
+      {% for threat in mainstream_threats %}
+      {{ story_card(threat, loop.index) }}
+      {% endfor %}
+    </ol>
+    {% else %}
+    <div id="threat-list-ai" class="no-mainstream" hidden>
+      <p>AI industry coverage data is not yet available. Try running the pipeline again.</p>
+    </div>
+    {% endif %}
+
+    <!-- No results state -->
+    <div id="no-results" class="no-results" hidden>
+      <p>No stories match your filter. <button class="link-btn js-clear-filters">Clear filters</button></p>
+    </div>
+
+    {% else %}
+    <div class="empty-state">
+      <h2>No data available</h2>
+      <p>The pipeline has not yet generated output, or no items were collected. Run the pipeline and check the logs.</p>
+    </div>
+    {% endif %}
+
+  </div><!-- /container -->
+</main>
+
+<!-- ═══════════════════════════════════════════════════════ SOURCES -->
+{% if sources_queried %}
+<section class="sources-section" aria-label="Coverage sources">
+  <div class="container">
+    <div class="sources-header">
+      <h2 class="section-heading">Coverage sources</h2>
+      <p class="sources-intro" id="sources-intro">
+        <span id="sources-count">{{ sources_queried|length }}</span> sources were queried for today&rsquo;s briefing.
+        Sources are weighted by credibility (0&ndash;100) when ranking stories.
+      </p>
+    </div>
+
+    <div class="sources-grid" id="sources-grid">
+      {% for source in sources_queried %}
+      <div class="source-card" data-stream="{{ source.stream }}">
+        <div class="source-card-top">
+          <span class="source-card-name">{{ source.name }}</span>
+          <span class="source-cred-badge source-cred-badge--{% if source.credibility >= 0.9 %}high{% elif source.credibility >= 0.8 %}med{% else %}std{% endif %}"
+                aria-label="Credibility score: {{ source.credibility_pct }}/100"
+                {% if source.rationale %}data-rationale="{{ source.rationale }}"{% endif %}>
+            {{ source.credibility_pct }}
+          </span>
+        </div>
+        {% if source.rationale %}
+        <p class="source-rationale">{{ source.rationale }}</p>
+        {% endif %}
+        <div class="source-card-tags">
+          {% for tag in source.tags %}
+          <span class="source-tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="sources-toggle-row" id="sources-toggle-row" hidden>
+      <button id="sources-toggle" class="sources-toggle-btn" aria-expanded="false">
+        Show more sources
+      </button>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ═══════════════════════════════════════════════════════ METHODOLOGY -->
+<section class="methodology" aria-label="Methodology">
+  <div class="container">
+    <h2 class="section-heading">How this page is generated</h2>
+    <div class="methodology-grid">
+      <div class="method-card">
+        <div class="method-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8.288 15.038a5.25 5.25 0 0 1 7.424 0"/>
+            <path d="M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0"/>
+            <path d="M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0"/>
+            <circle cx="12" cy="18.75" r="0.75" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Collection</h3>
+        <p>Items are gathered daily from arXiv preprint feeds, major AI lab blogs,
+           specialist ML publications, and technology journalism outlets.
+           All sources are fetched via RSS/Atom feeds.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v1m0 16v1M4.22 4.22l.71.71m13.66 13.66.71.71M3 12H4m16 0h1M4.22 19.78l.71-.71M18.36 5.64l.71-.71"/>
+            <circle cx="12" cy="12" r="4"/>
+          </svg>
+        </div>
+        <h3>Stream classification</h3>
+        <p>Each article is routed to the ML or AI stream. ML covers research methods,
+           model releases, and training techniques. AI covers industry news, policy,
+           ethics, and commercial developments. Stories are deduplicated across both
+           streams so no item appears in both top-10 lists.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75M3 18h6.75M13.5 9l3 3 3-3M16.5 12V4.5"/>
+          </svg>
+        </div>
+        <h3>Ranking</h3>
+        <p>Each item is scored across six dimensions: recency, source credibility,
+           corroboration, significance signals, industry breadth, and applicability.
+           ML and AI pools use separate weight profiles tuned for each stream.
+           Weights are configurable and fully transparent.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3z"/>
+            <path d="M6 6h.008v.008H6V6z"/>
+          </svg>
+        </div>
+        <h3>Enrichment</h3>
+        <p>Topic types (Research, Model Release, Safety, Regulation, etc.), affected
+           sectors, and mentioned countries are extracted using rule-based keyword
+           analysis. A narrative summary and &ldquo;why it matters&rdquo; note are
+           generated for each item.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ DISCLAIMER -->
+<section class="disclaimer" aria-label="Disclaimer">
+  <div class="container">
+    <h2 class="disclaimer-heading">Disclaimer &amp; Limitations</h2>
+    <p>This page is generated automatically from publicly available sources and is
+       intended for informational purposes only. It does not constitute professional
+       advice.</p>
+    <p>Topic type classifications, sector tags, and &ldquo;why it matters&rdquo; notes are
+       <strong>best-effort analytical outputs</strong> derived from keyword matching against article
+       titles and summaries. They may be incomplete, incorrect, or out of date. Always
+       refer to the original source for authoritative information.</p>
+    <p>No classified, proprietary, or non-public information is used. All sources are
+       publicly available RSS/Atom feeds. Source terms of service and attribution
+       requirements apply.</p>
+    <p>arXiv preprints have not undergone formal peer review. Their inclusion does not
+       imply endorsement or confirmation of the reported findings.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <p>
+      Generated at {{ generated_at }} &middot;
+      {% if branding.get('site_url') %}
+      <a href="{{ branding.site_url }}" class="footer-link">{{ branding.get('site_name', '') }}</a> &middot;
+      {% endif %}
+      Data from public sources only
+    </p>
+  </div>
+</footer>
+
+<!-- Back to top -->
+<button id="back-to-top" class="back-to-top" aria-label="Back to top" hidden>
+  <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd"
+      d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0
+         01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+      clip-rule="evenodd"/>
+  </svg>
+</button>
+
+<script src="static/app.js"></script>
+</body>
+</html>

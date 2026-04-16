@@ -1,0 +1,336 @@
+===============================================================================
+  THREAT LANDSCAPE PIPELINE — SETUP INSTRUCTIONS
+  Barry Cheevers | barrycheevers.co.uk
+===============================================================================
+
+These instructions cover:
+  A. Raspberry Pi setup (the machine that runs the pipeline daily)
+  B. WordPress plugin installation
+  C. SFTP deployment configuration
+  D. Scheduling with cron
+  E. Ongoing maintenance
+
+
+===============================================================================
+  A. RASPBERRY PI SETUP
+===============================================================================
+
+1. PREREQUISITES
+----------------
+   Raspberry Pi OS (Bookworm or Bullseye recommended), with internet access.
+   Python 3.11 or later is required.  Check your version:
+
+     python3 --version
+
+   If it returns 3.10 or older, install a newer version:
+
+     sudo apt update && sudo apt install -y python3.11 python3.11-venv python3.11-pip
+
+
+2. COPY THE PROJECT TO THE PI
+------------------------------
+   From your development machine, copy the project folder to the Pi:
+
+     rsync -av --exclude venv --exclude output --exclude __pycache__ \
+       /path/to/ThreatLandscape/ pi@<PI_IP>:~/ThreatLandscape/
+
+   Or clone it from your Git repository if you have one:
+
+     git clone <your-repo-url> ~/ThreatLandscape
+
+
+3. CREATE A VIRTUAL ENVIRONMENT
+--------------------------------
+   On the Pi:
+
+     cd ~/ThreatLandscape
+     python3.11 -m venv venv
+     source venv/bin/activate
+     pip install --upgrade pip
+     pip install -r requirements.txt
+
+
+4. CONFIGURE CREDENTIALS (.env file)
+--------------------------------------
+   Create a .env file in the project root (never commit this file):
+
+     nano ~/ThreatLandscape/.env
+
+   Add the following, filling in your real values:
+
+     SFTP_HOST=your-webhost.com
+     SFTP_USER=your-sftp-username
+     SFTP_PASSWORD=your-sftp-password
+
+   Alternatively, if your host supports SSH key authentication (preferred):
+
+     SFTP_HOST=your-webhost.com
+     SFTP_USER=your-sftp-username
+     SFTP_KEY_PATH=/home/pi/.ssh/id_rsa
+
+   To generate an SSH key pair on the Pi (if you don't have one):
+
+     ssh-keygen -t ed25519 -C "threatlandscape-deploy"
+
+   Then copy the public key to your web host's authorised_keys or paste it into
+   the host's control panel under "SSH Keys".
+
+   IMPORTANT — Trust the server host key before first deploy:
+   The deployer uses strict host key verification (no auto-accept).  You must
+   connect manually once via SSH so the server fingerprint is stored in
+   ~/.ssh/known_hosts before the automated deploy will work:
+
+     ssh <SFTP_USER>@<SFTP_HOST>
+     # Verify the fingerprint shown matches what your host provider documents,
+     # then type 'yes' to accept and store it.
+     exit
+
+   Protect the .env file:
+
+     chmod 600 ~/ThreatLandscape/.env
+
+
+5. CONFIGURE SFTP PATH
+-----------------------
+   Open config/config.yaml and confirm the remote_base_path matches the
+   location on your web host where you want the files uploaded:
+
+     deploy:
+       remote_base_path: "/public_html/wp-content/uploads/barry-threat-landscape"
+
+   Adjust this path to match your hosting account's file structure.  For most
+   cPanel hosts the web root is ~/public_html/.
+
+
+6. TEST THE PIPELINE
+---------------------
+   Run a full build and check output/:
+
+     cd ~/ThreatLandscape
+     source venv/bin/activate
+     python -m src.main build
+
+   You should see "Build complete — 10 threat(s) rendered." and find:
+     output/index.html
+     output/latest.json
+     output/stix/<uuid>.json  (one per threat)
+     output/static/           (CSS and JS)
+
+   Then test deployment (this uploads files to your web host):
+
+     python -m src.main deploy
+
+   Confirm the files appear on the server at the configured remote path.
+
+
+7. RUN THE FULL PIPELINE IN ONE COMMAND
+-----------------------------------------
+     python -m src.main run-all
+
+   This runs build then deploy in sequence.
+
+
+===============================================================================
+  B. WORDPRESS PLUGIN INSTALLATION
+===============================================================================
+
+1. UPLOAD THE PLUGIN
+---------------------
+   The plugin lives in the wordpress_plugin/ folder of this project.
+   Upload the barry-threat-landscape directory to your WordPress install:
+
+     /wp-content/plugins/barry-threat-landscape/
+
+   You can do this via:
+     - WordPress admin > Plugins > Add New Plugin > Upload Plugin
+       (zip the barry-threat-landscape folder first)
+     - SFTP/FTP directly into wp-content/plugins/
+     - cPanel File Manager
+
+   The folder must contain:
+     barry-threat-landscape.php
+     btl-style.css
+
+
+2. ACTIVATE THE PLUGIN
+-----------------------
+   Log in to your WordPress admin panel.
+   Go to Plugins > Installed Plugins.
+   Find "Barry Threat Landscape" and click Activate.
+
+
+3. CONFIGURE THE PLUGIN
+------------------------
+   Go to Settings > Threat Landscape.
+
+   Set the JSON Source URL to the publicly accessible URL of latest.json on
+   your web host.  For example:
+
+     https://barrycheevers.co.uk/wp-content/uploads/barry-threat-landscape/latest.json
+
+   This must be an HTTPS URL that WordPress can fetch via wp_remote_get().
+
+   Other settings:
+     Cache TTL (seconds): how long WordPress caches the data before re-fetching.
+                          3600 (1 hour) is a sensible default for daily updates.
+     Title Override:      leave blank to use the title from the JSON data.
+
+
+4. ADD THE SHORTCODE TO A PAGE
+--------------------------------
+   Create or edit a WordPress page where you want the threat landscape to appear.
+   Add the shortcode anywhere in the page content:
+
+     [barry_threat_landscape]
+
+   Optional — override the title for this specific page:
+
+     [barry_threat_landscape title="Today's Top Cyber Threats"]
+
+   Publish or update the page.  The threat data will appear when visitors load it.
+
+   The plugin reads the cached JSON and renders the threat cards server-side.
+   No JavaScript framework is required; the styling is loaded from btl-style.css
+   which is enqueued automatically.
+
+
+5. VERIFY THE PAGE WORKS
+--------------------------
+   Visit the page on your site.  You should see:
+     - A header with the page title and last-updated timestamp
+     - 10 ranked threat cards with expandable detail panels
+     - Badges for sectors, countries, ATT&CK techniques, CVEs, and malware families
+     - A sources section listing all queried intelligence feeds
+     - Methodology and disclaimer sections at the bottom
+
+   If you see "No threat data is currently available", check:
+     - The JSON Source URL is correct and publicly accessible
+     - The latest.json file has been deployed to that path
+     - The plugin has permission to fetch external URLs
+       (some WordPress security plugins block wp_remote_get — whitelist the URL)
+
+
+===============================================================================
+  C. SFTP DEPLOYMENT — WHAT GETS UPLOADED
+===============================================================================
+
+The deploy step uploads the following files to remote_base_path/:
+
+    latest.json           — machine-readable data consumed by the WP plugin
+    index.html            — standalone HTML page (not used by WP but useful
+                            for direct hosting or archiving)
+    stix/                 — one STIX 2.1 JSON file per threat
+    static/style.css      — stylesheet for the standalone HTML page
+    static/app.js         — JavaScript for the standalone HTML page
+
+Only latest.json is required by the WordPress plugin.  The other files are
+useful for hosting the standalone page directly (e.g. as a subdomain) or for
+downloading STIX bundles.
+
+
+===============================================================================
+  D. SCHEDULING WITH CRON (DAILY AUTOMATION)
+===============================================================================
+
+1. OPEN THE CRONTAB EDITOR
+----------------------------
+     crontab -e
+
+
+2. ADD THE DAILY JOB
+---------------------
+   Add this line to run the full pipeline at 07:00 Europe/London every day:
+
+     0 7 * * * cd /home/pi/ThreatLandscape && /home/pi/ThreatLandscape/venv/bin/python -m src.main run-all >> /home/pi/ThreatLandscape/logs/pipeline.log 2>&1
+
+   Notes:
+     - Replace /home/pi/ with your actual home directory if different.
+     - The >> appends to the log file; the 2>&1 captures errors as well.
+     - Cron uses UTC by default on most systems.  If your Pi is set to
+       Europe/London (BST is UTC+1 in summer, UTC in winter), you may need to
+       adjust the hour:
+         * Winter (UTC):    0 7 * * *   (07:00 London = 07:00 UTC)
+         * Summer (BST):    0 6 * * *   (07:00 London = 06:00 UTC)
+       To handle this automatically, set the timezone in crontab:
+         CRON_TZ=Europe/London
+         0 7 * * * cd /home/pi/ThreatLandscape && /home/pi/ThreatLandscape/venv/bin/python -m src.main run-all >> /home/pi/ThreatLandscape/logs/pipeline.log 2>&1
+
+
+3. CREATE THE LOGS DIRECTORY
+------------------------------
+     mkdir -p ~/ThreatLandscape/logs
+
+
+4. VERIFY CRON IS WORKING
+--------------------------
+   After the first scheduled run, check the log:
+
+     tail -50 ~/ThreatLandscape/logs/pipeline.log
+
+   You should see collection, scoring, rendering, and deployment log lines,
+   ending with "Build complete — 10 threat(s) rendered."
+
+   If the cron job does not run, check:
+     - cron service is active:  sudo systemctl status cron
+     - the Python path in the cron line is correct:
+         /home/pi/ThreatLandscape/venv/bin/python --version
+     - the .env file exists and contains the SFTP credentials
+
+
+===============================================================================
+  E. ONGOING MAINTENANCE
+===============================================================================
+
+ADDING OR REMOVING SOURCES
+   Edit config/sources.yaml.  Set enabled: false to disable a source without
+   deleting it.  No code changes needed.
+
+ADJUSTING SCORING WEIGHTS
+   Edit the scoring section in config/config.yaml.  Weights must sum to 1.0.
+
+CHANGING THE NUMBER OF THREATS SHOWN
+   Edit top_n in config/config.yaml (default: 10).
+
+UPDATING PYTHON DEPENDENCIES
+     cd ~/ThreatLandscape
+     source venv/bin/activate
+     pip install --upgrade -r requirements.txt
+
+ROTATING LOGS
+   The log file grows indefinitely.  To rotate it, add a logrotate config:
+
+     sudo nano /etc/logrotate.d/threatlandscape
+
+   Contents:
+     /home/pi/ThreatLandscape/logs/pipeline.log {
+         weekly
+         rotate 8
+         compress
+         missingok
+         notifempty
+     }
+
+TROUBLESHOOTING: BUILD PRODUCES FEWER THAN 10 THREATS
+   This usually means fewer than 10 items scored above the minimum threshold.
+   It can happen if many sources are unreachable.  The generation_notes field
+   in latest.json will contain an explanatory message.  Check network
+   connectivity and review logs for source collection errors.
+
+TROUBLESHOOTING: WORDPRESS PLUGIN SHOWS STALE DATA
+   Click "Flush Cache" on the Settings > Threat Landscape page, or reduce
+   the Cache TTL setting.
+
+TROUBLESHOOTING: SFTP DEPLOY FAILS
+   Check that:
+     - SFTP_HOST, SFTP_USER, and credentials in .env are correct
+     - The remote_base_path directory exists on the server and is writable
+     - Port 22 is not blocked by your home network or the Pi's firewall
+   Test the connection manually:
+     sftp <SFTP_USER>@<SFTP_HOST>
+
+TROUBLESHOOTING: SOURCE FEEDS BROKEN OR HANGING
+   Check logs for "Malformed feed" or "Failed to collect" warnings.
+   Disable the offending source in sources.yaml (enabled: false) and run again.
+   The pipeline degrades gracefully — broken sources are skipped.
+
+===============================================================================

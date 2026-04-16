@@ -1,0 +1,80 @@
+# ML/AI Landscape Pipeline Configuration
+# All paths are relative to the project root unless absolute.
+
+# --- Pipeline settings ---
+output_dir: aiml/output
+template_dir: aiml/templates
+static_dir: static           # reuses the existing CSS; app.js is overridden post-render
+
+# Maximum items to collect per source feed
+max_items_per_source: 50
+
+# Look-back window for published items (hours)
+lookback_hours: 48
+
+# How many top items to output per stream
+top_n: 10
+
+# --- ML pool scoring weights (research / technical) ---
+# Significance and credibility dominate: a breakthrough arXiv paper from
+# DeepMind should outrank a routine benchmark update from a lesser source.
+# Recency is de-weighted relative to the cyber pipeline because ML papers
+# remain relevant for days; corroboration is low because papers usually
+# appear on a single pre-print server first.  Must sum to 1.0.
+scoring:
+  recency: 0.20
+  source_credibility: 0.28
+  corroboration: 0.12
+  severity: 0.25        # maps to _score_aiml_significance (breakthroughs, open-weights…)
+  breadth: 0.10         # maps to _score_aiml_breadth (cross-industry impact)
+  actionability: 0.05   # maps to _score_aiml_applicability (github, api, demo…)
+  diversity_cap: 2      # max items from the same source domain (e.g. arxiv.org) in ML top-10
+
+# --- AI pool scoring weights (industry / news / policy) ---
+# Corroboration is the strongest signal for AI industry news: a story covered
+# by MIT Tech Review, VentureBeat, and The Verge is almost certainly significant.
+# Recency matters more here than in the ML pool because news cycles are faster.
+# Must sum to 1.0.
+scoring_ai:
+  recency: 0.25
+  source_credibility: 0.22
+  corroboration: 0.28
+  severity: 0.13        # maps to _score_aiml_significance
+  breadth: 0.08         # maps to _score_aiml_breadth
+  actionability: 0.04   # maps to _score_aiml_applicability
+  diversity_cap: 2      # max items from the same source domain in AI top-10
+
+# --- Enrichment ---
+enrichment:
+  provider: deterministic
+  max_summary_words: 80
+
+# --- Deployment ---
+deploy_target: github_pages
+
+# Deploys to the aiml/ subdirectory of the same gh-pages branch as the
+# cyber threat landscape, so both pages share one repository.
+github_pages:
+  repo_url: "https://github.com/bcheevers123/threat-landscape.git"
+  branch: gh-pages
+  staging_dir: gh-pages-staging
+  commit_name: "Barry Cheevers"
+  commit_email: "theradiant26@gmail.com"
+  custom_domain: ""
+  subdir: aiml
+
+# SFTP deployment (not used when deploy_target is github_pages)
+deploy:
+  sftp_host: ""
+  sftp_port: 22
+  sftp_user: ""
+  sftp_key_path: ""
+  remote_base_path: "/public_html/wp-content/uploads/barry-aiml-landscape"
+
+# --- Branding ---
+branding:
+  site_name: "Barry Cheevers"
+  page_title: "ML/AI Landscape Today"
+  subtitle: "A daily briefing on the top machine learning research and AI developments"
+  site_url: "https://barrycheevers.co.uk"
+  theme: light

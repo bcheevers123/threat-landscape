@@ -1,0 +1,845 @@
+# Threat intelligence source configuration.
+# Add, remove, or disable sources here.  No code changes needed.
+#
+# credibility: 0.0–1.0  (used in scoring; government advisories score highest)
+# type:        rss | http | api
+# tags:        used for filtering and badge display
+# rationale:   explains why this source carries its credibility score
+
+sources:
+
+  # ── Government & National Advisories ─────────────────────────────────────
+  - name: NCSC UK
+    url: https://www.ncsc.gov.uk/api/1/services/v1/report-rss-feed.xml
+    type: rss
+    credibility: 0.95
+    enabled: true
+    tags: [advisory, uk, government]
+    rationale: >-
+      UK government's National Cyber Security Centre. Advisories are based on classified
+      threat intelligence and vetted by a national authority mandated to protect UK
+      critical infrastructure. Scoring reflects direct government backing and the
+      rigorous publication process.
+
+  - name: CISA Advisories
+    url: https://www.cisa.gov/cybersecurity-advisories/all.xml
+    type: rss
+    credibility: 0.95
+    enabled: true
+    tags: [advisory, us, government]
+    rationale: >-
+      US Cybersecurity and Infrastructure Security Agency — the primary US government
+      authority on cyber threats. Advisories undergo inter-agency review and are
+      operationally actionable; the Known Exploited Vulnerabilities (KEV) catalogue
+      reflects confirmed in-the-wild exploitation.
+
+  - name: CISA Current Activity
+    url: https://www.cisa.gov/uscert/ncas/current-activity.xml
+    type: rss
+    credibility: 0.93
+    enabled: true
+    tags: [advisory, us, government]
+    rationale: >-
+      CISA's near-real-time alert channel for active threats. Typically published
+      within hours of confirmed exploitation; slightly lower than the main advisory
+      feed because posts are shorter and less fully attributed, but timeliness is
+      very high.
+
+  - name: Canadian Centre for Cyber Security
+    url: https://www.cyber.gc.ca/api/cccs/rss/v1/get?feed=alerts_advisories&lang=en
+    type: rss
+    credibility: 0.92
+    enabled: true
+    tags: [advisory, ca, government]
+    rationale: >-
+      Canada's national cyber authority and a member of the Five Eyes intelligence
+      partnership. Advisories benefit from shared intelligence and are thoroughly
+      vetted before publication, giving strong reliability for both North American
+      and cross-allied threats.
+
+  - name: CERT-FR (ANSSI)
+    url: https://www.cert.ssi.gouv.fr/feed/
+    type: rss
+    credibility: 0.91
+    enabled: true
+    tags: [advisory, fr, government]
+    rationale: >-
+      French national CERT operated by ANSSI (Agence nationale de la sécurité des
+      systèmes d'information). Rigorous editorial and technical review process; strong
+      coverage of European and francophone threat actors, and early disclosure on
+      threats affecting French critical infrastructure.
+
+  - name: BSI Germany
+    url: https://www.bsi.bund.de/SiteGlobals/Functions/RSSFeed/RSSNewsfeed/RSSNewsfeed_CSW.xml
+    type: rss
+    credibility: 0.91
+    enabled: true
+    tags: [advisory, de, government]
+    rationale: >-
+      Germany's Federal Office for Information Security (Bundesamt für Sicherheit
+      in der Informationstechnik). Well-resourced national authority with strong
+      European industrial threat coverage; publications are technically thorough
+      and benefit from EU-wide information sharing.
+
+  - name: JPCERT/CC
+    url: https://www.jpcert.or.jp/english/rss/jpcert-en.rdf
+    type: rss
+    credibility: 0.90
+    enabled: true
+    tags: [advisory, jp, government]
+    rationale: >-
+      Japan's Computer Emergency Response Team. Primary national CERT for Japan
+      and highly reliable for APT campaigns affecting Asia-Pacific organisations.
+      Frequently publishes early technical analysis of threats targeting Japanese
+      critical infrastructure and supply chains.
+
+  - name: CERT-NZ
+    url: https://www.cert.govt.nz/it-specialists/advisories/feed/
+    type: rss
+    credibility: 0.89
+    enabled: false  # Feed returns malformed XML; disabled until fixed
+    tags: [advisory, nz, government]
+    rationale: >-
+      New Zealand's national Computer Emergency Response Team. Publishes concise,
+      actionable advisories for both technical and organisational audiences. Scores
+      slightly below larger Five Eyes partners due to lower publication volume, but
+      content reliability is consistently high.
+
+  - name: CERT-EU
+    url: https://cert.europa.eu/publications/security-advisories/rss.xml
+    type: rss
+    credibility: 0.92
+    enabled: false  # Feed returns malformed XML; disabled until fixed
+    tags: [advisory, eu, government]
+    rationale: >-
+      European Union Agency for Cybersecurity / EU-CERT. Covers threats to EU
+      institutions and member states; advisories benefit from cross-border
+      intelligence sharing. High credibility rating reflects institutional authority.
+
+  - name: ENISA Publications
+    url: https://www.enisa.europa.eu/publications/rss.xml
+    type: rss
+    credibility: 0.90
+    enabled: false  # Feed returns malformed XML; disabled until fixed
+    tags: [advisory, eu, government]
+    rationale: >-
+      EU Agency for Cybersecurity — produces strategic threat landscape reports and
+      sector-specific assessments. Content is deeply researched and peer-reviewed;
+      slightly lower score than advisory feeds because publications are more strategic
+      than real-time.
+
+  - name: Australian Cyber Security Centre
+    url: https://www.cyber.gov.au/about-us/view-all-content/alerts-and-advisories/rss.xml
+    type: rss
+    credibility: 0.90
+    enabled: false  # URL hangs (returns no data); disabled until feed is fixed
+    tags: [advisory, au, government]
+    rationale: >-
+      Australia's national cyber authority and Five Eyes member. Produces high-quality
+      government-backed advisories with particular strength on threats to Asia-Pacific
+      critical infrastructure. Disabled pending feed reliability fix.
+
+  # ── Security Research & Vendor Blogs ─────────────────────────────────────
+  - name: Cisco Talos Blog
+    url: https://blog.talosintelligence.com/rss/
+    type: rss
+    credibility: 0.88
+    enabled: true
+    tags: [research, vendor, threat-intel]
+    rationale: >-
+      One of the world's largest commercial threat intelligence teams, backed by
+      telemetry from hundreds of millions of Cisco devices globally. Research is
+      technically rigorous, peer-reviewed internally, and frequently cited by
+      national CERTs. Strong across network, email, and endpoint threats.
+
+  - name: Mandiant Blog
+    url: https://www.mandiant.com/resources/blog/rss.xml
+    type: rss
+    credibility: 0.88
+    enabled: true
+    tags: [research, vendor, threat-intel]
+    rationale: >-
+      Leading incident response firm with deep expertise in nation-state actor
+      attribution. Reports are grounded in real intrusion data from hundreds of
+      breach investigations annually. Widely considered the industry authority on
+      APT tracking and campaign attribution.
+
+  - name: Krebs on Security
+    url: https://krebsonsecurity.com/feed/
+    type: rss
+    credibility: 0.88
+    enabled: true
+    stream: both
+    tags: [news, journalism, blog]
+    rationale: >-
+      Brian Krebs's independent investigative security journalism. Many of the most
+      consequential breach disclosures and cybercrime investigations of the last decade
+      first surfaced here. Known for meticulous sourcing, direct engagement with threat
+      actors, and consistent accuracy.
+
+  - name: Palo Alto Unit 42
+    url: https://unit42.paloaltonetworks.com/feed/
+    type: rss
+    credibility: 0.87
+    enabled: true
+    tags: [research, vendor, threat-intel]
+    rationale: >-
+      Threat intelligence and incident response arm of Palo Alto Networks. Large
+      research team with broad telemetry across cloud, network, and endpoint. Consistent
+      track record on ransomware attribution, nation-state campaigns, and cloud threat
+      analysis.
+
+  - name: CrowdStrike Blog
+    url: https://www.crowdstrike.com/blog/feed/
+    type: rss
+    credibility: 0.87
+    enabled: true
+    tags: [research, vendor, threat-intel]
+    rationale: >-
+      Endpoint telemetry across tens of thousands of organisations worldwide. Industry
+      leader in adversary naming and tracking (e.g. FANCY BEAR, COZY BEAR). Technical
+      depth is consistently high; particularly authoritative on nation-state intrusion
+      sets and big-game-hunting ransomware.
+
+  - name: Check Point Research
+    url: https://research.checkpoint.com/feed/
+    type: rss
+    credibility: 0.86
+    enabled: true
+    tags: [research, vendor, threat-intel]
+    rationale: >-
+      Long-established vendor research team with strong output on malware reverse
+      engineering, campaign tracking, and mobile threats. Publications are technically
+      thorough and frequently reference novel attack techniques; strong coverage of
+      Middle Eastern and financially motivated threat actors.
+
+  - name: Microsoft Security Blog
+    url: https://www.microsoft.com/en-us/security/blog/feed/
+    type: rss
+    credibility: 0.86
+    enabled: true
+    tags: [research, vendor]
+    rationale: >-
+      Microsoft Threat Intelligence (MSTIC) has visibility across over one billion
+      devices and a large volume of enterprise email and cloud infrastructure. Regularly
+      uncovers nation-state APT activity and zero-days. Authoritative for Windows,
+      Azure, and identity-based threats.
+
+  - name: Schneier on Security
+    url: https://www.schneier.com/feed/atom/
+    type: rss
+    credibility: 0.85
+    enabled: true
+    tags: [blog, expert]
+    rationale: >-
+      Bruce Schneier's independent analysis blog. Highly credible expert commentary
+      from one of the most cited security practitioners of the last 30 years. Valuable
+      for contextualising geopolitical cyber threats, policy developments, and
+      cryptographic issues. Lower volume but consistently high signal.
+
+  - name: SANS Internet Storm Center
+    url: https://isc.sans.edu/rssfeed_full.xml
+    type: rss
+    credibility: 0.85
+    enabled: true
+    tags: [advisory, research]
+    rationale: >-
+      Community-driven internet threat monitoring run by SANS Institute. Daily handler
+      diaries provide ground-level analysis of emerging threats and exploitation
+      attempts observed across distributed sensors. Strong 20-year track record;
+      particularly reliable for early warning on novel attack techniques.
+
+  - name: Google Project Zero
+    url: https://googleprojectzero.blogspot.com/feeds/posts/default
+    type: rss
+    credibility: 0.90
+    enabled: true
+    tags: [research, vulnerability]
+    rationale: >-
+      Elite vulnerability research team credited with discovering some of the most
+      significant zero-days in recent years across browsers, operating systems, and
+      hardware. Responsible disclosure process is rigorous; publications include deep
+      technical analysis. Score reflects research quality and historical impact.
+
+  - name: Volexity Blog
+    url: https://www.volexity.com/blog/feed/
+    type: rss
+    credibility: 0.87
+    enabled: false  # Feed returns malformed XML; disabled until fixed
+    tags: [research, threat-intel]
+    rationale: >-
+      Specialist threat intelligence and incident response firm known for uncovering
+      state-sponsored espionage campaigns. Strong reputation for memory forensics,
+      network detection, and attributing sophisticated intrusions. Frequently among
+      the first to publicly document novel nation-state techniques.
+
+  - name: Dragos Blog
+    url: https://www.dragos.com/blog/industry-news/feed/
+    type: rss
+    credibility: 0.87
+    enabled: false  # Feed returns malformed XML; disabled until fixed
+    tags: [research, vendor, ics-ot]
+    rationale: >-
+      The leading specialist in ICS/OT (industrial control system) cyber threat
+      intelligence. Dragos tracks dedicated ICS threat groups and has unique visibility
+      into attacks on energy, utilities, and manufacturing infrastructure. Indispensable
+      for operational technology threat context.
+
+  - name: Red Canary Blog
+    url: https://redcanary.com/blog/feed/
+    type: rss
+    credibility: 0.85
+    enabled: true
+    tags: [research, threat-intel]
+    rationale: >-
+      Managed detection and response provider with strong depth in MITRE ATT&CK-mapped
+      threat analysis. Publishes the annual Threat Detection Report — one of the most
+      widely cited practical threat summaries in the industry. Consistently strong on
+      initial access, persistence, and lateral movement techniques.
+
+  - name: Elastic Security Labs
+    url: https://www.elastic.co/security-labs/rss/feed.xml
+    type: rss
+    credibility: 0.84
+    enabled: true
+    tags: [research, vendor]
+    rationale: >-
+      Elastic's security research team produces detailed malware analysis and detection
+      engineering content grounded in Elastic's broad telemetry. Known for thorough
+      reverse engineering write-ups and YARA/EQL rule publications. Technically
+      rigorous and increasingly prominent.
+
+  - name: Lumen Black Lotus Labs
+    url: https://blog.lumen.com/feed/
+    type: rss
+    credibility: 0.84
+    enabled: false  # Feed returns malformed XML; disabled until fixed
+    tags: [research, threat-intel]
+    rationale: >-
+      Network-level threat intelligence from Lumen Technologies, one of the world's
+      largest backbone network operators. Unique visibility into botnet command-and-
+      control infrastructure, DNS abuse, and router/IoT malware at internet scale.
+      Particularly strong for tracking infrastructure used by state-sponsored actors.
+
+  - name: ESET WeLiveSecurity
+    url: https://www.welivesecurity.com/feed/
+    type: rss
+    credibility: 0.84
+    enabled: true
+    tags: [research, vendor]
+    rationale: >-
+      ESET's research arm has historically produced some of the most technically
+      detailed analysis of Eastern European APT activity (e.g. Turla, Sandworm,
+      Sednit). Strong malware reverse engineering output; publications are
+      peer-reviewed and include novel findings rather than rehashing public reports.
+
+  - name: Sophos X-Ops
+    url: https://www.sophos.com/en-us/blog/feed?id=blt6f15f4f7deaf4242
+    type: rss
+    credibility: 0.84
+    enabled: true
+    tags: [research, vendor]
+    rationale: >-
+      Combined research unit merging Sophos Labs, SophosAI, and managed detection
+      telemetry. Well-regarded for detailed ransomware playbooks and attacker behaviour
+      analysis drawn from active incident response cases. Good cross-sector visibility
+      with particular strength on SMB-targeted threats.
+
+  - name: Proofpoint Threat Intelligence
+    url: https://www.proofpoint.com/us/rss.xml
+    type: rss
+    credibility: 0.84
+    enabled: true
+    tags: [research, vendor, threat-intel]
+    rationale: >-
+      Leading email security vendor with unparalleled phishing, BEC (business email
+      compromise), and email-borne malware telemetry. Threat actor tracking is
+      especially strong for financially motivated groups. Consistently among the first
+      to document new phishing campaigns and initial access brokers.
+
+  - name: WithSecure Labs
+    url: https://labs.withsecure.com/publications/feed
+    type: rss
+    credibility: 0.83
+    enabled: false  # Feed returns malformed XML; disabled until fixed
+    tags: [research, vendor]
+    rationale: >-
+      Formerly F-Secure Labs, with over 35 years of threat research heritage. Strong
+      on APT analysis, particularly groups targeting Nordic and Eastern European
+      organisations. Regular publications on novel malware families and attack
+      infrastructure; technically thorough.
+
+  - name: SentinelOne Blog
+    url: https://www.sentinelone.com/blog/feed/
+    type: rss
+    credibility: 0.83
+    enabled: true
+    tags: [research, vendor]
+    rationale: >-
+      Endpoint security vendor with growing research output. Good technical malware
+      analysis and coverage of novel EDR evasion techniques; SentinelLabs team
+      publishes detailed nation-state and ransomware research. Slightly lower score
+      reflects a shorter research track record than some peers.
+
+  - name: Huntress Labs Blog
+    url: https://www.huntress.com/blog/rss.xml
+    type: rss
+    credibility: 0.83
+    enabled: true
+    tags: [research, vendor, threat-intel]
+    rationale: >-
+      Managed security provider focused on SMB and mid-market organisations.
+      Particularly valuable for tracking threats that bypass enterprise-focused
+      intelligence — commodity ransomware, opportunistic attackers, and techniques
+      targeting under-resourced IT environments. Research is grounded in active
+      incident response.
+
+  - name: Graham Cluley
+    url: https://grahamcluley.com/feed/
+    type: rss
+    credibility: 0.82
+    enabled: true
+    stream: technical
+    tags: [news, journalism, blog, expert]
+    rationale: >-
+      Well-established independent security journalist and former Sophos researcher.
+      Known for accurate, clearly sourced reporting and a long track record of
+      responsible disclosure coverage. Lower volume than trade publications but
+      consistently well-verified before publishing.
+
+  - name: BleepingComputer
+    url: https://www.bleepingcomputer.com/feed/
+    type: rss
+    credibility: 0.82
+    enabled: true
+    stream: technical
+    tags: [news, journalism]
+    rationale: >-
+      Fast-moving news outlet specialising in practical Windows security, ransomware,
+      and malware. Frequently first to break incident news with direct communication
+      from threat actors and victims. Strong community-driven verification; editorial
+      standards are good for breaking news, though depth of analysis varies.
+
+  - name: Recorded Future News
+    url: https://www.recordedfuture.com/feed/
+    type: rss
+    credibility: 0.82
+    enabled: true
+    tags: [news, threat-intel]
+    rationale: >-
+      Threat intelligence vendor with a large data aggregation platform covering
+      open, dark web, and technical sources. Strong geopolitical cyber context and
+      ransomware tracking. Score reflects editorial quality of the blog arm rather
+      than the platform itself.
+
+  - name: Tenable Blog
+    url: https://www.tenable.com/blog/feed
+    type: rss
+    credibility: 0.82
+    enabled: true
+    tags: [research, vendor, vulnerability]
+    rationale: >-
+      Market leader in vulnerability management. Authoritative on CVE scoring, patch
+      urgency, and exposure prioritisation. Tenable Research is consistently reliable
+      for assessing the real-world exploitability of newly disclosed vulnerabilities
+      and their severity in cloud and enterprise contexts.
+
+  - name: Rapid7 Blog
+    url: https://www.rapid7.com/blog/feed/
+    type: rss
+    credibility: 0.82
+    enabled: false  # Returns HTML not XML; disabled until fixed
+    tags: [research, vendor]
+    rationale: >-
+      Penetration testing and vulnerability management vendor. Rapid7 Labs produces
+      solid applied vulnerability research backed by Metasploit exploit development
+      experience; particularly strong on network service exploitation and CVE analysis.
+
+  - name: SecurityWeek
+    url: https://feeds.feedburner.com/securityweek
+    type: rss
+    credibility: 0.80
+    enabled: true
+    tags: [news, journalism]
+    rationale: >-
+      Long-running independent security industry publication. Good breadth across
+      vulnerability disclosures, breaches, and geopolitical incidents. Respected for
+      balanced reporting; slightly lower credibility weight than specialist research
+      blogs because articles are news-led rather than deeply analytical.
+
+  - name: Qualys Security Blog
+    url: https://blog.qualys.com/feed
+    type: rss
+    credibility: 0.80
+    enabled: true
+    tags: [research, vendor, vulnerability]
+    rationale: >-
+      Vulnerability management vendor with broad scan telemetry across cloud and
+      enterprise environments. Research team focuses on patch analysis and CVE impact
+      assessment. Useful for understanding real-world exposure to newly disclosed
+      vulnerabilities at population scale.
+
+  - name: Securelist (Kaspersky)
+    url: https://securelist.com/feed/
+    type: rss
+    credibility: 0.80
+    enabled: true
+    tags: [research, vendor]
+    rationale: >-
+      Kaspersky's threat research portal. Technically high-quality malware analysis
+      and APT research, particularly strong on Russian-speaking threat actors.
+      Credibility score reflects research quality; note that some organisations apply
+      their own weighting adjustments based on vendor geopolitical considerations.
+
+  - name: Malwarebytes Labs
+    url: https://www.malwarebytes.com/blog/feed/
+    type: rss
+    credibility: 0.80
+    enabled: true
+    tags: [research, vendor]
+    rationale: >-
+      Consumer and SMB-focused security research. Useful for tracking commodity malware
+      campaigns, widespread phishing, and opportunistic attacks affecting a broad user
+      base. Lower score than enterprise threat intel teams reflects narrower analytical
+      scope, not a reliability concern.
+
+  - name: The Record (Recorded Future)
+    url: https://therecord.media/feed
+    type: rss
+    credibility: 0.80
+    enabled: true
+    stream: both
+    tags: [news, journalism]
+    rationale: >-
+      Investigative security journalism outlet backed by Recorded Future's intelligence
+      platform. Strong on ransomware, government cyber operations, and policy. Good
+      editorial independence from its parent; credibility reflects solid journalism
+      standards with some dependence on vendor context.
+
+  # ── Security Journalism ───────────────────────────────────────────────────
+  - name: The Hacker News
+    url: https://feeds.feedburner.com/TheHackersNews
+    type: rss
+    credibility: 0.78
+    enabled: true
+    stream: technical
+    tags: [news, journalism]
+    rationale: >-
+      High-traffic cybersecurity news aggregator. Good breadth of coverage and fast
+      publication. Score is moderate because a proportion of content is vendor-sponsored
+      or PR-driven, which requires context when assessing significance. Useful for
+      breadth signal rather than deep analytical weight.
+
+  - name: Cyber Scoop
+    url: https://cyberscoop.com/feed/
+    type: rss
+    credibility: 0.78
+    enabled: true
+    tags: [news, journalism]
+    rationale: >-
+      US-focused publication covering cyber policy, government cyber operations, and
+      regulatory developments. Strong on CISA, NSA, and FBI-adjacent stories; a good
+      source for policy-informed threat context. Slightly lower analytical depth than
+      specialist research blogs.
+
+  - name: Dark Reading
+    url: https://www.darkreading.com/rss.xml
+    type: rss
+    credibility: 0.78
+    enabled: true
+    tags: [news, journalism]
+    rationale: >-
+      Established B2B security trade publication with broad threat coverage. Useful for
+      tracking industry-wide awareness of emerging threats and vendor perspectives.
+      Moderate credibility weight reflects variable analytical depth and a high volume
+      of sponsored content alongside editorial articles.
+
+  - name: Infosecurity Magazine
+    url: https://www.infosecurity-magazine.com/rss/news/
+    type: rss
+    credibility: 0.76
+    enabled: true
+    tags: [news, journalism]
+    rationale: >-
+      UK-based trade publication with global coverage. Solid editorial process and
+      useful for European threat context. Lower credibility weight reflects that the
+      publication is primarily news-led with limited original technical research.
+
+  - name: Help Net Security
+    url: https://www.helpnetsecurity.com/feed/
+    type: rss
+    credibility: 0.76
+    enabled: true
+    tags: [news, journalism]
+    rationale: >-
+      Industry news aggregator with a mix of original analysis and vendor-submitted
+      content. Good volume and consistent editorial standards. Scored at the lower
+      end of the journalism tier because a significant portion of content is
+      contributed by vendors rather than independently researched.
+
+  # ── Exploit / Vulnerability tracking ─────────────────────────────────────
+  - name: Exploit Database
+    url: https://www.exploit-db.com/rss.xml
+    type: rss
+    credibility: 0.75
+    enabled: true
+    tags: [vulnerability, exploit, research]
+    rationale: >-
+      Offensive Security's public archive of proof-of-concept exploit code. Essential
+      for tracking weaponised vulnerabilities — the presence of a working exploit
+      significantly increases the operational risk of a CVE. Lower credibility score
+      reflects its role as a repository rather than an editorial source; content is
+      not reviewed for accuracy of attribution or impact claims.
+
+  - name: Packet Storm Security
+    url: https://rss.packetstormsecurity.com/news/
+    type: rss
+    credibility: 0.73
+    enabled: false  # SSL certificate hostname mismatch on feed URL; disabled until fixed
+    tags: [vulnerability, exploit, news]
+    rationale: >-
+      Long-running security news and exploit aggregator. Broad coverage of
+      vulnerability disclosures, proof-of-concept code, and security tools. Lower
+      credibility weight reflects the aggregated nature of content — items range
+      from highly credible disclosures to unverified community submissions.
+
+  # ── Mainstream / Consumer News ────────────────────────────────────────────
+  # Used in the "Mainstream" view: consumer-accessible security & tech news.
+  # Stories here reflect public-facing incidents (breaches, outages, arrests)
+  # rather than technical advisories aimed at security professionals.
+
+  - name: BBC News Technology
+    url: https://feeds.bbci.co.uk/news/technology/rss.xml
+    type: rss
+    credibility: 0.82
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, uk]
+    rationale: >-
+      BBC's technology news feed. The UK's most-trusted public broadcaster; covers
+      major cyber incidents, data breaches, and digital policy at a level accessible
+      to a general audience. High editorial standards and broad readership make it a
+      strong signal for stories that have reached mainstream public awareness.
+
+  - name: The Guardian Technology
+    url: https://www.theguardian.com/uk/technology/rss
+    type: rss
+    credibility: 0.80
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, uk]
+    rationale: >-
+      The Guardian's technology section. Combines investigative journalism with
+      accessible tech coverage; known for breaking data privacy and surveillance
+      stories. Good for incidents affecting consumers, businesses, or government
+      that have crossed into public awareness.
+
+  - name: Sky News Technology
+    url: https://feeds.skynews.com/feeds/rss/technology.xml
+    type: rss
+    credibility: 0.77
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, uk]
+    rationale: >-
+      Sky News technology feed. Reliable UK broadcast journalism; covers high-profile
+      cyber incidents and data breaches as they affect the general public. Slightly
+      lower than BBC/Guardian due to less depth of investigative tech coverage, but
+      strong breadth and fast publication.
+
+  - name: WIRED Security
+    url: https://www.wired.com/feed/category/security/latest/rss
+    type: rss
+    credibility: 0.82
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, journalism]
+    rationale: >-
+      WIRED's dedicated security section. Sits at the intersection of mainstream
+      journalism and informed tech analysis — readable by a general tech-interested
+      audience while still covering incidents with some depth. Strong track record
+      on breach investigations, surveillance, and cyberwarfare stories.
+
+  - name: Ars Technica Security
+    url: https://feeds.arstechnica.com/arstechnica/security
+    type: rss
+    credibility: 0.83
+    enabled: false  # Feed returns malformed XML; disabled until fixed
+    stream: mainstream
+    tags: [news, mainstream, journalism]
+    rationale: >-
+      Ars Technica's security coverage. Detailed, technically accurate reporting
+      aimed at an informed general audience rather than security professionals.
+      Excellent for major breach disclosures, high-profile vulnerability announcements,
+      and policy developments — written to be understood without specialist knowledge.
+
+  - name: The New York Times Technology
+    url: https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml
+    type: rss
+    credibility: 0.82
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, us, journalism]
+    rationale: >-
+      New York Times technology section. One of the world's most widely read news
+      outlets; covers major cyber incidents, data breaches, and digital privacy
+      stories for a mass audience. Articles are written for general readers with
+      no assumed technical knowledge, making them a strong signal for stories
+      that have reached true mainstream awareness.
+
+  - name: The Telegraph Technology
+    url: https://www.telegraph.co.uk/technology/rss.xml
+    type: rss
+    credibility: 0.79
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, uk, journalism]
+    rationale: >-
+      The Daily Telegraph's technology section. Mainstream UK national newspaper
+      covering major cyber incidents and data breaches from a consumer and business
+      perspective. Good for stories affecting UK companies and government — written
+      for a general audience rather than security professionals.
+
+  - name: TechCrunch
+    url: https://techcrunch.com/feed/
+    type: rss
+    credibility: 0.79
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, journalism]
+    rationale: >-
+      Technology news publication with broad consumer and business readership.
+      Covers data breaches, hacks, and privacy incidents in accessible language.
+      Particularly good at translating security incidents into business and consumer
+      impact terms. Wider audience than specialist security blogs.
+
+  - name: Engadget
+    url: https://www.engadget.com/rss.xml
+    type: rss
+    credibility: 0.75
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, consumer]
+    rationale: >-
+      Consumer technology news outlet. Covers security and privacy incidents that
+      directly affect everyday technology users — phone vulnerabilities, smart home
+      security, platform data breaches. Written entirely for a non-technical audience.
+
+  - name: ZDNet Security
+    url: https://www.zdnet.com/topic/security/rss.xml
+    type: rss
+    credibility: 0.78
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, journalism]
+    rationale: >-
+      ZDNet's security section bridges technical and business audiences. While some
+      articles are technical in detail, the majority are written for IT managers and
+      business decision-makers rather than security researchers. Good for high-profile
+      breach and ransomware stories that affect enterprises broadly.
+
+  - name: ABC News Technology
+    url: https://feeds.abcnews.com/abcnews/technologyheadlines
+    type: rss
+    credibility: 0.77
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, us, journalism]
+    rationale: >-
+      ABC News US technology headlines. Mainstream broadcast news outlet covering
+      technology stories at a level accessible to the widest possible audience.
+      Particularly good for stories about consumer data breaches, high-profile
+      arrests, and government cyber-related announcements.
+
+  - name: Politico Cybersecurity
+    url: https://rss.politico.com/cyber.xml
+    type: rss
+    credibility: 0.80
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, us, policy]
+    rationale: >-
+      Politico's dedicated cybersecurity policy vertical. Covers US government
+      cyber policy, legislation, and high-profile incidents from a political and
+      public policy angle. Accessible to policy-minded readers; strong for stories
+      where cyber incidents intersect with government, regulation, or national
+      security debate.
+
+  - name: Reuters Technology
+    url: https://feeds.reuters.com/reuters/technologyNews
+    type: rss
+    credibility: 0.85
+    enabled: false  # Reuters RSS feeds are DNS-unreachable; disabled until a working URL is confirmed
+    stream: mainstream
+    tags: [news, mainstream, wire, global]
+    rationale: >-
+      Reuters is one of the world's most trusted wire services. Its technology
+      feed breaks major breach disclosures, regulatory actions, and cyber incidents
+      as hard news, typically before specialist outlets pick them up. High credibility
+      from editorial rigour and global correspondent network.
+
+  - name: NBC News Technology
+    url: https://feeds.nbcnews.com/nbcnews/public/tech
+    type: rss
+    credibility: 0.79
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, us, broadcast]
+    rationale: >-
+      Major US broadcast network with a sizeable digital newsroom. Covers consumer-
+      facing cyber stories — breaches affecting millions, scam warnings, privacy
+      controversies — at a level accessible to a general audience. Good for US-
+      centric incidents that reach primetime TV news.
+
+  - name: The Washington Post Technology
+    url: https://feeds.washingtonpost.com/rss/business/technology
+    type: rss
+    credibility: 0.83
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, us, broadsheet]
+    rationale: >-
+      The Washington Post's technology coverage consistently breaks significant
+      cyber and privacy stories, particularly those intersecting with policy,
+      government, and US national security. Its investigative capacity gives it
+      strong credibility for major breach reporting.
+
+  - name: The Independent Technology
+    url: https://www.independent.co.uk/topic/technology/rss
+    type: rss
+    credibility: 0.76
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, uk, broadsheet]
+    rationale: >-
+      UK-based digital broadsheet with a broad technology section. Covers consumer
+      cyber incidents, privacy stories, and scam warnings. Provides useful UK and
+      European perspective alongside the US-heavy sources in this tier. Accessible
+      writing style suited to a general audience.
+
+  - name: The Hill Cybersecurity
+    url: https://thehill.com/policy/cybersecurity/feed/
+    type: rss
+    credibility: 0.78
+    enabled: false  # Feed returns valid XML but zero entries; disabled until confirmed working
+    stream: mainstream
+    tags: [news, mainstream, us, policy]
+    rationale: >-
+      US political news outlet with a dedicated cybersecurity policy section.
+      Covers Congressional hearings, federal agency actions, and the political
+      fallout from major cyber incidents. Complements Politico's cyber coverage
+      for a more complete view of US cyber policy debate.
+
+  - name: Mashable Tech
+    url: https://mashable.com/feeds/rss/all
+    type: rss
+    credibility: 0.72
+    enabled: true
+    stream: mainstream
+    tags: [news, mainstream, us, digital]
+    rationale: >-
+      Consumer-oriented tech publication with a younger audience. Covers scam
+      alerts, privacy tool recommendations, and major breach stories in plain
+      language. Lower credibility than broadsheets due to lighter editorial
+      standards, but useful for consumer-facing security warnings that reach
+      non-technical readers.
