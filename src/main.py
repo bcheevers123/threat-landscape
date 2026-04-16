@@ -157,8 +157,8 @@ def _deploy_github_pages(cfg: dict, output_dir: Path) -> None:
 
     token = os.environ.get("GITHUB_TOKEN", "").strip()
     if token and repo_url.startswith("https://github.com/"):
-        # Insert token into URL: https://<token>@github.com/...
-        repo_url = repo_url.replace("https://", f"https://{token}@", 1)
+        # Insert token into URL: https://x-access-token:<token>@github.com/...
+        repo_url = repo_url.replace("https://", f"https://x-access-token:{token}@", 1)
 
     staging_dir = str(
         _PROJECT_ROOT / gpcfg.get("staging_dir", "gh-pages-staging")
