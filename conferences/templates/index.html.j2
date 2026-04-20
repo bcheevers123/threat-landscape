@@ -107,7 +107,7 @@
     <div class="events-container">
       {% set ns = namespace(current_month="") %}
       {% for event in events %}
-        {% set month_label = event.start_date | string | truncate(7, False, '') %}
+        {% set month_label = event.start_date.strftime('%Y-%m') %}
         {% if month_label != ns.current_month %}
           {% set ns.current_month = month_label %}
           <h2 class="month-heading section-heading">
@@ -218,8 +218,13 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════ FEED TUTORIAL -->
-  <section class="methodology-section feed-section" id="feed-tutorial" aria-labelledby="feed-heading">
-    <h2 id="feed-heading" class="section-heading">Using the Data Feeds</h2>
+  <section class="methodology-section feed-section" id="feed-tutorial">
+    <details class="collapsible-section">
+      <summary class="collapsible-summary">
+        <span>Using the Data Feeds</span>
+        <span class="collapsible-chevron" aria-hidden="true">&#8964;</span>
+      </summary>
+      <div class="collapsible-body">
     <p class="methodology-intro">
       All three services on this site expose machine-readable JSON feeds that update daily.
       You can use these to build your own dashboards, scripts, or integrations.
@@ -307,6 +312,8 @@ for event in upcoming[:5]:
 }</code></pre>
       </div>
     </div>
+      </div><!-- /.collapsible-body -->
+    </details>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════ METHODOLOGY -->

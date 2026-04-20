@@ -449,6 +449,64 @@
 </section>
 {% endif %}
 
+<!-- ═══════════════════════════════════════════════════════ FEED TUTORIAL -->
+<section class="methodology feed-section">
+  <div class="container">
+    <details class="collapsible-section">
+      <summary class="collapsible-summary">
+        <span>Using the data feeds</span>
+        <span class="collapsible-chevron" aria-hidden="true">&#8964;</span>
+      </summary>
+      <div class="collapsible-body">
+        <p class="methodology-intro">All three services expose machine-readable JSON feeds that update daily.</p>
+        <div class="feed-grid">
+          <div class="feed-card">
+            <h3 class="feed-card__title">&#129302; AI/ML Feed</h3>
+            <p class="feed-card__desc">Daily top-10 AI and machine learning developments.</p>
+            <code class="feed-card__url">aiml/latest.json</code>
+            <div class="code-block-wrap">
+              <button class="copy-code-btn">Copy</button>
+              <pre class="code-block"><code>curl -s https://bcheevers123.github.io/threat-landscape/aiml/latest.json \
+  | python3 -m json.tool</code></pre>
+            </div>
+          </div>
+          <div class="feed-card">
+            <h3 class="feed-card__title">&#9888; Cyber Threats Feed</h3>
+            <p class="feed-card__desc">Daily top-10 cyber threat intelligence briefing.</p>
+            <code class="feed-card__url">latest.json</code>
+            <div class="code-block-wrap">
+              <button class="copy-code-btn">Copy</button>
+              <pre class="code-block"><code>curl -s https://bcheevers123.github.io/threat-landscape/latest.json \
+  | python3 -m json.tool</code></pre>
+            </div>
+          </div>
+          <div class="feed-card">
+            <h3 class="feed-card__title">&#128197; Conferences Feed</h3>
+            <p class="feed-card__desc">Upcoming cybersecurity events for the next 12 months.</p>
+            <code class="feed-card__url">conferences/latest.json</code>
+            <div class="code-block-wrap">
+              <button class="copy-code-btn">Copy</button>
+              <pre class="code-block"><code>curl -s https://bcheevers123.github.io/threat-landscape/conferences/latest.json \
+  | python3 -m json.tool</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="feed-tutorial-detail">
+          <h3>Python example — today&rsquo;s top ML papers</h3>
+          <div class="code-block-wrap">
+            <button class="copy-code-btn">Copy</button>
+            <pre class="code-block"><code>import requests
+url = "https://bcheevers123.github.io/threat-landscape/aiml/latest.json"
+data = requests.get(url, timeout=10).json()
+for item in data["threats"][:3]:
+    print(f"[{item['score']:.2f}] {item['title']}")</code></pre>
+          </div>
+        </div>
+      </div><!-- /.collapsible-body -->
+    </details>
+  </div>
+</section>
+
 <!-- ═══════════════════════════════════════════════════════ METHODOLOGY -->
 <section class="methodology" aria-label="Methodology">
   <div class="container">
