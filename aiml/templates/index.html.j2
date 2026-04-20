@@ -123,13 +123,14 @@
             <span class="source-badge source-badge--secondary">{{ src }}</span>
             {% endfor %}
             {% if threat.supporting_sources|length > 3 %}
-            <span class="source-badge source-badge--secondary">+{{ threat.supporting_sources|length - 3 }} more</span>
+            <span class="source-badge source-badge--secondary"
+                  title="Also: {{ threat.supporting_sources[3:] | join(', ') }}">+{{ threat.supporting_sources|length - 3 }} more</span>
             {% endif %}
             <span class="meta-separator">&middot;</span>
             <span class="pub-date">{{ threat.published_at }}</span>
             {% if threat.corroboration_count > 1 %}
             <span class="meta-separator">&middot;</span>
-            <span class="corroboration-badge" title="{{ threat.corroboration_count }} outlets reported this">
+            <span class="corroboration-badge" title="Also reported by: {{ threat.supporting_sources | join(', ') }}">
               {{ threat.corroboration_count }} outlets
             </span>
             {% endif %}
