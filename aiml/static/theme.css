@@ -66,10 +66,19 @@
 }
 
 /* ── Filter chip active state ────────────────────────────── */
+.filter-chip {
+  color: var(--colour-text);
+}
 .filter-chip.active {
   background: #7c3aed;
   border-color: #7c3aed;
+  color: #fff;
   box-shadow: 0 0 0 3px rgb(124 58 237 / 0.2);
+}
+.filter-chip:hover:not(.active) {
+  border-color: #7c3aed;
+  background: #f5f3ff;
+  color: #5b21b6;
 }
 
 /* ── Search focus ring ────────────────────────────────────── */
@@ -234,6 +243,9 @@ html[data-dark="true"] {
 
 }
 
+html[data-dark="true"] .filter-chip        { color: #e2e8f0; }
+html[data-dark="true"] .filter-chip.active { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+html[data-dark="true"] .filter-chip:hover:not(.active) { background: #2e1065; border-color: #7c3aed; color: #c4b5fd; }
 html[data-dark="true"] .badge--malware   { background: #180f33; color: #c4b5fd; border-color: #5b21b6; }
 html[data-dark="true"] .corroboration-badge { background: #180f33; color: #a78bfa; border-color: #5b21b6; }
 html[data-dark="true"] .source-cred-badge--med { background: #180f33; color: #c4b5fd; border-color: #5b21b6; }
