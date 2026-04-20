@@ -13,11 +13,6 @@
   --colour-primary-mid: #7c3aed;   /* violet-600 */
   --colour-accent:      #7c3aed;   /* violet-600 — replaces orange */
 
-  --body-gradient: radial-gradient(
-    ellipse 160% 55% at 50% 0%,
-    rgba(124, 58, 237, 0.14) 0%,
-    #f9f8ff 70%
-  );
 }
 
 /* ── Header ─────────────────────────────────────────────── */
@@ -237,13 +232,24 @@ html[data-dark="true"] {
   --colour-primary:     #7c3aed;
   --colour-primary-mid: #a855f7;
 
-  --body-gradient: radial-gradient(
-    ellipse 160% 55% at 50% 0%,
-    rgba(168, 85, 247, 0.32) 0%,
-    #0c0a1e 70%
-  );
 }
 
 html[data-dark="true"] .badge--malware   { background: #180f33; color: #c4b5fd; border-color: #5b21b6; }
 html[data-dark="true"] .corroboration-badge { background: #180f33; color: #a78bfa; border-color: #5b21b6; }
 html[data-dark="true"] .source-cred-badge--med { background: #180f33; color: #c4b5fd; border-color: #5b21b6; }
+
+/* ── Background gradient wash ───────────────────────────── */
+body {
+  background-image: radial-gradient(
+    ellipse 200% 60% at 50% 0%,
+    rgba(124, 58, 237, 0.22) 0%,
+    transparent 65%
+  );
+}
+html[data-dark="true"] body {
+  background-image: radial-gradient(
+    ellipse 200% 60% at 50% 0%,
+    rgba(168, 85, 247, 0.40) 0%,
+    transparent 65%
+  );
+}

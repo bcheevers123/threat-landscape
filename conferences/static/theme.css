@@ -12,11 +12,6 @@
   --colour-primary-mid: #0d9488;
   --colour-accent:      #0d9488;
 
-  --body-gradient: radial-gradient(
-    ellipse 160% 55% at 50% 0%,
-    rgba(13, 148, 136, 0.16) 0%,
-    #f0fdf9 70%
-  );
 }
 
 /* ── Header ─────────────────────────────────────────────── */
@@ -401,11 +396,6 @@ html[data-dark="true"] {
   --colour-primary:     #0d9488;
   --colour-primary-mid: #2dd4bf;
 
-  --body-gradient: radial-gradient(
-    ellipse 160% 55% at 50% 0%,
-    rgba(45, 212, 191, 0.28) 0%,
-    #021a14 70%
-  );
 }
 html[data-dark="true"] .event-card[data-status="ongoing"] {
   background: #042f24;
@@ -439,6 +429,22 @@ html[data-dark="true"] .btn-dark-mode { background: rgba(255 255 255 / 0.12); co
 html[data-dark="true"] .btn-dark-mode:hover { background: rgba(255 255 255 / 0.2); }
 html[data-dark="true"] .btn-dark-mode .icon-moon { display: none; }
 html[data-dark="true"] .btn-dark-mode .icon-sun  { display: inline; }
+
+/* ── Background gradient wash ───────────────────────────── */
+body {
+  background-image: radial-gradient(
+    ellipse 200% 60% at 50% 0%,
+    rgba(13, 148, 136, 0.24) 0%,
+    transparent 65%
+  );
+}
+html[data-dark="true"] body {
+  background-image: radial-gradient(
+    ellipse 200% 60% at 50% 0%,
+    rgba(45, 212, 191, 0.30) 0%,
+    transparent 65%
+  );
+}
 
 /* ── Mobile responsive ───────────────────────────────────── */
 @media (max-width: 640px) {
