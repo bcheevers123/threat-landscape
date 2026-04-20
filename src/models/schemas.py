@@ -46,6 +46,7 @@ class SourceConfig(BaseModel):
     tags: list[str] = Field(default_factory=list)
     rationale: str = ""
     stream: str = "technical"  # "technical" | "mainstream" | "both"
+    notes: str = ""             # human-readable status note, shown in source debug page
     headers: dict[str, str] = Field(default_factory=dict)
     timeout: int = 30
 

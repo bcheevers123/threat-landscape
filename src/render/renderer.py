@@ -2,13 +2,15 @@
 Jinja2-based renderer.
 
 Produces:
-  - output/index.html       — standalone polished HTML page
-  - output/latest.json      — machine-readable JSON for the WordPress plugin
-  - output/stix/<id>.json   — individual STIX 2.1 bundles
-  - output/static/          — copy of CSS/JS assets
+  - output/index.html          — standalone polished HTML page
+  - output/latest.json         — machine-readable JSON for the WordPress plugin
+  - output/stix/<id>.json      — individual STIX 2.1 bundles
+  - output/source_debug.html   — password-protected source health dashboard
+  - output/static/             — copy of CSS/JS assets
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import shutil
@@ -221,7 +223,75 @@ class Renderer:
         shutil.copytree(str(self.static_dir), str(dest))
         logger.info("Static assets copied to %s", dest)
 
-    def render_all(self, output: ThreatLandscapeOutput) -> dict[str, Path]:
+    def render_source_debug(
+        self,
+        output: ThreatLandscapeOutput,
+        all_sources: list,
+    ) -> Path:
+        """
+        Render source_debug.html — a password-protected diagnostic dashboard
+        showing the health status of every configured source.
+
+        The password plain text is taken from branding['source_debug_password'].
+        Only the SHA-256 hash is embedded in the generated HTML.
+        """
+        template = self._env.get_template("source_debug.html.j2")
+
+        raw_password = self.branding.get("source_debug_password", "debug")
+        password_hash = hashlib.sha256(raw_password.encode()).hexdigest()
+
+        sh = output.source_health or {}
+
+        sources_data = []
+        for s in sorted(all_sources, key=lambda x: (not x.enabled, x.name.lower())):
+            count = sh.get(s.name, 0)
+            if not s.enabled:
+                status = "red"
+                status_label = "Disabled"
+            elif count > 0:
+                status = "green"
+                status_label = f"{count} item(s)"
+            else:
+                status = "amber"
+                status_label = "0 items"
+
+            sources_data.append({
+                "name": s.name,
+                "url": s.url,
+                "enabled": s.enabled,
+                "stream": s.stream,
+                "tags": s.tags,
+                "credibility_pct": int(s.credibility * 100),
+                "count": count,
+                "status": status,
+                "status_label": status_label,
+                "notes": s.notes,
+            })
+
+        green_count  = sum(1 for d in sources_data if d["status"] == "green")
+        amber_count  = sum(1 for d in sources_data if d["status"] == "amber")
+        red_count    = sum(1 for d in sources_data if d["status"] == "red")
+
+        html = template.render(
+            sources=sources_data,
+            green_count=green_count,
+            amber_count=amber_count,
+            red_count=red_count,
+            generated_at=output.generated_at.strftime("%d %B %Y at %H:%M UTC"),
+            branding=self.branding,
+            password_hash=password_hash,
+        )
+
+        path = self.output_dir / "source_debug.html"
+        path.write_text(html, encoding="utf-8")
+        logger.info("Source debug page written to %s", path)
+        return path
+
+    def render_all(
+        self,
+        output: ThreatLandscapeOutput,
+        all_sources: list | None = None,
+    ) -> dict[str, Path]:
         """Run all rendering steps and return a dict of output paths."""
         paths: dict[str, Path] = {}
         paths["html"] = self.render_html(output)
@@ -229,5 +299,7 @@ class Renderer:
         stix_files = self.render_stix_files(output)
         if stix_files:
             paths["stix_dir"] = stix_files[0].parent
+        if all_sources is not None:
+            paths["source_debug"] = self.render_source_debug(output, all_sources)
         self.copy_static_assets()
         return paths

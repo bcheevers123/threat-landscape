@@ -593,9 +593,61 @@ def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> No
         "security patch", "security update",
     }
 
+    # Patterns that indicate a technical advisory or vendor bulletin — titles
+    # matching any of these are excluded from the mainstream view even if they
+    # also contain a mainstream keyword.  Checked BEFORE the allow-list so that
+    # "Cisco Security Advisory (AV26-166)..." cannot slip through via the
+    # "security advisory" keyword.
+    _MAINSTREAM_BLOCKLIST = {
+        # CVE identifiers
+        "cve-",
+        # Advisory bulletin codes (e.g. "AV26-166", "AAXX-2024-001")
+        " av2",
+        "(av2",
+        # Patch / bulletin formats
+        "patch tuesday",
+        "security bulletin",
+        "security note",
+        "security update for ",
+        # CISA / KEV phrases
+        "known exploited vulnerabilities",
+        "cisa adds",
+        "vulnerability catalog",
+        # Named vendor advisory formats
+        "cisco security advisory",
+        "microsoft security advisory",
+        "dell security advisory",
+        "vmware security advisory",
+        "oracle security advisory",
+        "apple security advisory",
+        "sap security advisory",
+        "juniper security advisory",
+        "f5 security advisory",
+        # ICS / OT advisories
+        "ics advisory",
+        "ics-cert",
+        # Pure technical vulnerability descriptions
+        "elevation of privilege",
+        "remote code execution in ",
+        "remote code execution vulnerability",
+        "arbitrary code execution",
+        "denial of service vulnerability",
+        "buffer overflow",
+        "use after free",
+        "sql injection vulnerability",
+        "cross-site scripting vulnerability",
+        "authentication bypass vulnerability",
+        # Vulnerability summary formats
+        "vulnerability summary for",
+        "multiple vulnerabilities in",
+        "multiple security vulnerabilities",
+    }
+
     def _is_mainstream_security_story(candidate) -> bool:
         # Match only on title — summaries are too noisy for general keywords.
         title = (candidate.title or "").lower()
+        if any(bl in title for bl in _MAINSTREAM_BLOCKLIST):
+            return False
         return any(kw in title for kw in _MAINSTREAM_SECURITY_KEYWORDS)
 
     mainstream_candidates = [
@@ -665,7 +717,7 @@ def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> No
         static_dir=static_dir,
         branding=branding,
     )
-    paths = renderer.render_all(landscape)
+    paths = renderer.render_all(landscape, all_sources=sources)
 
     # ── 7. Save history snapshot for prevalent-days tracking ─────────────
     history_snapshot = {
@@ -682,9 +734,11 @@ def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> No
         logger.warning("Failed to write history snapshot: %s", exc)
 
     click.echo(
-        f"Build complete — {len(threats)} threat(s) rendered.\n"
-        f"  HTML : {paths.get('html')}\n"
-        f"  JSON : {paths.get('json')}\n"
+        f"Build complete -- {len(threats)} threat(s) rendered.\n"
+        f"  HTML        : {paths.get('html')}\n"
+        f"  JSON        : {paths.get('json')}\n"
+        f"  Source debug: {paths.get('source_debug')}\n"
+        f"\nDebug page password: {branding.get('source_debug_password', '(not set)')}\n"
         f"\nRun 'preview' to view locally:\n"
         f"  python -m src.main preview\n"
         f"  -> http://localhost:8080"

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" data-dark="false">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Source Health — {{ branding.site_name }}</title>
+  <link rel="stylesheet" href="static/style.css">
+  <style>
+    /* ── Source debug overrides ─────────────────────────────── */
+    .debug-hero {
+      background: var(--colour-primary);
+      color: #fff;
+      padding: 2.5rem 0 2rem;
+      margin-bottom: 2rem;
+    }
+    .debug-hero h1 { font-size: 1.6rem; font-weight: 700; margin: 0 0 0.35rem; }
+    .debug-hero p  { font-size: 0.9rem; color: #93c5fd; margin: 0; }
+
+    /* Password gate */
+    .password-gate {
+      background: var(--colour-card);
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      text-align: center;
+      max-width: 420px;
+      margin: 0 auto 2.5rem;
+      box-shadow: var(--shadow-md);
+    }
+    .password-gate h2 { font-size: 1.1rem; margin: 0 0 0.5rem; color: var(--colour-primary); }
+    .password-gate p  { font-size: 0.85rem; color: var(--colour-text-mid); margin: 0 0 1.2rem; }
+    .password-gate .pw-row {
+      display: flex; gap: 0.5rem;
+    }
+    .password-gate input[type="password"] {
+      flex: 1;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      background: var(--colour-bg-alt);
+      color: var(--colour-text);
+    }
+    .password-gate button {
+      padding: 0.55rem 1.1rem;
+      background: var(--colour-primary-mid);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .password-gate button:hover { background: #1d4ed8; }
+    .password-gate .pw-error {
+      color: var(--colour-low);
+      font-size: 0.82rem;
+      margin-top: 0.6rem;
+      display: none;
+    }
+    .password-gate .pw-hint {
+      font-size: 0.75rem;
+      color: var(--colour-text-muted);
+      margin-top: 0.75rem;
+    }
+
+    /* Dashboard (hidden until unlocked) */
+    #debug-dashboard { display: none; }
+    #debug-dashboard.unlocked { display: block; }
+
+    /* Summary bar */
+    .debug-summary {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .debug-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .debug-pill--green { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+    .debug-pill--amber { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+    .debug-pill--red   { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+    html[data-dark="true"] .debug-pill--green { background: #052e16; color: #4ade80; border-color: #166534; }
+    html[data-dark="true"] .debug-pill--amber { background: #1c1200; color: #fbbf24; border-color: #92400e; }
+    html[data-dark="true"] .debug-pill--red   { background: #1c0505; color: #f87171; border-color: #991b1b; }
+
+    .traffic-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .traffic-dot--green { background: #16a34a; }
+    .traffic-dot--amber { background: #d97706; }
+    .traffic-dot--red   { background: #dc2626; }
+
+    /* Filter bar */
+    .debug-filter-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .debug-filter-btn {
+      padding: 0.35rem 0.9rem;
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-sm);
+      background: var(--colour-bg-alt);
+      color: var(--colour-text-mid);
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .debug-filter-btn.active,
+    .debug-filter-btn:hover {
+      background: var(--colour-primary-mid);
+      border-color: var(--colour-primary-mid);
+      color: #fff;
+    }
+
+    /* Source rows */
+    .source-row {
+      background: var(--colour-card);
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+    .source-row:hover { border-color: var(--colour-border-hover); }
+    .source-dot-col {
+      padding-top: 0.25rem;
+      flex-shrink: 0;
+    }
+    .source-body { flex: 1; min-width: 0; }
+    .source-name-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.25rem;
+    }
+    .source-name {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--colour-text);
+    }
+    .source-status-label {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+    .source-status-label--green { background: #f0fdf4; color: #166534; }
+    .source-status-label--amber { background: #fffbeb; color: #92400e; }
+    .source-status-label--red   { background: #fef2f2; color: #991b1b; }
+    html[data-dark="true"] .source-status-label--green { background: #052e16; color: #4ade80; }
+    html[data-dark="true"] .source-status-label--amber { background: #1c1200; color: #fbbf24; }
+    html[data-dark="true"] .source-status-label--red   { background: #1c0505; color: #f87171; }
+
+    .source-meta {
+      font-size: 0.78rem;
+      color: var(--colour-text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 0.2rem;
+    }
+    .source-url-link {
+      color: var(--colour-primary-mid);
+      text-decoration: none;
+      word-break: break-all;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+    .source-url-link:hover { text-decoration: underline; }
+
+    .source-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.35rem;
+    }
+    .source-tag {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      background: var(--colour-bg-alt);
+      border: 1px solid var(--colour-border);
+      color: var(--colour-text-mid);
+    }
+
+    .source-notes {
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--colour-medium);
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: var(--radius-sm);
+      padding: 0.4rem 0.65rem;
+    }
+    html[data-dark="true"] .source-notes {
+      background: #1c1200;
+      border-color: #92400e;
+      color: #fbbf24;
+    }
+    .source-notes--red {
+      color: #991b1b;
+      background: #fef2f2;
+      border-color: #fecaca;
+    }
+    html[data-dark="true"] .source-notes--red {
+      color: #f87171;
+      background: #1c0505;
+      border-color: #991b1b;
+    }
+
+    .source-actions { flex-shrink: 0; }
+    .btn-test-url {
+      font-size: 0.76rem;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-sm);
+      background: var(--colour-bg-alt);
+      color: var(--colour-text-mid);
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .btn-test-url:hover {
+      border-color: var(--colour-primary-mid);
+      color: var(--colour-primary-mid);
+    }
+
+    /* Stream badge */
+    .stream-badge {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+    .stream-badge--technical  { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .stream-badge--mainstream { background: #fdf4ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+    .stream-badge--both       { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    html[data-dark="true"] .stream-badge--technical  { background: #0c1a36; color: #93c5fd; border-color: #1d4ed8; }
+    html[data-dark="true"] .stream-badge--mainstream { background: #160b2a; color: #d8b4fe; border-color: #7e22ce; }
+    html[data-dark="true"] .stream-badge--both       { background: #052e16; color: #86efac; border-color: #166534; }
+
+    /* Cred bar */
+    .cred-bar-wrap {
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .cred-bar-track {
+      width: 64px; height: 5px;
+      background: var(--colour-border);
+      border-radius: 9px;
+      overflow: hidden;
+    }
+    .cred-bar-fill {
+      height: 100%;
+      border-radius: 9px;
+      background: var(--colour-primary-mid);
+    }
+
+    /* Actions row */
+    .debug-actions-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .btn-actions {
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .btn-actions--primary {
+      background: var(--colour-primary);
+      color: #fff;
+    }
+    .btn-actions--primary:hover { background: #162d4a; }
+    .btn-actions--secondary {
+      background: var(--colour-bg-alt);
+      color: var(--colour-text-mid);
+      border-color: var(--colour-border);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-actions--secondary:hover { border-color: var(--colour-primary-mid); color: var(--colour-primary-mid); }
+
+    .debug-timestamp {
+      font-size: 0.78rem;
+      color: var(--colour-text-muted);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Dark mode init ─────────────────────────────────────── -->
+<script>
+(function(){
+  var pref = localStorage.getItem('colour-scheme') ||
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-dark', pref === 'dark' ? 'true' : 'false');
+})();
+</script>
+
+<!-- ── Hero ─────────────────────────────────────────────────── -->
+<header class="debug-hero">
+  <div class="container">
+    <h1>Source Health Dashboard</h1>
+    <p>Diagnostic view for {{ branding.site_name }} — generated {{ generated_at }}</p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- Password gate -->
+    <div class="password-gate" id="pw-gate">
+      <h2>Protected page</h2>
+      <p>Enter the debug password set in <code>config/config.yaml</code> to view source health data.</p>
+      <div class="pw-row">
+        <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password">
+        <button onclick="checkPassword()">Unlock</button>
+      </div>
+      <p class="pw-error" id="pw-error">Incorrect password.</p>
+      <p class="pw-hint">The password is set under <code>branding.source_debug_password</code> in your config.</p>
+    </div>
+
+    <!-- Dashboard (hidden until correct password) -->
+    <div id="debug-dashboard">
+
+      <!-- Summary pills -->
+      <div class="debug-summary">
+        <span class="debug-pill debug-pill--green">
+          <span class="traffic-dot traffic-dot--green"></span>
+          {{ green_count }} healthy
+        </span>
+        <span class="debug-pill debug-pill--amber">
+          <span class="traffic-dot traffic-dot--amber"></span>
+          {{ amber_count }} no items
+        </span>
+        <span class="debug-pill debug-pill--red">
+          <span class="traffic-dot traffic-dot--red"></span>
+          {{ red_count }} disabled
+        </span>
+      </div>
+
+      <!-- Actions -->
+      <div class="debug-actions-row">
+        <a href="https://github.com/bcheevers123/threat-landscape/actions"
+           target="_blank" rel="noopener"
+           class="btn-actions btn-actions--primary">
+          View GitHub Actions
+        </a>
+        <a href="index.html" class="btn-actions btn-actions--secondary">Back to threat page</a>
+        <span class="debug-timestamp">Last build: {{ generated_at }}</span>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="debug-filter-bar">
+        <button class="debug-filter-btn active" onclick="filterSources('all', this)">All</button>
+        <button class="debug-filter-btn" onclick="filterSources('green', this)">Healthy</button>
+        <button class="debug-filter-btn" onclick="filterSources('amber', this)">No items</button>
+        <button class="debug-filter-btn" onclick="filterSources('red', this)">Disabled</button>
+      </div>
+
+      <!-- Source list -->
+      <div id="source-list">
+        {% for src in sources %}
+        <div class="source-row" data-status="{{ src.status }}">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--{{ src.status }}"
+                  title="{{ src.status_label }}"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">{{ src.name }}</span>
+              <span class="source-status-label source-status-label--{{ src.status }}">
+                {{ src.status_label }}
+              </span>
+              <span class="stream-badge stream-badge--{{ src.stream }}">{{ src.stream }}</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: {{ src.credibility_pct }}%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:{{ src.credibility_pct }}%"></span>
+                </span>
+                {{ src.credibility_pct }}%
+              </span>
+              <span>Items collected: {{ src.count }}</span>
+            </div>
+            <div>
+              <a href="{{ src.url }}" target="_blank" rel="noopener"
+                 class="source-url-link">{{ src.url }}</a>
+            </div>
+            {% if src.tags %}
+            <div class="source-tags">
+              {% for tag in src.tags %}
+              <span class="source-tag">{{ tag }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% if src.notes %}
+            <div class="source-notes{% if src.status == 'red' %} source-notes--red{% endif %}">
+              <strong>Note:</strong> {{ src.notes }}
+            </div>
+            {% elif src.status == 'amber' %}
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+            {% endif %}
+          </div>
+          <div class="source-actions">
+            <a href="{{ src.url }}" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div><!-- /debug-dashboard -->
+  </div>
+</main>
+
+<!-- ── Footer ───────────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="container">
+    <p>{{ branding.site_name }} · Source Health Dashboard · {{ generated_at }}</p>
+  </div>
+</footer>
+
+<!-- ── Password + filter JS ─────────────────────────────────── -->
+<script>
+const STORED_HASH = "{{ password_hash }}";
+
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPassword() {
+  const val = document.getElementById('pw-input').value;
+  const hash = await sha256(val);
+  if (hash === STORED_HASH) {
+    document.getElementById('pw-gate').style.display = 'none';
+    const dash = document.getElementById('debug-dashboard');
+    dash.classList.add('unlocked');
+    sessionStorage.setItem('debug_unlocked', STORED_HASH);
+  } else {
+    document.getElementById('pw-error').style.display = 'block';
+  }
+}
+
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPassword();
+});
+
+// Persist unlock within browser session
+(async function() {
+  const stored = sessionStorage.getItem('debug_unlocked');
+  if (stored && stored === STORED_HASH) {
+    document.getElementById('pw-gate').style.display = 'none';
+    document.getElementById('debug-dashboard').classList.add('unlocked');
+  }
+})();
+
+function filterSources(status, btn) {
+  document.querySelectorAll('.debug-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.source-row').forEach(row => {
+    row.style.display = (status === 'all' || row.dataset.status === status) ? '' : 'none';
+  });
+}
+</script>
+
+</body>
+</html>
