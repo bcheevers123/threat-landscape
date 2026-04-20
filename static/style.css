@@ -43,12 +43,6 @@
   --max-width: 900px;
   --gutter:    1.5rem;
 
-  /* Radial gradient wash — accent glow from top-centre */
-  --body-gradient: radial-gradient(
-    ellipse 160% 55% at 50% 0%,
-    rgba(37, 99, 235, 0.14) 0%,
-    var(--colour-bg) 70%
-  );
 }
 
 /* ── Dark mode ──────────────────────────────────────────── */
@@ -61,12 +55,6 @@ html[data-dark="true"] {
   --colour-text:        #f1f5f9;
   --colour-text-mid:    #cbd5e1;
   --colour-text-muted:  #64748b;
-
-  --body-gradient: radial-gradient(
-    ellipse 160% 55% at 50% 0%,
-    rgba(37, 99, 235, 0.30) 0%,
-    #0f172a 70%
-  );
 }
 
 html[data-dark="true"] .pipeline-notice {
@@ -174,9 +162,21 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--colour-text);
-  background: var(--body-gradient, var(--colour-bg));
-  background-attachment: scroll;
+  background-color: var(--colour-bg);
+  background-image: radial-gradient(
+    ellipse 200% 60% at 50% 0%,
+    rgba(37, 99, 235, 0.22) 0%,
+    transparent 65%
+  );
+  background-repeat: no-repeat;
   -webkit-font-smoothing: antialiased;
+}
+html[data-dark="true"] body {
+  background-image: radial-gradient(
+    ellipse 200% 60% at 50% 0%,
+    rgba(37, 99, 235, 0.40) 0%,
+    transparent 65%
+  );
 }
 
 a { color: var(--colour-primary-mid); text-decoration: none; }
