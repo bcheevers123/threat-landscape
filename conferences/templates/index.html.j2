@@ -177,10 +177,29 @@
             {% endif %}
 
             <div class="event-tags" aria-label="Tags">
+              {%- set tag_descriptions = {
+                "Hacking":          "Hands-on offensive and defensive hacking content",
+                "Research":         "Academic and original security research",
+                "Industry":         "Vendor talks, product launches, and enterprise content",
+                "Enterprise":       "Focused on corporate security and large-scale operations",
+                "Government":       "Policy, regulation, and public-sector security",
+                "Academic":         "University and peer-reviewed research presentations",
+                "CTF":              "Capture The Flag competition — test your hacking skills",
+                "Offensive":        "Offensive security: exploitation, red teaming, penetration testing",
+                "Defensive":        "Blue team, detection, incident response, and hardening",
+                "Threat-Intel":     "Threat intelligence: tracking adversaries, IOCs, and campaigns",
+                "Malware":          "Malware analysis, reverse engineering, and forensics",
+                "AppSec":           "Application security: secure coding, web/API vulnerabilities",
+                "Privacy":          "Data privacy, compliance, and cryptography",
+                "Training":         "Hands-on training courses and workshops",
+                "Beginner-Friendly":"Suitable for newcomers and those early in their career",
+                "Regional":         "Community-run regional event, typically smaller and local",
+                "Free":             "Free to attend — no paid ticket required"
+              } -%}
               {% for tag in event.tags %}
               <button class="tag-chip tag-chip--{{ tag | lower | replace(' ', '-') }}"
                       data-tag="{{ tag }}"
-                      title="Filter by {{ tag }}">{{ tag }}</button>
+                      title="{{ tag_descriptions.get(tag, tag) }}">{{ tag }}</button>
               {% endfor %}
             </div>
 
@@ -219,6 +238,7 @@
 
   <!-- ═══════════════════════════════════════════════════════ FEED TUTORIAL -->
   <section class="methodology-section feed-section" id="feed-tutorial">
+    <div class="events-container">
     <details class="collapsible-section">
       <summary class="collapsible-summary">
         <span>Using the Data Feeds</span>
@@ -314,10 +334,12 @@ for event in upcoming[:5]:
     </div>
       </div><!-- /.collapsible-body -->
     </details>
+    </div><!-- /.events-container -->
   </section>
 
   <!-- ═══════════════════════════════════════════════════════ METHODOLOGY -->
   <section class="methodology-section" id="methodology" aria-labelledby="method-heading">
+    <div class="events-container">
     <h2 id="method-heading" class="section-heading">About This Page</h2>
     <div class="method-cards">
 
@@ -372,13 +394,14 @@ for event in upcoming[:5]:
       with the official event website before making travel arrangements.
       This page is not affiliated with any conference organiser.
     </p>
+    </div><!-- /.events-container -->
   </section>
 
 </main>
 
 <!-- ═══════════════════════════════════════════════════════ FOOTER -->
 <footer class="site-footer">
-  <div class="site-footer__inner">
+  <div class="container">
     <p>
       <a href="../index.html">Cyber Threats</a> &middot;
       <a href="../aiml/index.html">AI/ML Landscape</a> &middot;
