@@ -662,11 +662,13 @@ class AIMLRenderer(Renderer):
         template = self._env.get_template("index.html.j2")
 
         threats_data = [
-            {**_threat_to_dict(t), "stream": "ml", "list_idx": f"t{i + 1}"}
+            {**_aiml_threat_to_dict(t), "stream": "ml", "list_idx": f"t{i + 1}",
+             "data_companies": ",".join(t.companies_affected).lower()}
             for i, t in enumerate(output.threats)
         ]
         mainstream_data = [
-            {**_threat_to_dict(t), "stream": "ai", "list_idx": f"m{i + 1}"}
+            {**_aiml_threat_to_dict(t), "stream": "ai", "list_idx": f"m{i + 1}",
+             "data_companies": ",".join(t.companies_affected).lower()}
             for i, t in enumerate(output.mainstream_threats)
         ]
 
@@ -701,6 +703,86 @@ class AIMLRenderer(Renderer):
         return path
 
 
+
+# ---------------------------------------------------------------------------
+# AI Company extractor
+# Detects major AI companies mentioned in article titles.
+# Title-only matching is used to avoid over-tagging; each entry requires an
+# unambiguous name or a well-known compound phrase to prevent false positives.
+# ---------------------------------------------------------------------------
+
+_AI_COMPANY_PATTERNS: list[tuple[str, list[str]]] = [
+    ("OpenAI",       ["openai", "open ai"]),
+    ("Anthropic",    ["anthropic"]),
+    ("Google DeepMind", ["deepmind", "google deepmind"]),
+    ("Google",       ["google"]),
+    ("Meta",         ["meta ai", "meta llama", "meta's ai"]),
+    ("Microsoft",    ["microsoft"]),
+    ("NVIDIA",       ["nvidia"]),
+    ("DeepSeek",     ["deepseek"]),
+    ("Hugging Face", ["hugging face", "huggingface"]),
+    ("Mistral",      ["mistral ai", "mistral's"]),
+    ("xAI",          ["xai grok", " grok "]),
+    ("Cohere",       ["cohere"]),
+    ("Stability AI", ["stability ai", "stable diffusion"]),
+    ("Perplexity",   ["perplexity ai", "perplexity"]),
+    ("Midjourney",   ["midjourney"]),
+    ("AWS",          ["amazon web services", " aws "]),
+    ("IBM",          [" ibm "]),
+    ("Apple",        ["apple intelligence", "apple ai"]),
+    ("Samsung",      ["samsung ai", "samsung galaxy ai"]),
+]
+
+
+def _extract_ai_companies(title: str) -> list[str]:
+    """
+    Return a de-duplicated list of major AI companies mentioned in the title.
+
+    Only title-level matching is used; this is intentional to keep tagging
+    conservative and avoid flooding cards with company badges from passing
+    mentions in article bodies.
+    """
+    title_lower = " " + title.lower() + " "
+    found: list[str] = []
+    seen: set[str] = set()
+    for company, keywords in _AI_COMPANY_PATTERNS:
+        if company in seen:
+            continue
+        for kw in keywords:
+            if kw in title_lower:
+                found.append(company)
+                seen.add(company)
+                # If we matched "Google DeepMind", skip adding bare "Google" too
+                if company == "Google DeepMind":
+                    seen.add("Google")
+                break
+    return found
+
+
+# ---------------------------------------------------------------------------
+# Lower score-tier thresholds for AI/ML (scores are structurally lower than
+# cyber because articles rarely corroborate across many sources on day one).
+# ---------------------------------------------------------------------------
+
+def _aiml_threat_to_dict(threat) -> dict:
+    """Like renderer._threat_to_dict but with AI/ML-calibrated tier thresholds."""
+    from src.render.renderer import _threat_to_dict, _safe_json_for_script
+    d = _threat_to_dict(threat)
+    # Override tier with AI/ML-calibrated boundaries
+    s = threat.score
+    d["score_tier"] = (
+        "high"   if s >= 0.62 else
+        "medium" if s >= 0.45 else
+        "low"
+    )
+    d["score_tier_label"] = (
+        "High"   if s >= 0.62 else
+        "Medium" if s >= 0.45 else
+        "Low"
+    )
+    return d
+
+
 class AIMLEnricher(DeterministicEnricher):
     """
     Enrichment provider adapted for ML/AI articles.
@@ -725,6 +807,7 @@ class AIMLEnricher(DeterministicEnricher):
 
         countries = extract_countries(combined)
         sectors = extract_sectors(combined)
+        companies = _extract_ai_companies(candidate.title)    # title-only, conservative
         topic_types = _extract_aiml_types(combined)          # e.g. ["Research", "Model Release"]
         technique_tags = _extract_ml_techniques(combined)    # e.g. ["LLM", "Fine-tuning"]
         # Merge: topic types first, then technique tags (skip any already present)
@@ -762,7 +845,7 @@ class AIMLEnricher(DeterministicEnricher):
             attack_techniques=[],           # not applicable
             attribution=[],                 # not applicable
             countries_affected=countries,
-            companies_affected=[],
+            companies_affected=companies,
             industries_affected=sectors,
             threat_types=types,
             cves=[],                        # not applicable
@@ -1006,6 +1089,11 @@ def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> No
 
     # ── 2. Normalise ─────────────────────────────────────────────────────────
     normalised = normalise_items(raw_items)
+
+    # ── 2b. Age filter — drop items older than lookback_hours ────────────────
+    from src.main import _filter_by_age
+    lookback_hours: int = cfg.get("lookback_hours", 168)
+    normalised = _filter_by_age(normalised, lookback_hours)
 
     # ── 3. Deduplicate ───────────────────────────────────────────────────────
     candidates = deduplicate(normalised)

@@ -502,6 +502,26 @@
     nameEl.classList.add("has-explain");
   });
 
+  // ── Countdown to next 09:00 UTC refresh ─────────────────
+
+  (function () {
+    var el = document.getElementById("refresh-countdown");
+    if (!el) return;
+    function pad2(n) { return ("0" + n).slice(-2); }
+    function tick() {
+      var now    = new Date();
+      var next   = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 9, 0, 0));
+      if (now >= next) next = new Date(next.getTime() + 86400000);
+      var diff   = next - now;
+      var h      = Math.floor(diff / 3600000);
+      var m      = Math.floor((diff % 3600000) / 60000);
+      var s      = Math.floor((diff % 60000) / 1000);
+      el.textContent = h + "h " + pad2(m) + "m " + pad2(s) + "s";
+    }
+    tick();
+    setInterval(tick, 1000);
+  }());
+
   // ── Back to top ──────────────────────────────────────────
 
   var backToTop = document.getElementById("back-to-top");

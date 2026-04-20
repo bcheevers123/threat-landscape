@@ -15,6 +15,15 @@
   <meta name="twitter:title"       content="{{ branding.get('page_title', 'Cyber Threat Landscape Today') }}">
   <meta name="twitter:description" content="{{ branding.get('subtitle', 'A daily briefing on the top active cyber threats') }}">
   <link rel="stylesheet" href="static/style.css">
+  <style>
+    .site-nav{display:flex;gap:.6rem;margin-top:.9rem;flex-wrap:wrap}
+    .btn-nav{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .85rem;border-radius:6px;font-size:.78rem;font-weight:600;text-decoration:none;border:1.5px solid transparent;transition:background .15s,color .15s,border-color .15s;white-space:nowrap}
+    .btn-nav--site{background:#f4f4f5;color:#374151;border-color:#d1d5db}.btn-nav--site:hover{background:#e5e7eb}
+    .btn-nav--aiml{background:#ede9fe;color:#4c1d95;border-color:#a78bfa}.btn-nav--aiml:hover{background:#ddd6fe}
+    .countdown-wrap{display:flex;align-items:center;gap:.5rem;margin-top:.5rem;font-size:.78rem;color:#6b7280}
+    .countdown-value{font-variant-numeric:tabular-nums;font-weight:700;color:#dc2626;min-width:5.5rem}
+    .countdown-caveat{font-size:.72rem;color:#9ca3af}
+  </style>
 </head>
 <body>
 
@@ -39,6 +48,19 @@
           <span class="stat-pill">{{ total_after_dedupe }} unique stories</span>
           {% endif %}
         </div>
+        <div class="countdown-wrap" aria-live="polite">
+          <span>Next refresh in</span>
+          <span id="refresh-countdown" class="countdown-value" aria-label="Countdown to next refresh">--:--:--</span>
+          <span class="countdown-caveat">(approx. 09:00 UTC &mdash; may vary slightly)</span>
+        </div>
+        <nav class="site-nav" aria-label="Related pages">
+          <a href="aiml/index.html" class="btn-nav btn-nav--aiml">
+            ML/AI Landscape &rarr;
+          </a>
+          <a href="{{ branding.get('site_url', 'https://barrycheevers.co.uk') }}" class="btn-nav btn-nav--site" target="_blank" rel="noopener noreferrer">
+            Barry Cheevers &nearr;
+          </a>
+        </nav>
       </div>
     </div>
   </div>

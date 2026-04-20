@@ -16,6 +16,15 @@
   <meta name="twitter:description" content="{{ branding.get('subtitle', 'A daily briefing on the top ML research and AI developments') }}">
   <link rel="stylesheet" href="static/style.css">
   <link rel="stylesheet" href="static/theme.css">
+  <style>
+    .site-nav{display:flex;gap:.6rem;margin-top:.9rem;flex-wrap:wrap}
+    .btn-nav{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .85rem;border-radius:6px;font-size:.78rem;font-weight:600;text-decoration:none;border:1.5px solid transparent;transition:background .15s,color .15s,border-color .15s;white-space:nowrap}
+    .btn-nav--site{background:#f4f4f5;color:#374151;border-color:#d1d5db}.btn-nav--site:hover{background:#e5e7eb}
+    .btn-nav--cyber{background:#fff3cd;color:#92400e;border-color:#fbbf24}.btn-nav--cyber:hover{background:#fde68a}
+    .countdown-wrap{display:flex;align-items:center;gap:.5rem;margin-top:.5rem;font-size:.78rem;color:#6b7280}
+    .countdown-value{font-variant-numeric:tabular-nums;font-weight:700;color:#4f46e5;min-width:5.5rem}
+    .countdown-caveat{font-size:.72rem;color:#9ca3af}
+  </style>
 </head>
 <body data-theme="aiml">
 
@@ -41,6 +50,19 @@
           <span class="stat-pill">{{ total_after_dedupe }} unique stories</span>
           {% endif %}
         </div>
+        <div class="countdown-wrap" aria-live="polite">
+          <span>Next refresh in</span>
+          <span id="refresh-countdown" class="countdown-value" aria-label="Countdown to next refresh">--:--:--</span>
+          <span class="countdown-caveat">(approx. 09:00 UTC &mdash; may vary slightly)</span>
+        </div>
+        <nav class="site-nav" aria-label="Related pages">
+          <a href="../index.html" class="btn-nav btn-nav--cyber">
+            &larr; Cyber Threat Landscape
+          </a>
+          <a href="{{ branding.get('site_url', 'https://barrycheevers.co.uk') }}" class="btn-nav btn-nav--site" target="_blank" rel="noopener noreferrer">
+            Barry Cheevers &nearr;
+          </a>
+        </nav>
       </div>
     </div>
   </div>
@@ -67,7 +89,8 @@
         data-title="{{ threat.title | lower }}"
         data-sectors="{{ threat.industries_affected | join(',') | lower }}"
         data-sources="{{ threat.primary_source | lower }}"
-        data-threat-types="{{ threat.threat_types | join(',') | lower }}">
+        data-threat-types="{{ threat.threat_types | join(',') | lower }}"
+        data-companies="{{ threat.data_companies | default('') }}">
 
       <div class="card-header">
         <div class="rank-badge" aria-label="Rank {{ rank }}">
@@ -126,6 +149,9 @@
         {% for tt in threat.threat_types %}
         <span class="badge badge--malware">{{ tt }}</span>
         {% endfor %}
+        {% for co in threat.companies_affected %}
+        <span class="badge badge--company">{{ co }}</span>
+        {% endfor %}
         {% for sector in threat.industries_affected %}
         {% if sector != "Unknown" %}
         <span class="badge badge--sector">{{ sector }}</span>
@@ -135,9 +161,6 @@
         {% if country != "Unknown" %}
         <span class="badge badge--country">{{ country }}</span>
         {% endif %}
-        {% endfor %}
-        {% for co in threat.companies_affected %}
-        <span class="badge badge--company">{{ co }}</span>
         {% endfor %}
       </div>
 
@@ -316,6 +339,12 @@
         <div class="filter-group" id="filter-group-sectors">
           <span class="filter-group-label">Industry</span>
           <div class="filter-chips" id="sector-filters" aria-label="Filter by sector">
+            <!-- populated by JS -->
+          </div>
+        </div>
+        <div class="filter-group" id="filter-group-companies">
+          <span class="filter-group-label">Company</span>
+          <div class="filter-chips" id="company-filters" aria-label="Filter by company">
             <!-- populated by JS -->
           </div>
         </div>

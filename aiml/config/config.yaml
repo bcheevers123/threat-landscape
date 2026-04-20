@@ -10,7 +10,7 @@ static_dir: static           # reuses the existing CSS; app.js is overridden pos
 max_items_per_source: 50
 
 # Look-back window for published items (hours)
-lookback_hours: 48
+lookback_hours: 168
 
 # How many top items to output per stream
 top_n: 10
@@ -36,10 +36,10 @@ scoring:
 # Recency matters more here than in the ML pool because news cycles are faster.
 # Must sum to 1.0.
 scoring_ai:
-  recency: 0.25
-  source_credibility: 0.22
-  corroboration: 0.28
-  severity: 0.13        # maps to _score_aiml_significance
+  recency: 0.28
+  source_credibility: 0.25
+  corroboration: 0.20
+  severity: 0.15        # maps to _score_aiml_significance
   breadth: 0.08         # maps to _score_aiml_breadth
   actionability: 0.04   # maps to _score_aiml_applicability
   diversity_cap: 2      # max items from the same source domain in AI top-10

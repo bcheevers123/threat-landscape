@@ -250,6 +250,144 @@ def preview(ctx: click.Context, port: int) -> None:
 # Pipeline orchestration
 # ---------------------------------------------------------------------------
 
+
+# ---------------------------------------------------------------------------
+# Mainstream-aware scorer
+# Replaces cyber-specific severity/actionability dimensions with consumer-
+# relevant signals: scale of impact on the public, and public interest/
+# enforcement signals.  Breadth and recency remain unchanged.
+# ---------------------------------------------------------------------------
+
+_MS_CONSUMER_IMPACT_KWS: frozenset[str] = frozenset({
+    "millions", "billion", "customers", "users", "subscribers",
+    "personal data", "personal information", "private data",
+    "identity theft", "financial loss", "bank account", "credit card",
+    "social security", "national insurance", "date of birth",
+    "breach", "data breach", "leak", "data leak", "exposed", "compromised",
+    "stolen", "ransomware", "cyber attack", "hacked",
+    "scam", "fraud", "phishing",
+    "nhs", "hospital", "government", "council", "police",
+    "bank", "retailer", "insurer",
+    "widespread", "nationwide", "national",
+})
+
+_MS_PUBLIC_INTEREST_KWS: frozenset[str] = frozenset({
+    "warning", "urged", "advised", "consumer warning", "public warning",
+    "alert", "watchdog", "regulator", "fine", "penalty", "lawsuit",
+    "major", "significant", "serious", "large-scale",
+    "arrested", "charged", "convicted", "sentenced",
+    "fined", "ico", "ftc", "gdpr", "investigation", "probe",
+    "class action", "settlement",
+})
+
+
+def _score_consumer_impact(candidate) -> float:
+    """0–1 score: scale and severity of impact on everyday consumers."""
+    text = " ".join(filter(None, [candidate.title, candidate.summary or ""])).lower()
+    hits = sum(1 for kw in _MS_CONSUMER_IMPACT_KWS if kw in text)
+    return min(1.0, hits / 4)
+
+
+def _score_public_interest(candidate) -> float:
+    """0–1 score: public interest signals — enforcement, warnings, media attention."""
+    text = " ".join(filter(None, [candidate.title, candidate.summary or ""])).lower()
+    hits = sum(1 for kw in _MS_PUBLIC_INTEREST_KWS if kw in text)
+    return min(1.0, hits / 3)
+
+
+class MainstreamScorer:
+    """
+    Scorer tailored for consumer-facing mainstream cyber stories.
+
+    Replaces technical severity/actionability with:
+      severity     → consumer_impact  (scale of effect on the public)
+      actionability→ public_interest  (enforcement, warnings, media attention)
+    Recency, credibility, corroboration, and breadth behave identically to
+    the base Scorer.
+    """
+
+    def __init__(self, weights=None, diversity_cap: int = 0) -> None:
+        from src.scoring.scorer import ScoringWeights
+        self.weights = weights or ScoringWeights(
+            recency=0.32,
+            source_credibility=0.15,
+            corroboration=0.25,
+            severity=0.15,
+            breadth=0.08,
+            actionability=0.05,
+        )
+        self.diversity_cap = diversity_cap
+
+    def score(self, candidate) -> tuple:
+        from src.models.schemas import ScoreBreakdown
+        from src.scoring.scorer import (
+            _score_recency,
+            _score_corroboration,
+            _score_breadth,
+        )
+        w = self.weights
+        dims = {
+            "recency":            _score_recency(candidate.published_at) * w.recency,
+            "source_credibility": candidate.max_source_credibility * w.source_credibility,
+            "corroboration":      _score_corroboration(candidate.corroboration_count) * w.corroboration,
+            "severity":           _score_consumer_impact(candidate) * w.severity,
+            "breadth":            _score_breadth(candidate) * w.breadth,
+            "actionability":      _score_public_interest(candidate) * w.actionability,
+        }
+        total = sum(dims.values())
+        breakdown = ScoreBreakdown(
+            recency=round(dims["recency"], 4),
+            source_credibility=round(dims["source_credibility"], 4),
+            corroboration=round(dims["corroboration"], 4),
+            severity=round(dims["severity"], 4),
+            breadth=round(dims["breadth"], 4),
+            actionability=round(dims["actionability"], 4),
+            total=round(total, 4),
+        )
+        return total, breakdown
+
+    def score_and_rank(self, candidates, top_n=10):
+        from urllib.parse import urlparse
+        scored = [(c, *self.score(c)) for c in candidates]
+        scored.sort(key=lambda x: x[1], reverse=True)
+        if self.diversity_cap > 0:
+            from src.scoring.scorer import _source_domain
+            selected, domain_counts = [], {}
+            for item in scored:
+                domain = _source_domain(item[0].primary_url or "")
+                count = domain_counts.get(domain, 0)
+                if count < self.diversity_cap:
+                    selected.append(item)
+                    domain_counts[domain] = count + 1
+                    if len(selected) == top_n:
+                        break
+            return selected
+        return scored[:top_n]
+
+
+def _filter_by_age(
+    items: list,
+    lookback_hours: int,
+) -> list:
+    """Discard items published more than lookback_hours ago."""
+    from datetime import datetime, timezone
+    cutoff = datetime.now(tz=timezone.utc).timestamp() - lookback_hours * 3600
+    kept = []
+    for item in items:
+        pub = item.published_at
+        if pub is None:
+            kept.append(item)
+            continue
+        if pub.tzinfo is None:
+            pub = pub.replace(tzinfo=timezone.utc)
+        if pub.timestamp() >= cutoff:
+            kept.append(item)
+    logger.info(
+        "Age filter (%dh): %d/%d items retained.", lookback_hours, len(kept), len(items)
+    )
+    return kept
+
+
 def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> None:
     """
     Execute the full collect -> normalise -> dedupe -> score -> enrich -> render
@@ -287,6 +425,10 @@ def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> No
 
     # ── 2. Normalise ─────────────────────────────────────────────────────
     normalised = normalise_items(raw_items)
+
+    # ── 2b. Age filter — drop items older than lookback_hours ────────────
+    lookback_hours: int = cfg.get("lookback_hours", 168)
+    normalised = _filter_by_age(normalised, lookback_hours)
 
     # ── 3. Deduplicate ───────────────────────────────────────────────────
     candidates = deduplicate(normalised)
@@ -425,20 +567,13 @@ def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> No
             for k, v in ms_scoring_cfg.items()
             if isinstance(v, (int, float)) and k != "diversity_cap"
         }
-        ms_weights = (
-            ScoringWeights(**ms_weight_kwargs)
-            if ms_weight_kwargs
-            else ScoringWeights(
-                recency=0.40,
-                source_credibility=0.10,
-                corroboration=0.30,
-                severity=0.10,
-                breadth=0.05,
-                actionability=0.05,
-            )
-        )
-        ms_diversity_cap = int(ms_scoring_cfg.get("diversity_cap", 0))
-        ms_scorer = Scorer(weights=ms_weights, diversity_cap=ms_diversity_cap)
+        ms_diversity_cap = int(ms_scoring_cfg.get("diversity_cap", 2))
+        # Use consumer-oriented MainstreamScorer; ScoringWeights from config if set
+        if ms_weight_kwargs:
+            ms_weights = ScoringWeights(**ms_weight_kwargs)
+            ms_scorer = MainstreamScorer(weights=ms_weights, diversity_cap=ms_diversity_cap)
+        else:
+            ms_scorer = MainstreamScorer(diversity_cap=ms_diversity_cap)
         ms_scored = ms_scorer.score_and_rank(mainstream_candidates, top_n=top_n)
         logger.info(
             "Mainstream scoring: %d candidates -> top %d", len(mainstream_candidates), len(ms_scored)

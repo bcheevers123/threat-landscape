@@ -342,10 +342,10 @@ sources:
       volume than major labs but consistently influential posts.
 
   - name: Anthropic Research
-    url: https://www.anthropic.com/news/rss.xml
+    url: https://www.anthropic.com/rss.xml
     type: rss
     credibility: 0.90
-    enabled: false  # Feed URL unconfirmed; disabled until verified
+    enabled: true
     stream: ml
     tags: [research, safety, alignment, llm]
     rationale: >-
@@ -355,10 +355,10 @@ sources:
       ML research.
 
   - name: Meta AI Blog
-    url: https://ai.meta.com/blog/feed/
+    url: https://ai.meta.com/blog/rss/
     type: rss
     credibility: 0.88
-    enabled: false  # Feed URL unconfirmed; disabled until verified
+    enabled: true
     stream: ml
     tags: [research, meta, open-source, llama]
     rationale: >-
@@ -681,6 +681,61 @@ sources:
       classification routes ML methodology articles to the ML pool and
       broader AI commentary to the AI pool. Credibility capped lower than
       lab blogs due to variable author expertise.
+
+  - name: Simon Willison's Blog
+    url: https://simonwillison.net/atom/everything/
+    type: rss
+    credibility: 0.87
+    enabled: true
+    stream: both
+    tags: [analysis, practical-ai, llm, tools]
+    rationale: >-
+      Simon Willison is a highly respected AI practitioner and open-source developer,
+      known for meticulous hands-on exploration of LLM capabilities, tool releases,
+      and practical AI deployments. His posts are among the most widely shared in
+      the ML/AI practitioner community and frequently surface significant model
+      capabilities or safety issues before mainstream coverage. Item-level
+      classification routes research-heavy posts to ML and broader commentary to AI.
+
+  - name: Cohere Blog
+    url: https://cohere.com/blog/rss
+    type: rss
+    credibility: 0.85
+    enabled: true
+    stream: ml
+    tags: [research, models, enterprise-ai, nlp]
+    rationale: >-
+      Cohere is a leading enterprise AI company focused on language models for
+      business applications. Blog posts cover model releases, research advances
+      in retrieval-augmented generation, embeddings, and enterprise NLP. High
+      technical quality; Cohere researchers regularly publish at top ML venues.
+
+  - name: Mistral AI Blog
+    url: https://mistral.ai/news/rss
+    type: rss
+    credibility: 0.88
+    enabled: true
+    stream: ml
+    tags: [research, models, open-source, llm]
+    rationale: >-
+      Mistral AI is a leading open-source LLM lab that has released several
+      frontier-class models (Mistral 7B, Mixtral, Mistral Large). Blog posts
+      announce new model releases and research findings directly from the source.
+      High credibility given Mistral's position at the open-source frontier.
+
+  - name: AI Snake Oil (Sayash Kapoor & Arvind Narayanan)
+    url: https://www.aisnakeoil.com/feed
+    type: rss
+    credibility: 0.84
+    enabled: true
+    stream: ai
+    tags: [analysis, critical-ai, policy, hype-debunking]
+    rationale: >-
+      AI Snake Oil is a research newsletter by Princeton professors Sayash Kapoor
+      and Arvind Narayanan offering rigorous, evidence-based analysis of AI claims
+      and policy implications. Particularly valuable for debunking hype and providing
+      sceptical context for AI capabilities claims. Widely read among AI researchers,
+      policy makers, and technology journalists.
 
   - name: BBC Technology
     url: https://feeds.bbci.co.uk/news/technology/rss.xml

@@ -33,9 +33,11 @@
   var clearFiltersBtn     = document.getElementById("clear-filters");
   var threatTypeContainer = document.getElementById("threat-type-filters");
   var sectorContainer     = document.getElementById("sector-filters");
+  var companyContainer    = document.getElementById("company-filters");
 
   var activeThreatType = null;
   var activeSector     = null;
+  var activeCompany    = null;
 
   function getActiveCards() {
     return document.querySelectorAll('.threat-card[data-stream="' + activeView + '"]');
@@ -46,9 +48,11 @@
   function buildChips() {
     if (threatTypeContainer) threatTypeContainer.innerHTML = "";
     if (sectorContainer)     sectorContainer.innerHTML = "";
+    if (companyContainer)    companyContainer.innerHTML = "";
 
-    var viewTypes   = new Set();
-    var viewSectors = new Set();
+    var viewTypes     = new Set();
+    var viewSectors   = new Set();
+    var viewCompanies = new Set();
 
     getActiveCards().forEach(function (card) {
       (card.dataset.threatTypes || "").split(",").forEach(function (t) {
@@ -59,10 +63,15 @@
         var trimmed = s.trim();
         if (trimmed && trimmed !== "unknown") viewSectors.add(trimmed);
       });
+      (card.dataset.companies || "").split(",").forEach(function (c) {
+        var trimmed = c.trim();
+        if (trimmed) viewCompanies.add(trimmed);
+      });
     });
 
-    var filterGroupTypes   = document.getElementById("filter-group-types");
-    var filterGroupSectors = document.getElementById("filter-group-sectors");
+    var filterGroupTypes     = document.getElementById("filter-group-types");
+    var filterGroupSectors   = document.getElementById("filter-group-sectors");
+    var filterGroupCompanies = document.getElementById("filter-group-companies");
 
     if (threatTypeContainer && viewTypes.size > 0) {
       if (filterGroupTypes) filterGroupTypes.hidden = false;
@@ -72,8 +81,10 @@
             activeThreatType = null;
           } else {
             activeThreatType = val;
-            if (sectorContainer) sectorContainer.querySelectorAll(".filter-chip").forEach(deactivateChip);
+            if (sectorContainer)  sectorContainer.querySelectorAll(".filter-chip").forEach(deactivateChip);
+            if (companyContainer) companyContainer.querySelectorAll(".filter-chip").forEach(deactivateChip);
             activeSector = null;
+            activeCompany = null;
           }
           applyFilter();
         });
@@ -92,7 +103,9 @@
           } else {
             activeSector = val;
             if (threatTypeContainer) threatTypeContainer.querySelectorAll(".filter-chip").forEach(deactivateChip);
+            if (companyContainer)    companyContainer.querySelectorAll(".filter-chip").forEach(deactivateChip);
             activeThreatType = null;
+            activeCompany = null;
           }
           applyFilter();
         });
@@ -100,6 +113,27 @@
       });
     } else if (filterGroupSectors) {
       filterGroupSectors.hidden = true;
+    }
+
+    if (companyContainer && viewCompanies.size > 0) {
+      if (filterGroupCompanies) filterGroupCompanies.hidden = false;
+      Array.from(viewCompanies).sort().forEach(function (companyVal) {
+        var chip = makeChip(companyVal, "company", companyContainer, function (val) {
+          if (activeCompany === val) {
+            activeCompany = null;
+          } else {
+            activeCompany = val;
+            if (threatTypeContainer) threatTypeContainer.querySelectorAll(".filter-chip").forEach(deactivateChip);
+            if (sectorContainer)     sectorContainer.querySelectorAll(".filter-chip").forEach(deactivateChip);
+            activeThreatType = null;
+            activeSector = null;
+          }
+          applyFilter();
+        });
+        companyContainer.appendChild(chip);
+      });
+    } else if (filterGroupCompanies) {
+      filterGroupCompanies.hidden = true;
     }
   }
 
@@ -115,10 +149,12 @@
       var sectors     = (card.dataset.sectors || "").toLowerCase();
       var sources     = (card.dataset.sources || "").toLowerCase();
       var threatTypes = (card.dataset.threatTypes || "").toLowerCase();
+      var companies   = (card.dataset.companies || "").toLowerCase();
 
       var matchesSearch = !query ||
         title.includes(query) || sectors.includes(query) ||
-        sources.includes(query) || threatTypes.includes(query);
+        sources.includes(query) || threatTypes.includes(query) ||
+        companies.includes(query);
 
       var matchesThreatType = !activeThreatType ||
         threatTypes.split(",").some(function (t) { return t.trim() === activeThreatType; });
@@ -126,7 +162,10 @@
       var matchesSector = !activeSector ||
         sectors.split(",").some(function (s) { return s.trim() === activeSector; });
 
-      if (matchesSearch && matchesThreatType && matchesSector) {
+      var matchesCompany = !activeCompany ||
+        companies.split(",").some(function (c) { return c.trim() === activeCompany; });
+
+      if (matchesSearch && matchesThreatType && matchesSector && matchesCompany) {
         card.hidden = false;
         visibleCount++;
       } else {
@@ -146,8 +185,10 @@
     if (searchInput) searchInput.value = "";
     activeThreatType = null;
     activeSector     = null;
+    activeCompany    = null;
     if (threatTypeContainer) threatTypeContainer.querySelectorAll(".filter-chip").forEach(deactivateChip);
     if (sectorContainer)     sectorContainer.querySelectorAll(".filter-chip").forEach(deactivateChip);
+    if (companyContainer)    companyContainer.querySelectorAll(".filter-chip").forEach(deactivateChip);
     applyFilter();
   }
 
@@ -442,6 +483,26 @@
     nameEl.setAttribute("data-explain", explain);
     nameEl.classList.add("has-explain");
   });
+
+  // ── Countdown to next 09:00 UTC refresh ─────────────────
+
+  (function () {
+    var el = document.getElementById("refresh-countdown");
+    if (!el) return;
+    function pad2(n) { return ("0" + n).slice(-2); }
+    function tick() {
+      var now    = new Date();
+      var next   = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 9, 0, 0));
+      if (now >= next) next = new Date(next.getTime() + 86400000);
+      var diff   = next - now;
+      var h      = Math.floor(diff / 3600000);
+      var m      = Math.floor((diff % 3600000) / 60000);
+      var s      = Math.floor((diff % 60000) / 1000);
+      el.textContent = h + "h " + pad2(m) + "m " + pad2(s) + "s";
+    }
+    tick();
+    setInterval(tick, 1000);
+  }());
 
   // ── Back to top ──────────────────────────────────────────
 
