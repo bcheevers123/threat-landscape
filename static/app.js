@@ -546,6 +546,19 @@
     }
   }());
 
+  // ── Copy-code buttons (feed tutorial) ───────────────────
+  document.querySelectorAll(".copy-code-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var code = btn.parentElement.querySelector("code");
+      if (!code) return;
+      navigator.clipboard.writeText(code.textContent).then(function () {
+        var orig = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(function () { btn.textContent = orig; }, 1500);
+      });
+    });
+  });
+
   // ── Back to top ──────────────────────────────────────────
 
   var backToTop = document.getElementById("back-to-top");
