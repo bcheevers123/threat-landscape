@@ -36,3 +36,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python -m src.aiml_main run-all
+
+      - name: Build and deploy Conferences page
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m src.conferences_main --config conferences/config/config.yaml run-all

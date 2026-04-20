@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{ branding.get('subtitle', 'Upcoming cybersecurity conferences worldwide') }}">
+  <title>{{ branding.get('page_title', 'Cybersecurity Conferences') }} — {{ branding.get('site_name', '') }}</title>
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="{{ branding.get('page_title', 'Cybersecurity Conferences') }}">
+  <meta property="og:description" content="{{ branding.get('subtitle', 'Upcoming cybersecurity events worldwide') }}">
+  <meta name="twitter:card"        content="summary">
+  <meta name="twitter:title"       content="{{ branding.get('page_title', 'Cybersecurity Conferences') }}">
+  <meta name="twitter:description" content="{{ branding.get('subtitle', 'Upcoming cybersecurity events worldwide') }}">
+  <link rel="stylesheet" href="static/style.css">
+  <link rel="stylesheet" href="static/theme.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" crossorigin="">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" crossorigin="">
+</head>
+<body data-theme="conferences">
+
+<!-- ═══════════════════════════════════════════════════════ HEADER -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <div class="header-text">
+        <p class="header-eyebrow">{{ branding.get('site_name', 'Barry Cheevers') }}</p>
+        <h1 class="header-title">Cybersecurity Conferences</h1>
+        <p class="header-subtitle">{{ branding.get('subtitle', 'Upcoming events worldwide — next 12 months') }}</p>
+      </div>
+      <div class="header-meta">
+        <div class="stats-pills">
+          <span class="stat-pill">{{ stats.upcoming }} upcoming</span>
+          {% if stats.ongoing %}
+          <span class="stat-pill">{{ stats.ongoing }} ongoing now</span>
+          {% endif %}
+          <span class="stat-pill">{{ stats.countries }} countries</span>
+          {% if stats.this_month %}
+          <span class="stat-pill">{{ stats.this_month }} this month</span>
+          {% endif %}
+          <span class="stat-pill">Updated {{ generated_at }}</span>
+        </div>
+        <nav class="site-nav" aria-label="Related pages">
+          <a href="../index.html" class="btn-nav btn-nav--cyber">&#8592; Cyber Threats</a>
+          <a href="../aiml/index.html" class="btn-nav btn-nav--aiml">&#8592; AI/ML</a>
+          <a href="{{ branding.get('site_url', 'https://barrycheevers.co.uk') }}" class="btn-nav btn-nav--site" target="_blank" rel="noopener noreferrer">
+            Barry Cheevers &nearr;
+          </a>
+          <button id="dark-mode-toggle" class="btn-dark-mode" title="Toggle dark mode" aria-label="Toggle dark mode">
+            <span class="icon-moon" aria-hidden="true">&#9790;</span>
+            <span class="icon-sun"  aria-hidden="true">&#9728;</span>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════ MAIN -->
+<main id="main-content">
+
+  <!-- ── Controls bar ──────────────────────────────────────────── -->
+  <div class="controls-bar">
+    <div class="controls-bar__inner">
+
+      <div class="search-wrap">
+        <input type="search"
+               id="event-search"
+               class="search-input"
+               placeholder="Search events, cities, countries…"
+               aria-label="Search conferences">
+      </div>
+
+      <div class="view-toggle-bar" role="group" aria-label="Choose view">
+        <button class="view-toggle-btn active" data-view="list"     aria-pressed="true">
+          <span class="view-toggle-icon" aria-hidden="true">&#9776;</span>
+          <span class="view-toggle-label">List</span>
+        </button>
+        <button class="view-toggle-btn"        data-view="calendar" aria-pressed="false">
+          <span class="view-toggle-icon" aria-hidden="true">&#128197;</span>
+          <span class="view-toggle-label">Calendar</span>
+        </button>
+        <button class="view-toggle-btn"        data-view="map"      aria-pressed="false">
+          <span class="view-toggle-icon" aria-hidden="true">&#127758;</span>
+          <span class="view-toggle-label">Map</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Tag filter chips ──────────────────────────────────────── -->
+  <div class="tag-filter-bar" aria-label="Filter by tag">
+    <div class="tag-filter-bar__inner">
+      <button class="filter-chip active" data-tag="" aria-pressed="true">All</button>
+      {% for tag in all_tags %}
+      <button class="filter-chip" data-tag="{{ tag }}" aria-pressed="false">{{ tag }}</button>
+      {% endfor %}
+      <button class="filter-chip filter-chip--clear btn-clear-filters" id="clear-filters" hidden>
+        &#10005; Clear filters
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ LIST VIEW -->
+  <div id="view-list" class="view-content view-content--active">
+    <div class="events-container">
+      {% set ns = namespace(current_month="") %}
+      {% for event in events %}
+        {% set month_label = event.start_date | string | truncate(7, False, '') %}
+        {% if month_label != ns.current_month %}
+          {% set ns.current_month = month_label %}
+          <h2 class="month-heading section-heading">
+            {{ event.start_date.strftime('%B %Y') }}
+          </h2>
+        {% endif %}
+
+        <article class="event-card"
+                 id="event-{{ event.id }}"
+                 data-tags="{{ event.tags | join(',') }}"
+                 data-start="{{ event.start_date }}"
+                 data-end="{{ event.end_date }}"
+                 data-name="{{ event.name | lower }}"
+                 data-city="{{ event.city | lower }}"
+                 data-country="{{ event.country | lower }}"
+                 data-status="{{ event.status }}">
+
+          <div class="event-date-badge">
+            <span class="event-date-month">{{ event.start_date.strftime('%b') | upper }}</span>
+            <span class="event-date-day">{{ event.start_date.day }}</span>
+          </div>
+
+          <div class="event-body">
+            <div class="event-header">
+              <h3 class="event-name">
+                <a href="{{ event.url }}" class="event-link" target="_blank" rel="noopener noreferrer">
+                  {{ event.name }}
+                  <span class="ext-link-icon" aria-hidden="true">&#8599;</span>
+                </a>
+              </h3>
+              <div class="event-badges">
+                {% if event.status == 'ongoing' %}
+                <span class="event-status-badge event-status-badge--ongoing">Ongoing now</span>
+                {% endif %}
+                {% if event.cost == 'Free' %}
+                <span class="event-status-badge event-status-badge--free">Free</span>
+                {% endif %}
+                {% if event.virtual %}
+                <span class="event-status-badge event-status-badge--virtual">Virtual</span>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="event-meta">
+              <span class="event-location" title="Location">
+                <span aria-hidden="true">&#128205;</span>
+                {{ event.city }}, {{ event.country }}
+              </span>
+              <span class="meta-separator">&middot;</span>
+              <span class="event-dates">
+                {% if event.start_date == event.end_date %}
+                  {{ event.start_date | fmt_date }}
+                {% else %}
+                  {{ event.start_date.day }} {{ event.start_date.strftime('%b') }}–{{ event.end_date | fmt_date }}
+                {% endif %}
+              </span>
+              {% if event.cfp_deadline %}
+              <span class="meta-separator">&middot;</span>
+              <span class="cfp-deadline" title="CFP deadline">
+                CFP: {{ event.cfp_deadline | fmt_date }}
+              </span>
+              {% endif %}
+            </div>
+
+            {% if event.description %}
+            <p class="event-description">{{ event.description }}</p>
+            {% endif %}
+
+            <div class="event-tags" aria-label="Tags">
+              {% for tag in event.tags %}
+              <button class="tag-chip tag-chip--{{ tag | lower | replace(' ', '-') }}"
+                      data-tag="{{ tag }}"
+                      title="Filter by {{ tag }}">{{ tag }}</button>
+              {% endfor %}
+            </div>
+
+          </div>
+        </article>
+      {% else %}
+        <p class="no-results">No conferences found for the next 12 months.</p>
+      {% endfor %}
+
+      <p class="no-results" id="no-filter-results" hidden>
+        No events match the current filters.
+        <button class="link-btn btn-clear-filters">Clear filters</button>
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ CALENDAR VIEW -->
+  <div id="view-calendar" class="view-content">
+    <div class="calendar-nav" aria-label="Calendar navigation">
+      <button id="cal-prev" class="cal-nav-btn" aria-label="Previous month">&#8592;</button>
+      <h2 id="cal-month-label" class="cal-month-label"></h2>
+      <button id="cal-next" class="cal-nav-btn" aria-label="Next month">&#8594;</button>
+    </div>
+    <div id="calendar-grid" class="calendar-grid" aria-live="polite"></div>
+    <div id="cal-event-list" class="cal-event-list" aria-live="polite"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ MAP VIEW -->
+  <div id="view-map" class="view-content">
+    <div id="conferences-map" aria-label="World map of conference locations"></div>
+    <p class="map-attribution-note">
+      Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors.
+      Only events with known coordinates are shown.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ FEED TUTORIAL -->
+  <section class="methodology-section feed-section" id="feed-tutorial" aria-labelledby="feed-heading">
+    <h2 id="feed-heading" class="section-heading">Using the Data Feeds</h2>
+    <p class="methodology-intro">
+      All three services on this site expose machine-readable JSON feeds that update daily.
+      You can use these to build your own dashboards, scripts, or integrations.
+    </p>
+
+    <div class="feed-grid">
+
+      <div class="feed-card">
+        <h3 class="feed-card__title">&#128197; Conferences Feed</h3>
+        <p class="feed-card__desc">Upcoming cybersecurity events for the next 12 months.</p>
+        <code class="feed-card__url">conferences/latest.json</code>
+        <div class="code-block-wrap">
+          <button class="copy-code-btn" aria-label="Copy curl command">Copy</button>
+          <pre class="code-block"><code>curl -s https://bcheevers123.github.io/threat-landscape/conferences/latest.json \
+  | python3 -m json.tool</code></pre>
+        </div>
+      </div>
+
+      <div class="feed-card">
+        <h3 class="feed-card__title">&#9888; Cyber Threats Feed</h3>
+        <p class="feed-card__desc">Daily top-10 cyber threat intelligence briefing.</p>
+        <code class="feed-card__url">latest.json</code>
+        <div class="code-block-wrap">
+          <button class="copy-code-btn" aria-label="Copy curl command">Copy</button>
+          <pre class="code-block"><code>curl -s https://bcheevers123.github.io/threat-landscape/latest.json \
+  | python3 -m json.tool</code></pre>
+        </div>
+      </div>
+
+      <div class="feed-card">
+        <h3 class="feed-card__title">&#129302; AI/ML Feed</h3>
+        <p class="feed-card__desc">Daily top-10 AI and machine learning developments.</p>
+        <code class="feed-card__url">aiml/latest.json</code>
+        <div class="code-block-wrap">
+          <button class="copy-code-btn" aria-label="Copy curl command">Copy</button>
+          <pre class="code-block"><code>curl -s https://bcheevers123.github.io/threat-landscape/aiml/latest.json \
+  | python3 -m json.tool</code></pre>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="feed-tutorial-detail">
+      <h3>Python example — list upcoming conferences</h3>
+      <div class="code-block-wrap">
+        <button class="copy-code-btn" aria-label="Copy Python snippet">Copy</button>
+        <pre class="code-block"><code>import requests
+from datetime import date
+
+url = "https://bcheevers123.github.io/threat-landscape/conferences/latest.json"
+data = requests.get(url, timeout=10).json()
+
+today = date.today().isoformat()
+upcoming = [e for e in data["events"] if e["start_date"] >= today]
+
+for event in upcoming[:5]:
+    print(f"{event['start_date']}  {event['name']}  ({event['city']}, {event['country']})")</code></pre>
+      </div>
+
+      <h3>Feed schema</h3>
+      <div class="code-block-wrap">
+        <button class="copy-code-btn" aria-label="Copy schema">Copy</button>
+        <pre class="code-block"><code>{
+  "generated_at": "2026-04-20T09:00:00+00:00",
+  "event_count": 32,
+  "events": [
+    {
+      "id":           "rsa-conference-2026",
+      "name":         "RSA Conference 2026",
+      "url":          "https://www.rsaconference.com",
+      "start_date":   "2026-04-27",
+      "end_date":     "2026-05-01",
+      "city":         "San Francisco",
+      "country":      "USA",
+      "location":     "San Francisco, USA",
+      "lat":          37.7845,
+      "lon":          -122.3974,
+      "tags":         ["Industry", "Training"],
+      "description":  "...",
+      "virtual":      false,
+      "cost":         "Paid",
+      "status":       "upcoming"
+    }
+  ]
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ METHODOLOGY -->
+  <section class="methodology-section" id="methodology" aria-labelledby="method-heading">
+    <h2 id="method-heading" class="section-heading">About This Page</h2>
+    <div class="method-cards">
+
+      <div class="method-card">
+        <div class="method-icon" aria-hidden="true">&#128203;</div>
+        <h3>Data Sources</h3>
+        <p>
+          Events are curated manually from official conference websites and well-known
+          industry calendars. Dates for future editions are projected from historical annual
+          patterns and updated when confirmed. Sources include official conference sites,
+          CFP aggregators, and community event listings.
+        </p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-icon" aria-hidden="true">&#128336;</div>
+        <h3>Update Frequency</h3>
+        <p>
+          This page is regenerated daily via an automated pipeline. The underlying
+          data file is updated as new dates are announced. Events within the next
+          12 months are displayed; past events are removed automatically.
+        </p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-icon" aria-hidden="true">&#127991;</div>
+        <h3>Tagging</h3>
+        <p>
+          Events are tagged to help you find relevant conferences. Tags include focus
+          areas (<em>Hacking, Research, AppSec</em>), audience type
+          (<em>Beginner-Friendly, Industry</em>), and format (<em>CTF, Training, Virtual</em>).
+          An event may carry multiple tags.
+        </p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-icon" aria-hidden="true">&#128204;</div>
+        <h3>Suggest an Event</h3>
+        <p>
+          Missing a conference?
+          <a href="https://github.com/bcheevers123/threat-landscape/issues" target="_blank" rel="noopener noreferrer">
+            Open a GitHub issue
+          </a>
+          with the event name, URL, and dates and it will be added to the next update.
+        </p>
+      </div>
+
+    </div>
+
+    <p class="methodology-disclaimer">
+      <strong>Disclaimer:</strong> Dates marked as projected may change. Always verify
+      with the official event website before making travel arrangements.
+      This page is not affiliated with any conference organiser.
+    </p>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════ FOOTER -->
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <p>
+      <a href="../index.html">Cyber Threats</a> &middot;
+      <a href="../aiml/index.html">AI/ML Landscape</a> &middot;
+      <strong>Conferences</strong> &middot;
+      <a href="{{ branding.get('site_url', '#') }}" target="_blank" rel="noopener noreferrer">{{ branding.get('site_name', 'Barry Cheevers') }}</a>
+    </p>
+    <p class="footer-note">
+      Generated {{ generated_at }}. Dates for future events are projected from historical patterns.
+    </p>
+  </div>
+</footer>
+
+<button id="back-to-top" class="back-to-top" hidden aria-label="Back to top">&#8679;</button>
+
+<!-- Embedded event data for JS (map, calendar) -->
+<script>
+window.CONFERENCES = {{ events_json | safe }};
+</script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" crossorigin=""></script>
+<script src="static/app.js"></script>
+</body>
+</html>
