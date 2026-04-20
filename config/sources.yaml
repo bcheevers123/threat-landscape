@@ -139,6 +139,55 @@ sources:
       government-backed advisories with particular strength on threats to Asia-Pacific
       critical infrastructure. Disabled pending feed reliability fix.
 
+  - name: CERT-IN (India)
+    url: https://www.cert-in.org.in/rss/advRss.xml
+    type: rss
+    credibility: 0.87
+    enabled: true
+    tags: [advisory, in, government]
+    rationale: >-
+      Indian Computer Emergency Response Team, the national nodal agency for
+      cybersecurity incident response. Covers threats to Indian critical infrastructure
+      and publishes advisories on vulnerabilities actively exploited in the region.
+      Increasingly relevant given India's scale and growing threat surface.
+
+  - name: CIRCL (Luxembourg CERT)
+    url: https://www.circl.lu/pub/rss.xml
+    type: rss
+    credibility: 0.88
+    enabled: true
+    tags: [advisory, lu, government, eu]
+    rationale: >-
+      Computer Incident Response Center Luxembourg — a respected European CERT and
+      the maintainer of MISP (Malware Information Sharing Platform). Publishes high-
+      quality technical advisories and is a significant contributor to EU threat
+      intelligence sharing. Strong credibility from open-source tool stewardship.
+
+  - name: Singapore CSA
+    url: https://www.csa.gov.sg/feed/news
+    type: rss
+    credibility: 0.87
+    enabled: true
+    tags: [advisory, sg, government]
+    rationale: >-
+      Cyber Security Agency of Singapore — the national authority for cybersecurity.
+      Covers threats to Southeast Asian critical infrastructure and issues advisories
+      that often reflect APAC-specific threat actor activity ahead of wider reporting.
+      Singapore's tech-forward posture makes it an important regional intelligence source.
+
+  - name: NCSC Netherlands
+    url: https://english.ncsc.nl/rss/advisories
+    type: rss
+    credibility: 0.90
+    enabled: true
+    tags: [advisory, nl, government, eu]
+    rationale: >-
+      Dutch National Cyber Security Centre — consistently one of Europe's most active
+      and technically detailed national CERTs. Publishes thorough advisories with clear
+      risk classification and is frequently first among European authorities to address
+      newly disclosed vulnerabilities. Strong track record on state-sponsored threat
+      attribution.
+
   # ── Security Research & Vendor Blogs ─────────────────────────────────────
   - name: Cisco Talos Blog
     url: https://blog.talosintelligence.com/rss/
@@ -516,6 +565,83 @@ sources:
       editorial independence from its parent; credibility reflects solid journalism
       standards with some dependence on vendor context.
 
+  - name: Trend Micro Research
+    url: https://www.trendmicro.com/en_us/research.rss
+    type: rss
+    credibility: 0.85
+    enabled: true
+    tags: [research, vendor, threat-intel]
+    rationale: >-
+      Trend Micro's dedicated research portal. Strong global telemetry covering
+      cloud, email, and endpoint threats across Asia-Pacific, Europe, and the
+      Americas. Particularly authoritative on APT groups targeting manufacturing,
+      healthcare, and government sectors; consistently publishes technically detailed
+      malware analysis and campaign attribution.
+
+  - name: IBM Security Intelligence
+    url: https://securityintelligence.com/feed/
+    type: rss
+    credibility: 0.84
+    enabled: true
+    tags: [research, vendor, threat-intel]
+    rationale: >-
+      IBM X-Force's research publication. One of the longest-established commercial
+      threat intelligence teams with visibility across IBM's global managed security
+      customer base. Strong on ransomware economics, dark web monitoring, and
+      incident response insights. IBM Threat Intelligence Index is an industry-
+      standard annual reference.
+
+  - name: Bitdefender Labs
+    url: https://www.bitdefender.com/blog/labs/feed/
+    type: rss
+    credibility: 0.84
+    enabled: true
+    tags: [research, vendor]
+    rationale: >-
+      Bitdefender's dedicated security research arm. Well-regarded for original
+      malware reverse engineering and APT research, particularly threats targeting
+      European and Eastern European organisations. Technically thorough with
+      consistent output on novel malware families and evasion techniques.
+
+  - name: TeamCymru Blog
+    url: https://team-cymru.com/blog/feed/
+    type: rss
+    credibility: 0.85
+    enabled: true
+    tags: [research, threat-intel, network]
+    rationale: >-
+      Specialist internet infrastructure and threat intelligence firm with unique
+      visibility into BGP routing, IP reputation, and malicious infrastructure at
+      a global scale. Research focuses on threat actor infrastructure mapping, botnet
+      C2 tracking, and network-level threat analysis not available from endpoint-
+      centric vendors.
+
+  - name: NCC Group Research
+    url: https://research.nccgroup.com/feed/
+    type: rss
+    credibility: 0.85
+    enabled: true
+    tags: [research, vendor, vulnerability]
+    rationale: >-
+      NCC Group is one of the UK's largest independent cybersecurity consultancies.
+      Research covers vulnerability disclosure, penetration testing findings, reverse
+      engineering, and cryptographic analysis. Known for high-quality original
+      vulnerability research and responsible disclosure; particularly strong on
+      hardware and embedded system security.
+
+  - name: Sekoia.io Blog
+    url: https://blog.sekoia.io/feed/
+    type: rss
+    credibility: 0.84
+    enabled: true
+    tags: [research, vendor, threat-intel]
+    rationale: >-
+      French threat intelligence firm with strong coverage of European threat actors
+      and cybercriminal ecosystems. Publishes detailed technical analyses of malware
+      families, phishing infrastructure, and information-stealer campaigns. Fills a
+      gap for French-language and European-origin threat actor tracking not well
+      covered by US-centric vendors.
+
   # ── Security Journalism ───────────────────────────────────────────────────
   - name: The Hacker News
     url: https://feeds.feedburner.com/TheHackersNews
@@ -577,7 +703,46 @@ sources:
       end of the journalism tier because a significant portion of content is
       contributed by vendors rather than independently researched.
 
+  - name: Security Affairs
+    url: https://securityaffairs.com/feed
+    type: rss
+    credibility: 0.78
+    enabled: true
+    tags: [news, journalism, threat-intel]
+    rationale: >-
+      Pierluigi Paganini's independent security blog and news outlet. One of the
+      most widely read European cybersecurity publications; covers APT campaigns,
+      data breaches, and malware with a strong international perspective. Faster
+      than trade publications on breaking threat news; credibility reflects
+      independent journalism standards with thorough source attribution.
+
   # ── Exploit / Vulnerability tracking ─────────────────────────────────────
+  - name: Microsoft MSRC
+    url: https://api.msrc.microsoft.com/update-guide/rss
+    type: rss
+    credibility: 0.92
+    enabled: true
+    tags: [advisory, vendor, vulnerability, patch]
+    rationale: >-
+      Microsoft Security Response Center — the authoritative source for Microsoft
+      Patch Tuesday advisories and out-of-band security updates. Covers CVEs across
+      Windows, Office, Azure, and Exchange. Essential for tracking actively exploited
+      Microsoft vulnerabilities; high credibility as first-party disclosure from the
+      world's most widely deployed enterprise software vendor.
+
+  - name: Abuse.ch Blog
+    url: https://abuse.ch/blog/feed/
+    type: rss
+    credibility: 0.85
+    enabled: true
+    tags: [research, malware, threat-intel, open-source]
+    rationale: >-
+      Abuse.ch operates MalwareBazaar, URLhaus, ThreatFox, and other widely used
+      open-source malware intelligence platforms. Blog covers new malware families,
+      campaign tracking, and threat indicator releases. Uniquely positioned at the
+      intersection of academic research and practitioner tooling; data is community-
+      validated and freely shared with the security community.
+
   - name: Exploit Database
     url: https://www.exploit-db.com/rss.xml
     type: rss
