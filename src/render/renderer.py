@@ -81,7 +81,9 @@ def _threat_to_dict(threat: EnrichedThreat) -> dict[str, Any]:
         "industries_affected": threat.industries_affected or ["Unknown"],
         "threat_types": threat.threat_types,
         "cves": threat.cves,
+        "cve_details": threat.cve_details,
         "malware_families": threat.malware_families,
+        "prevalent_days": threat.prevalent_days,
         "score": round(threat.score, 3),
         "score_tier": (
             "high" if threat.score >= 0.70 else
@@ -154,6 +156,18 @@ class Renderer:
             for s in sorted(output.sources_queried, key=lambda x: x.credibility, reverse=True)
         ]
 
+        # Source health summary for the header indicator
+        sh = output.source_health
+        sh_healthy = sum(1 for v in sh.values() if v > 0) if sh else 0
+        sh_total   = len(sh) if sh else 0
+        sh_ratio   = (sh_healthy / sh_total) if sh_total else 1.0
+        sh_class   = "ok" if sh_ratio >= 0.9 else "warn" if sh_ratio >= 0.7 else "bad"
+        source_health_summary = {
+            "healthy": sh_healthy,
+            "total":   sh_total,
+            "cls":     sh_class,
+        } if sh_total else None
+
         html = template.render(
             threats=threats_data,
             mainstream_threats=mainstream_data,
@@ -163,6 +177,7 @@ class Renderer:
             generation_notes=output.generation_notes,
             sources_queried=sources_data,
             branding=self.branding,
+            source_health_summary=source_health_summary,
         )
 
         path = self.output_dir / "index.html"

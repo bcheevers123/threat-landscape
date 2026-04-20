@@ -418,6 +418,13 @@ def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> No
     raw_items = manager.collect_all()
     total_collected = len(raw_items)
 
+    # Source health: count items returned per enabled source
+    from collections import Counter
+    counts = Counter(item.source_name for item in raw_items)
+    source_health = {s.name: counts.get(s.name, 0) for s in sources if s.enabled}
+    healthy = sum(1 for v in source_health.values() if v > 0)
+    logger.info("Source health: %d/%d sources returned items.", healthy, len(source_health))
+
     if total_collected == 0:
         generation_notes.append(
             "No items were collected. Check source URLs and network connectivity."
@@ -466,11 +473,52 @@ def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> No
             f"(target: {top_n}). The page will display fewer entries."
         )
 
+    # ── 4b. History: load past runs to compute prevalent_days ────────────
+    history_dir = output_dir / "history"
+    history_dir.mkdir(parents=True, exist_ok=True)
+    from datetime import date, timedelta
+    today = date.today()
+    historical: list[dict] = []
+    for days_ago in range(1, 7):
+        day_path = history_dir / f"{(today - timedelta(days=days_ago)).isoformat()}.json"
+        if day_path.exists():
+            try:
+                historical.append(json.loads(day_path.read_text(encoding="utf-8")))
+            except Exception:
+                pass
+
+    def _prevalent_days(title: str, pool_key: str) -> int:
+        from rapidfuzz import fuzz as _fuzz
+        title_l = title.lower()
+        days = 0
+        for day_data in historical:
+            prev_titles = day_data.get(pool_key, [])
+            if any(_fuzz.WRatio(title_l, pt.lower()) >= 82 for pt in prev_titles):
+                days += 1
+            else:
+                break
+        return days
+
     # ── 5. Enrich ────────────────────────────────────────────────────────
+    # Pre-fetch CVSS scores for all CVEs in the technical top-N (one NVD batch)
+    from src.enrichment.entities import extract_cves as _extract_cves
+    from src.enrichment.nvd import fetch_cvss_scores
+    all_cves: list[str] = []
+    for _cand, _, _ in scored:
+        _txt = " ".join(filter(None, [_cand.title, _cand.summary or "", _cand.full_text or ""]))[:8000]
+        all_cves.extend(_extract_cves(_txt))
+    all_cves = list(dict.fromkeys(all_cves))[:25]  # cap to stay within NVD rate limit
+    cvss_cache: dict = {}
+    if all_cves:
+        logger.info("Fetching CVSS scores for %d CVE(s) from NVD.", len(all_cves))
+        cvss_cache = fetch_cvss_scores(all_cves)
+        logger.info("NVD returned data for %d/%d CVE(s).", len(cvss_cache), len(all_cves))
+
     enrichment_cfg = cfg.get("enrichment", {})
     enricher = DeterministicEnricher(
         max_summary_words=int(enrichment_cfg.get("max_summary_words", 200))
     )
+    enricher.set_cvss_cache(cvss_cache)
 
     threats = []
     for candidate, score, breakdown in scored:
@@ -588,6 +636,12 @@ def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> No
                 logger.warning("STIX build failed (mainstream) for '%s': %s", threat.title, exc)
             mainstream_threats.append(threat)
 
+    # ── 5c. Apply prevalent_days ─────────────────────────────────────────
+    for t in threats:
+        t.prevalent_days = _prevalent_days(t.title, "technical")
+    for t in mainstream_threats:
+        t.prevalent_days = _prevalent_days(t.title, "mainstream")
+
     landscape = ThreatLandscapeOutput(
         generated_at=datetime.now(tz=timezone.utc),
         threats=threats,
@@ -600,6 +654,7 @@ def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> No
             for s in sources
             if s.enabled
         ],
+        source_health=source_health,
     )
 
     # ── 6. Render ────────────────────────────────────────────────────────
@@ -611,6 +666,21 @@ def _run_pipeline(cfg: dict[str, Any], source_dicts: list[dict[str, Any]]) -> No
         branding=branding,
     )
     paths = renderer.render_all(landscape)
+
+    # ── 7. Save history snapshot for prevalent-days tracking ─────────────
+    history_snapshot = {
+        "technical":  [t.title for t in threats],
+        "mainstream": [t.title for t in mainstream_threats],
+    }
+    today_path = history_dir / f"{today.isoformat()}.json"
+    try:
+        today_path.write_text(
+            json.dumps(history_snapshot, ensure_ascii=False), encoding="utf-8"
+        )
+        logger.info("History snapshot written to %s", today_path)
+    except Exception as exc:
+        logger.warning("Failed to write history snapshot: %s", exc)
+
     click.echo(
         f"Build complete — {len(threats)} threat(s) rendered.\n"
         f"  HTML : {paths.get('html')}\n"

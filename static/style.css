@@ -44,6 +44,110 @@
   --gutter:    1.5rem;
 }
 
+/* ── Dark mode ──────────────────────────────────────────── */
+html[data-dark="true"] {
+  --colour-bg:          #0f172a;
+  --colour-bg-alt:      #162032;
+  --colour-card:        #1e293b;
+  --colour-border:      #334155;
+  --colour-border-hover:#475569;
+  --colour-text:        #f1f5f9;
+  --colour-text-mid:    #cbd5e1;
+  --colour-text-muted:  #64748b;
+}
+
+html[data-dark="true"] .pipeline-notice {
+  background: #1c1200;
+  border-color: #78350f;
+  color: #fde68a;
+}
+
+html[data-dark="true"] .badge--attack   { background: #1c1100; color: #fb923c; border-color: #78350f; }
+html[data-dark="true"] .badge--cve      { background: #180f33; color: #c4b5fd; border-color: #5b21b6; }
+html[data-dark="true"] .badge--malware  { background: #1a0d18; color: #f9a8d4; border-color: #831843; }
+html[data-dark="true"] .badge--sector   { background: #061918; color: #5eead4; border-color: #0f766e; }
+html[data-dark="true"] .badge--country  { background: #071829; color: #7dd3fc; border-color: #0369a1; }
+html[data-dark="true"] .badge--company  { background: #1a1400; color: #fde68a; border-color: #78350f; }
+html[data-dark="true"] .badge--source   { background: #1e293b; color: #94a3b8; border-color: #334155; }
+html[data-dark="true"] .threat-type-badge { background: #1e293b; color: #94a3b8; border-color: #334155; }
+html[data-dark="true"] .score-tier--high   { background: #052e16; color: #4ade80; border-color: #166534; }
+html[data-dark="true"] .score-tier--medium { background: #1c1200; color: #fbbf24; border-color: #92400e; }
+html[data-dark="true"] .score-tier--low    { background: #1c0505; color: #f87171; border-color: #991b1b; }
+html[data-dark="true"] .corroboration-badge { background: #052e16; color: #4ade80; border-color: #166534; }
+html[data-dark="true"] .confidence-badge--high   { background: #052e16; color: #4ade80; border-color: #166534; }
+html[data-dark="true"] .confidence-badge--medium { background: #1c1200; color: #fbbf24; border-color: #92400e; }
+html[data-dark="true"] .confidence-badge--low    { background: #1c0505; color: #f87171; border-color: #991b1b; }
+html[data-dark="true"] .source-cred-badge--high  { background: #052e16; color: #4ade80; border-color: #166534; }
+html[data-dark="true"] .source-cred-badge--med   { background: #071829; color: #7dd3fc; border-color: #0369a1; }
+html[data-dark="true"] .source-cred-badge--std   { background: #1e293b; color: #64748b; border-color: #334155; }
+html[data-dark="true"] .attack-table th { background: #162032; }
+html[data-dark="true"] .filter-chip { background: #1e293b; }
+html[data-dark="true"] .btn-dark-mode { background: rgba(255 255 255 / 0.12); color: #e2e8f0; }
+html[data-dark="true"] .btn-dark-mode:hover { background: rgba(255 255 255 / 0.2); }
+
+/* ── Dark mode toggle button ───────────────────────────── */
+.btn-dark-mode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255 255 255 / 0.25);
+  background: rgba(255 255 255 / 0.08);
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: background 0.15s;
+  padding: 0;
+  flex-shrink: 0;
+}
+.btn-dark-mode:hover { background: rgba(255 255 255 / 0.18); }
+.btn-dark-mode svg { width: 1rem; height: 1rem; }
+/* Hide the moon icon in light mode, sun icon in dark mode */
+.btn-dark-mode .icon-moon { display: block; }
+.btn-dark-mode .icon-sun  { display: none; }
+html[data-dark="true"] .btn-dark-mode .icon-moon { display: none; }
+html[data-dark="true"] .btn-dark-mode .icon-sun  { display: block; }
+
+/* ── Prevalent badge ────────────────────────────────────── */
+.prevalent-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: #fdf4ff;
+  color: #6b21a8;
+  border: 1px solid #d8b4fe;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+html[data-dark="true"] .prevalent-badge { background: #200033; color: #d8b4fe; border-color: #6b21a8; }
+
+/* ── CVE CVSS score chip (inside the CVE badge) ─────────── */
+.cve-score {
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 0.05rem 0.3rem;
+  border-radius: 3px;
+  margin-left: 0.25rem;
+  line-height: 1.4;
+  vertical-align: middle;
+  display: inline-block;
+}
+.cve-score--critical { background: #450a0a; color: #fca5a5; }
+.cve-score--high     { background: #431407; color: #fdba74; }
+.cve-score--medium   { background: #2d1a00; color: #fde68a; }
+.cve-score--low      { background: #052e16; color: #86efac; }
+.cve-score--none     { background: #1e293b; color: #94a3b8; }
+
+/* ── Source health pill ─────────────────────────────────── */
+.stat-pill--health-ok   { background: rgba(16,163,74,0.15);  border-color: rgba(16,163,74,0.4); }
+.stat-pill--health-warn { background: rgba(217,119,6,0.15);  border-color: rgba(217,119,6,0.4); }
+.stat-pill--health-bad  { background: rgba(220,38,38,0.15);  border-color: rgba(220,38,38,0.4); }
+
 /* ── Reset & base ───────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

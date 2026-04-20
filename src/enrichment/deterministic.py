@@ -340,6 +340,11 @@ class DeterministicEnricher(BaseEnrichmentProvider):
 
     def __init__(self, max_summary_words: int = 80) -> None:
         self.max_summary_words = max_summary_words
+        self._cvss_cache: dict = {}
+
+    def set_cvss_cache(self, cache: dict) -> None:
+        """Inject pre-fetched CVSS data (CVE ID → NVD dict) for this run."""
+        self._cvss_cache = cache
 
     def enrich(
         self,
@@ -357,6 +362,7 @@ class DeterministicEnricher(BaseEnrichmentProvider):
         combined = " ".join(text_parts)
 
         cves = extract_cves(combined)
+        cve_details = {cve: self._cvss_cache[cve] for cve in cves if cve in self._cvss_cache}
         countries = extract_countries(combined)
         sectors = extract_sectors(combined)
         malware = extract_malware(combined)
@@ -414,6 +420,7 @@ class DeterministicEnricher(BaseEnrichmentProvider):
             industries_affected=sectors,
             threat_types=threat_types,
             cves=cves,
+            cve_details=cve_details,
             malware_families=malware,
             score=round(score, 4),
             score_breakdown=score_breakdown or ScoreBreakdown(),

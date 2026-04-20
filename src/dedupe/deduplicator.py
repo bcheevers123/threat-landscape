@@ -24,7 +24,9 @@ from src.models.schemas import RawItem, ThreatCandidate
 
 logger = logging.getLogger(__name__)
 
-# Fuzzy match threshold (0–100).  Increase to merge more aggressively.
+# Fuzzy match threshold (0–100).
+# WRatio combines partial_ratio, token_sort_ratio, and token_set_ratio, making
+# it better at catching paraphrased headlines than token_sort_ratio alone.
 TITLE_SIMILARITY_THRESHOLD = 82
 
 
@@ -36,7 +38,7 @@ def _url_key(url: str) -> str:
 
 def _titles_similar(a: str, b: str) -> bool:
     """Return True when two titles are similar enough to be the same story."""
-    score = fuzz.token_sort_ratio(a.lower(), b.lower())
+    score = fuzz.WRatio(a.lower(), b.lower())
     return score >= TITLE_SIMILARITY_THRESHOLD
 
 

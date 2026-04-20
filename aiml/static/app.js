@@ -504,6 +504,30 @@
     setInterval(tick, 1000);
   }());
 
+  // ── Dark mode toggle ─────────────────────────────────────
+
+  (function () {
+    var btn    = document.getElementById("dark-mode-toggle");
+    var htmlEl = document.documentElement;
+
+    if (localStorage.getItem("darkMode") === "1") {
+      htmlEl.setAttribute("data-dark", "true");
+    }
+
+    if (btn) {
+      btn.addEventListener("click", function () {
+        var isDark = htmlEl.getAttribute("data-dark") === "true";
+        if (isDark) {
+          htmlEl.removeAttribute("data-dark");
+          localStorage.removeItem("darkMode");
+        } else {
+          htmlEl.setAttribute("data-dark", "true");
+          localStorage.setItem("darkMode", "1");
+        }
+      });
+    }
+  }());
+
   // ── Back to top ──────────────────────────────────────────
 
   var backToTop = document.getElementById("back-to-top");

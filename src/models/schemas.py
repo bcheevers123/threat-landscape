@@ -188,6 +188,12 @@ class EnrichedThreat(BaseModel):
     corroboration_count: int = 1
     confidence_note: Optional[str] = None
 
+    # NVD-enriched CVE details: CVE ID → {"score": float, "severity": str, "vector": str}
+    cve_details: dict[str, Any] = Field(default_factory=dict)
+
+    # Number of consecutive days this item appeared in the top 10
+    prevalent_days: int = 0
+
 
 # ---------------------------------------------------------------------------
 # Pipeline output
@@ -213,6 +219,8 @@ class ThreatLandscapeOutput(BaseModel):
     total_items_after_dedupe: int = 0
     generation_notes: list[str] = Field(default_factory=list)
     sources_queried: list[SourceSummary] = Field(default_factory=list)
+    # Per-source item counts after collection (source_name → item count; 0 = unhealthy)
+    source_health: dict[str, int] = Field(default_factory=dict)
 
     def to_json_safe(self) -> dict[str, Any]:
         """Return a dict suitable for JSON serialisation (datetime → str)."""
