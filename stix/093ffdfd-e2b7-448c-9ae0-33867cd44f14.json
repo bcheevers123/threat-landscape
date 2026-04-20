@@ -1,0 +1,121 @@
+{
+  "type": "bundle",
+  "id": "bundle--ed8faaf7-8067-40be-885b-3a15ab5269f1",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--44953064-fbda-4a54-aaa1-96116fdf123c",
+      "created": "2026-04-20T19:43:11.000Z",
+      "modified": "2026-04-20T19:43:11.000Z",
+      "name": "\u200b\u200bSupply Chain Compromise Impacts Axios Node Package Manager\u200b",
+      "description": "On March 31, 2026, two npm packages for versions axios@1.14.1 and axios@0.30.4 of Axios npm injected the malicious dependency plain-crypto-js@4.2.1 that downloads multi-stage payloads from cyber threat actor infrastructure, including a remote access trojan. In addition, CISA recommends organizations using Axios npm: Mandate phishing-resistant multifactor authentication (MFA) on all developer accounts, especially for critical platforms.",
+      "published": "2026-04-20T12:00:00.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "attack-pattern--7299aa9b-1f5a-4d2d-86b1-14524ac5fcdb",
+        "attack-pattern--256ef58b-1fda-4615-8206-3bb47d4664fe",
+        "attack-pattern--74d23873-cde8-4a9d-969c-33507c68fec9",
+        "attack-pattern--08bb4ef8-152d-43c9-bc4b-4bebe60020c2"
+      ],
+      "external_references": [
+        {
+          "source_name": "CISA Advisories",
+          "url": "https://www.cisa.gov/news-events/alerts/2026/04/20/supply-chain-compromise-impacts-axios-node-package-manager",
+          "description": "\u200b\u200bSupply Chain Compromise Impacts Axios Node Package Manager\u200b"
+        }
+      ],
+      "labels": [
+        "Finance",
+        "Energy",
+        "Technology"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--7299aa9b-1f5a-4d2d-86b1-14524ac5fcdb",
+      "created": "2026-04-20T19:43:11.000Z",
+      "modified": "2026-04-20T19:43:11.000Z",
+      "name": "Phishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1566",
+          "url": "https://attack.mitre.org/techniques/T1566/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--256ef58b-1fda-4615-8206-3bb47d4664fe",
+      "created": "2026-04-20T19:43:11.000Z",
+      "modified": "2026-04-20T19:43:11.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--74d23873-cde8-4a9d-969c-33507c68fec9",
+      "created": "2026-04-20T19:43:11.000Z",
+      "modified": "2026-04-20T19:43:11.000Z",
+      "name": "Supply Chain Compromise",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1195",
+          "url": "https://attack.mitre.org/techniques/T1195/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--08bb4ef8-152d-43c9-bc4b-4bebe60020c2",
+      "created": "2026-04-20T19:43:11.000Z",
+      "modified": "2026-04-20T19:43:11.000Z",
+      "name": "Application Layer Protocol",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1071",
+          "url": "https://attack.mitre.org/techniques/T1071/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        }
+      ]
+    }
+  ]
+}
