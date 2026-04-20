@@ -1,0 +1,112 @@
+{
+  "type": "bundle",
+  "id": "bundle--db8e0574-e193-4e15-b0a3-0711ce476b14",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--3264129d-2c0d-4b89-b46f-c7e205ce86dc",
+      "created": "2026-04-20T09:05:57.000Z",
+      "modified": "2026-04-20T09:05:57.000Z",
+      "name": "Exposing the Undercurrent: Disrupting the GRIDTIDE Global Cyber Espionage Campaign",
+      "description": "Introduction Last week, Google Threat Intelligence Group (GTIG), Mandiant, and partners took action to disrupt a global espionage campaign targeting telecommunications and government organizations in dozens of nations across four continents. The attacker was using API calls to communicate with SaaS apps as command-and-control (C2) infrastructure to disguise their malicious traffic as benign, a common tactic used by threat actors when attempting to improve the stealth of their intrusions.",
+      "published": "2026-02-25T14:00:00.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "threat-actor--40e89da7-138e-42ed-883e-1ab0975395cc",
+        "attack-pattern--48511902-a1f2-4084-9851-fb81deda00cd",
+        "attack-pattern--db61398d-ce1d-45b1-ae5c-d15fb3fb7a4a",
+        "attack-pattern--9bf6d985-a9b8-4159-b597-b2eb8d4d360f"
+      ],
+      "external_references": [
+        {
+          "source_name": "Mandiant Blog",
+          "url": "https://cloud.google.com/blog/topics/threat-intelligence/disrupting-gridtide-global-espionage-campaign",
+          "description": "Exposing the Undercurrent: Disrupting the GRIDTIDE Global Cyber Espionage Campaign"
+        }
+      ],
+      "labels": [
+        "Government",
+        "Technology",
+        "Telecommunications"
+      ]
+    },
+    {
+      "type": "threat-actor",
+      "spec_version": "2.1",
+      "id": "threat-actor--40e89da7-138e-42ed-883e-1ab0975395cc",
+      "created": "2026-04-20T09:05:57.000Z",
+      "modified": "2026-04-20T09:05:57.000Z",
+      "name": "Salt Typhoon",
+      "threat_actor_types": [
+        "unknown"
+      ],
+      "confidence": 25
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--48511902-a1f2-4084-9851-fb81deda00cd",
+      "created": "2026-04-20T09:05:57.000Z",
+      "modified": "2026-04-20T09:05:57.000Z",
+      "name": "Application Layer Protocol",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1071",
+          "url": "https://attack.mitre.org/techniques/T1071/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--db61398d-ce1d-45b1-ae5c-d15fb3fb7a4a",
+      "created": "2026-04-20T09:05:57.000Z",
+      "modified": "2026-04-20T09:05:57.000Z",
+      "name": "Exploitation for Privilege Escalation",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1068",
+          "url": "https://attack.mitre.org/techniques/T1068/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--9bf6d985-a9b8-4159-b597-b2eb8d4d360f",
+      "created": "2026-04-20T09:05:57.000Z",
+      "modified": "2026-04-20T09:05:57.000Z",
+      "name": "Scheduled Task/Job",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1053",
+          "url": "https://attack.mitre.org/techniques/T1053/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        }
+      ]
+    }
+  ]
+}
