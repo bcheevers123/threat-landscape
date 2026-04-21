@@ -1,0 +1,3623 @@
+<!DOCTYPE html>
+<html lang="en" data-dark="false">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Source Health — Barry Cheevers</title>
+  <link rel="stylesheet" href="static/style.css">
+  <style>
+    /* ── Source debug overrides ─────────────────────────────── */
+    .debug-hero {
+      background: var(--colour-primary);
+      color: #fff;
+      padding: 2.5rem 0 2rem;
+      margin-bottom: 2rem;
+    }
+    .debug-hero h1 { font-size: 1.6rem; font-weight: 700; margin: 0 0 0.35rem; }
+    .debug-hero p  { font-size: 0.9rem; color: #93c5fd; margin: 0; }
+
+    /* Password gate */
+    .password-gate {
+      background: var(--colour-card);
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      text-align: center;
+      max-width: 420px;
+      margin: 0 auto 2.5rem;
+      box-shadow: var(--shadow-md);
+    }
+    .password-gate h2 { font-size: 1.1rem; margin: 0 0 0.5rem; color: var(--colour-primary); }
+    .password-gate p  { font-size: 0.85rem; color: var(--colour-text-mid); margin: 0 0 1.2rem; }
+    .password-gate .pw-row {
+      display: flex; gap: 0.5rem;
+    }
+    .password-gate input[type="password"] {
+      flex: 1;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      background: var(--colour-bg-alt);
+      color: var(--colour-text);
+    }
+    .password-gate button {
+      padding: 0.55rem 1.1rem;
+      background: var(--colour-primary-mid);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .password-gate button:hover { background: #1d4ed8; }
+    .password-gate .pw-error {
+      color: var(--colour-low);
+      font-size: 0.82rem;
+      margin-top: 0.6rem;
+      display: none;
+    }
+    .password-gate .pw-hint {
+      font-size: 0.75rem;
+      color: var(--colour-text-muted);
+      margin-top: 0.75rem;
+    }
+
+    /* Dashboard (hidden until unlocked) */
+    #debug-dashboard { display: none; }
+    #debug-dashboard.unlocked { display: block; }
+
+    /* Summary bar */
+    .debug-summary {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .debug-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .debug-pill--green { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+    .debug-pill--amber { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+    .debug-pill--red   { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+    html[data-dark="true"] .debug-pill--green { background: #052e16; color: #4ade80; border-color: #166534; }
+    html[data-dark="true"] .debug-pill--amber { background: #1c1200; color: #fbbf24; border-color: #92400e; }
+    html[data-dark="true"] .debug-pill--red   { background: #1c0505; color: #f87171; border-color: #991b1b; }
+
+    .traffic-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .traffic-dot--green { background: #16a34a; }
+    .traffic-dot--amber { background: #d97706; }
+    .traffic-dot--red   { background: #dc2626; }
+
+    /* Filter bar */
+    .debug-filter-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .debug-filter-btn {
+      padding: 0.35rem 0.9rem;
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-sm);
+      background: var(--colour-bg-alt);
+      color: var(--colour-text-mid);
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .debug-filter-btn.active,
+    .debug-filter-btn:hover {
+      background: var(--colour-primary-mid);
+      border-color: var(--colour-primary-mid);
+      color: #fff;
+    }
+
+    /* Source rows */
+    .source-row {
+      background: var(--colour-card);
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+    .source-row:hover { border-color: var(--colour-border-hover); }
+    .source-dot-col {
+      padding-top: 0.25rem;
+      flex-shrink: 0;
+    }
+    .source-body { flex: 1; min-width: 0; }
+    .source-name-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.25rem;
+    }
+    .source-name {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--colour-text);
+    }
+    .source-status-label {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+    .source-status-label--green { background: #f0fdf4; color: #166534; }
+    .source-status-label--amber { background: #fffbeb; color: #92400e; }
+    .source-status-label--red   { background: #fef2f2; color: #991b1b; }
+    html[data-dark="true"] .source-status-label--green { background: #052e16; color: #4ade80; }
+    html[data-dark="true"] .source-status-label--amber { background: #1c1200; color: #fbbf24; }
+    html[data-dark="true"] .source-status-label--red   { background: #1c0505; color: #f87171; }
+
+    .source-meta {
+      font-size: 0.78rem;
+      color: var(--colour-text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 0.2rem;
+    }
+    .source-url-link {
+      color: var(--colour-primary-mid);
+      text-decoration: none;
+      word-break: break-all;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+    .source-url-link:hover { text-decoration: underline; }
+
+    .source-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.35rem;
+    }
+    .source-tag {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      background: var(--colour-bg-alt);
+      border: 1px solid var(--colour-border);
+      color: var(--colour-text-mid);
+    }
+
+    .source-notes {
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--colour-medium);
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: var(--radius-sm);
+      padding: 0.4rem 0.65rem;
+    }
+    html[data-dark="true"] .source-notes {
+      background: #1c1200;
+      border-color: #92400e;
+      color: #fbbf24;
+    }
+    .source-notes--red {
+      color: #991b1b;
+      background: #fef2f2;
+      border-color: #fecaca;
+    }
+    html[data-dark="true"] .source-notes--red {
+      color: #f87171;
+      background: #1c0505;
+      border-color: #991b1b;
+    }
+
+    .source-actions { flex-shrink: 0; }
+    .btn-test-url {
+      font-size: 0.76rem;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-sm);
+      background: var(--colour-bg-alt);
+      color: var(--colour-text-mid);
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .btn-test-url:hover {
+      border-color: var(--colour-primary-mid);
+      color: var(--colour-primary-mid);
+    }
+
+    /* Stream badge */
+    .stream-badge {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+    .stream-badge--technical  { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .stream-badge--mainstream { background: #fdf4ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+    .stream-badge--both       { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    html[data-dark="true"] .stream-badge--technical  { background: #0c1a36; color: #93c5fd; border-color: #1d4ed8; }
+    html[data-dark="true"] .stream-badge--mainstream { background: #160b2a; color: #d8b4fe; border-color: #7e22ce; }
+    html[data-dark="true"] .stream-badge--both       { background: #052e16; color: #86efac; border-color: #166534; }
+
+    /* Cred bar */
+    .cred-bar-wrap {
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .cred-bar-track {
+      width: 64px; height: 5px;
+      background: var(--colour-border);
+      border-radius: 9px;
+      overflow: hidden;
+    }
+    .cred-bar-fill {
+      height: 100%;
+      border-radius: 9px;
+      background: var(--colour-primary-mid);
+    }
+
+    /* Actions row */
+    .debug-actions-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .btn-actions {
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .btn-actions--primary {
+      background: var(--colour-primary);
+      color: #fff;
+    }
+    .btn-actions--primary:hover { background: #162d4a; }
+    .btn-actions--secondary {
+      background: var(--colour-bg-alt);
+      color: var(--colour-text-mid);
+      border-color: var(--colour-border);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-actions--secondary:hover { border-color: var(--colour-primary-mid); color: var(--colour-primary-mid); }
+
+    .debug-timestamp {
+      font-size: 0.78rem;
+      color: var(--colour-text-muted);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Dark mode init ─────────────────────────────────────── -->
+<script>
+(function(){
+  var pref = localStorage.getItem('colour-scheme') ||
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-dark', pref === 'dark' ? 'true' : 'false');
+})();
+</script>
+
+<!-- ── Hero ─────────────────────────────────────────────────── -->
+<header class="debug-hero">
+  <div class="container">
+    <h1>Source Health Dashboard</h1>
+    <p>Diagnostic view for Barry Cheevers — generated 21 April 2026 at 07:14 UTC</p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- Password gate -->
+    <div class="password-gate" id="pw-gate">
+      <h2>Protected page</h2>
+      <p>Enter the debug password set in <code>config/config.yaml</code> to view source health data.</p>
+      <div class="pw-row">
+        <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password">
+        <button onclick="checkPassword()">Unlock</button>
+      </div>
+      <p class="pw-error" id="pw-error">Incorrect password.</p>
+      <p class="pw-hint">The password is set under <code>branding.source_debug_password</code> in your config.</p>
+    </div>
+
+    <!-- Dashboard (hidden until correct password) -->
+    <div id="debug-dashboard">
+
+      <!-- Summary pills -->
+      <div class="debug-summary">
+        <span class="debug-pill debug-pill--green">
+          <span class="traffic-dot traffic-dot--green"></span>
+          58 healthy
+        </span>
+        <span class="debug-pill debug-pill--amber">
+          <span class="traffic-dot traffic-dot--amber"></span>
+          13 no items
+        </span>
+        <span class="debug-pill debug-pill--red">
+          <span class="traffic-dot traffic-dot--red"></span>
+          13 disabled
+        </span>
+      </div>
+
+      <!-- Actions -->
+      <div class="debug-actions-row">
+        <a href="https://github.com/bcheevers123/threat-landscape/actions"
+           target="_blank" rel="noopener"
+           class="btn-actions btn-actions--primary">
+          View GitHub Actions
+        </a>
+        <a href="index.html" class="btn-actions btn-actions--secondary">Back to threat page</a>
+        <span class="debug-timestamp">Last build: 21 April 2026 at 07:14 UTC</span>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="debug-filter-bar">
+        <button class="debug-filter-btn active" onclick="filterSources('all', this)">All</button>
+        <button class="debug-filter-btn" onclick="filterSources('green', this)">Healthy</button>
+        <button class="debug-filter-btn" onclick="filterSources('amber', this)">No items</button>
+        <button class="debug-filter-btn" onclick="filterSources('red', this)">Disabled</button>
+      </div>
+
+      <!-- Source list -->
+      <div id="source-list">
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="25 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">ABC News Technology</span>
+              <span class="source-status-label source-status-label--green">
+                25 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 77%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:77%"></span>
+                </span>
+                77%
+              </span>
+              <span>Items collected: 25</span>
+            </div>
+            <div>
+              <a href="https://feeds.abcnews.com/abcnews/technologyheadlines" target="_blank" rel="noopener"
+                 class="source-url-link">https://feeds.abcnews.com/abcnews/technologyheadlines</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">us</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://feeds.abcnews.com/abcnews/technologyheadlines" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Abuse.ch Blog</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 85%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:85%"></span>
+                </span>
+                85%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://abuse.ch/blog/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://abuse.ch/blog/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">malware</span>
+              <span class="source-tag">threat-intel</span>
+              <span class="source-tag">open-source</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://abuse.ch/blog/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">AttackIQ Blog</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 80%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:80%"></span>
+                </span>
+                80%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://www.attackiq.com/blog/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.attackiq.com/blog/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">threat-intel</span>
+              <span class="source-tag">attck</span>
+              <span class="source-tag">defence</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.attackiq.com/blog/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="21 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">BBC News Technology</span>
+              <span class="source-status-label source-status-label--green">
+                21 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 82%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:82%"></span>
+                </span>
+                82%
+              </span>
+              <span>Items collected: 21</span>
+            </div>
+            <div>
+              <a href="https://feeds.bbci.co.uk/news/technology/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://feeds.bbci.co.uk/news/technology/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">uk</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://feeds.bbci.co.uk/news/technology/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Bitdefender Labs</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 84%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:84%"></span>
+                </span>
+                84%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.bitdefender.com/blog/labs/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.bitdefender.com/blog/labs/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.bitdefender.com/blog/labs/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="15 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">BleepingComputer</span>
+              <span class="source-status-label source-status-label--green">
+                15 item(s)
+              </span>
+              <span class="stream-badge stream-badge--both">both</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 82%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:82%"></span>
+                </span>
+                82%
+              </span>
+              <span>Items collected: 15</span>
+            </div>
+            <div>
+              <a href="https://www.bleepingcomputer.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.bleepingcomputer.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.bleepingcomputer.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">BSI Germany</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 91%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:91%"></span>
+                </span>
+                91%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://www.bsi.bund.de/SiteGlobals/Functions/RSSFeed/RSSNewsfeed/RSSNewsfeed_CSW.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.bsi.bund.de/SiteGlobals/Functions/RSSFeed/RSSNewsfeed/RSSNewsfeed_CSW.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">de</span>
+              <span class="source-tag">government</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.bsi.bund.de/SiteGlobals/Functions/RSSFeed/RSSNewsfeed/RSSNewsfeed_CSW.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Canadian Centre for Cyber Security</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 92%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:92%"></span>
+                </span>
+                92%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://www.cyber.gc.ca/api/cccs/rss/v1/get?feed=alerts_advisories&lang=en" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.cyber.gc.ca/api/cccs/rss/v1/get?feed=alerts_advisories&lang=en</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">ca</span>
+              <span class="source-tag">government</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.cyber.gc.ca/api/cccs/rss/v1/get?feed=alerts_advisories&lang=en" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="40 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">CERT-FR (ANSSI)</span>
+              <span class="source-status-label source-status-label--green">
+                40 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 91%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:91%"></span>
+                </span>
+                91%
+              </span>
+              <span>Items collected: 40</span>
+            </div>
+            <div>
+              <a href="https://www.cert.ssi.gouv.fr/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.cert.ssi.gouv.fr/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">fr</span>
+              <span class="source-tag">government</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.cert.ssi.gouv.fr/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">CERT-IN (India)</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 87%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:87%"></span>
+                </span>
+                87%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.cert-in.org.in/rss/advRss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.cert-in.org.in/rss/advRss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">in</span>
+              <span class="source-tag">government</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.cert-in.org.in/rss/advRss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="15 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Check Point Research</span>
+              <span class="source-status-label source-status-label--green">
+                15 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 86%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:86%"></span>
+                </span>
+                86%
+              </span>
+              <span>Items collected: 15</span>
+            </div>
+            <div>
+              <a href="https://research.checkpoint.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://research.checkpoint.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://research.checkpoint.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">CIRCL (Luxembourg CERT)</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 88%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:88%"></span>
+                </span>
+                88%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.circl.lu/pub/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.circl.lu/pub/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">lu</span>
+              <span class="source-tag">government</span>
+              <span class="source-tag">eu</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.circl.lu/pub/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="30 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">CISA Advisories</span>
+              <span class="source-status-label source-status-label--green">
+                30 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 95%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:95%"></span>
+                </span>
+                95%
+              </span>
+              <span>Items collected: 30</span>
+            </div>
+            <div>
+              <a href="https://www.cisa.gov/cybersecurity-advisories/all.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.cisa.gov/cybersecurity-advisories/all.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">us</span>
+              <span class="source-tag">government</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.cisa.gov/cybersecurity-advisories/all.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="30 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">CISA Current Activity</span>
+              <span class="source-status-label source-status-label--green">
+                30 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 93%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:93%"></span>
+                </span>
+                93%
+              </span>
+              <span>Items collected: 30</span>
+            </div>
+            <div>
+              <a href="https://www.cisa.gov/uscert/ncas/current-activity.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.cisa.gov/uscert/ncas/current-activity.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">us</span>
+              <span class="source-tag">government</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.cisa.gov/uscert/ncas/current-activity.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="15 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Cisco Talos Blog</span>
+              <span class="source-status-label source-status-label--green">
+                15 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 88%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:88%"></span>
+                </span>
+                88%
+              </span>
+              <span>Items collected: 15</span>
+            </div>
+            <div>
+              <a href="https://blog.talosintelligence.com/rss/" target="_blank" rel="noopener"
+                 class="source-url-link">https://blog.talosintelligence.com/rss/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://blog.talosintelligence.com/rss/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">CrowdStrike Blog</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 87%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:87%"></span>
+                </span>
+                87%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://www.crowdstrike.com/blog/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.crowdstrike.com/blog/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.crowdstrike.com/blog/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Cyber Scoop</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 78%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:78%"></span>
+                </span>
+                78%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://cyberscoop.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://cyberscoop.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://cyberscoop.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Dark Reading</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--both">both</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 78%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:78%"></span>
+                </span>
+                78%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://www.darkreading.com/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.darkreading.com/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.darkreading.com/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="20 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Elastic Security Labs</span>
+              <span class="source-status-label source-status-label--green">
+                20 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 84%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:84%"></span>
+                </span>
+                84%
+              </span>
+              <span>Items collected: 20</span>
+            </div>
+            <div>
+              <a href="https://www.elastic.co/security-labs/rss/feed.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.elastic.co/security-labs/rss/feed.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.elastic.co/security-labs/rss/feed.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Engadget</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 75%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:75%"></span>
+                </span>
+                75%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://www.engadget.com/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.engadget.com/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">consumer</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.engadget.com/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">ESET WeLiveSecurity</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 84%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:84%"></span>
+                </span>
+                84%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://www.welivesecurity.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.welivesecurity.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.welivesecurity.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Exploit Database</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 75%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:75%"></span>
+                </span>
+                75%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://www.exploit-db.com/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.exploit-db.com/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">vulnerability</span>
+              <span class="source-tag">exploit</span>
+              <span class="source-tag">research</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.exploit-db.com/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Google Project Zero</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 90%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:90%"></span>
+                </span>
+                90%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://googleprojectzero.blogspot.com/feeds/posts/default" target="_blank" rel="noopener"
+                 class="source-url-link">https://googleprojectzero.blogspot.com/feeds/posts/default</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vulnerability</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://googleprojectzero.blogspot.com/feeds/posts/default" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="20 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Graham Cluley</span>
+              <span class="source-status-label source-status-label--green">
+                20 item(s)
+              </span>
+              <span class="stream-badge stream-badge--both">both</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 82%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:82%"></span>
+                </span>
+                82%
+              </span>
+              <span>Items collected: 20</span>
+            </div>
+            <div>
+              <a href="https://grahamcluley.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://grahamcluley.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">journalism</span>
+              <span class="source-tag">blog</span>
+              <span class="source-tag">expert</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://grahamcluley.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Help Net Security</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 76%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:76%"></span>
+                </span>
+                76%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://www.helpnetsecurity.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.helpnetsecurity.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.helpnetsecurity.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Huntress Labs Blog</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 83%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:83%"></span>
+                </span>
+                83%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://www.huntress.com/blog/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.huntress.com/blog/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.huntress.com/blog/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">IBM Security Intelligence</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 84%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:84%"></span>
+                </span>
+                84%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://securityintelligence.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://securityintelligence.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://securityintelligence.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Infosecurity Magazine</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--both">both</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 76%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:76%"></span>
+                </span>
+                76%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://www.infosecurity-magazine.com/rss/news/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.infosecurity-magazine.com/rss/news/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.infosecurity-magazine.com/rss/news/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="6 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">JPCERT/CC</span>
+              <span class="source-status-label source-status-label--green">
+                6 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 90%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:90%"></span>
+                </span>
+                90%
+              </span>
+              <span>Items collected: 6</span>
+            </div>
+            <div>
+              <a href="https://www.jpcert.or.jp/english/rss/jpcert-en.rdf" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.jpcert.or.jp/english/rss/jpcert-en.rdf</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">jp</span>
+              <span class="source-tag">government</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.jpcert.or.jp/english/rss/jpcert-en.rdf" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Krebs on Security</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--both">both</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 88%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:88%"></span>
+                </span>
+                88%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://krebsonsecurity.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://krebsonsecurity.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">journalism</span>
+              <span class="source-tag">blog</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://krebsonsecurity.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="20 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Malwarebytes Labs</span>
+              <span class="source-status-label source-status-label--green">
+                20 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 80%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:80%"></span>
+                </span>
+                80%
+              </span>
+              <span>Items collected: 20</span>
+            </div>
+            <div>
+              <a href="https://www.malwarebytes.com/blog/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.malwarebytes.com/blog/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.malwarebytes.com/blog/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="20 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Mandiant Blog</span>
+              <span class="source-status-label source-status-label--green">
+                20 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 88%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:88%"></span>
+                </span>
+                88%
+              </span>
+              <span>Items collected: 20</span>
+            </div>
+            <div>
+              <a href="https://www.mandiant.com/resources/blog/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.mandiant.com/resources/blog/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.mandiant.com/resources/blog/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Mashable Tech</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 72%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:72%"></span>
+                </span>
+                72%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://mashable.com/feeds/rss/all" target="_blank" rel="noopener"
+                 class="source-url-link">https://mashable.com/feeds/rss/all</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">us</span>
+              <span class="source-tag">digital</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://mashable.com/feeds/rss/all" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Microsoft MSRC</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 92%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:92%"></span>
+                </span>
+                92%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://api.msrc.microsoft.com/update-guide/rss" target="_blank" rel="noopener"
+                 class="source-url-link">https://api.msrc.microsoft.com/update-guide/rss</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">vulnerability</span>
+              <span class="source-tag">patch</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://api.msrc.microsoft.com/update-guide/rss" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Microsoft Security Blog</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 86%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:86%"></span>
+                </span>
+                86%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://www.microsoft.com/en-us/security/blog/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.microsoft.com/en-us/security/blog/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.microsoft.com/en-us/security/blog/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="25 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">NBC News Technology</span>
+              <span class="source-status-label source-status-label--green">
+                25 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 79%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:79%"></span>
+                </span>
+                79%
+              </span>
+              <span>Items collected: 25</span>
+            </div>
+            <div>
+              <a href="https://feeds.nbcnews.com/nbcnews/public/tech" target="_blank" rel="noopener"
+                 class="source-url-link">https://feeds.nbcnews.com/nbcnews/public/tech</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">us</span>
+              <span class="source-tag">broadcast</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://feeds.nbcnews.com/nbcnews/public/tech" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">NCC Group Research</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 85%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:85%"></span>
+                </span>
+                85%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://research.nccgroup.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://research.nccgroup.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">vulnerability</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://research.nccgroup.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">NCSC Netherlands</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 90%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:90%"></span>
+                </span>
+                90%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://english.ncsc.nl/rss/advisories" target="_blank" rel="noopener"
+                 class="source-url-link">https://english.ncsc.nl/rss/advisories</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">nl</span>
+              <span class="source-tag">government</span>
+              <span class="source-tag">eu</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://english.ncsc.nl/rss/advisories" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">NCSC UK</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 95%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:95%"></span>
+                </span>
+                95%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.ncsc.gov.uk/api/1/services/v1/report-rss-feed.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.ncsc.gov.uk/api/1/services/v1/report-rss-feed.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">uk</span>
+              <span class="source-tag">government</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.ncsc.gov.uk/api/1/services/v1/report-rss-feed.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="15 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Palo Alto Unit 42</span>
+              <span class="source-status-label source-status-label--green">
+                15 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 87%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:87%"></span>
+                </span>
+                87%
+              </span>
+              <span>Items collected: 15</span>
+            </div>
+            <div>
+              <a href="https://unit42.paloaltonetworks.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://unit42.paloaltonetworks.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://unit42.paloaltonetworks.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="22 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Politico Cybersecurity</span>
+              <span class="source-status-label source-status-label--green">
+                22 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 80%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:80%"></span>
+                </span>
+                80%
+              </span>
+              <span>Items collected: 22</span>
+            </div>
+            <div>
+              <a href="https://rss.politico.com/cyber.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://rss.politico.com/cyber.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">us</span>
+              <span class="source-tag">policy</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://rss.politico.com/cyber.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Proofpoint Threat Intelligence</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 84%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:84%"></span>
+                </span>
+                84%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://www.proofpoint.com/us/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.proofpoint.com/us/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.proofpoint.com/us/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Qualys Security Blog</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 80%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:80%"></span>
+                </span>
+                80%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://blog.qualys.com/feed" target="_blank" rel="noopener"
+                 class="source-url-link">https://blog.qualys.com/feed</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">vulnerability</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://blog.qualys.com/feed" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Recorded Future News</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 82%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:82%"></span>
+                </span>
+                82%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://www.recordedfuture.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.recordedfuture.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.recordedfuture.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Red Canary Blog</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 85%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:85%"></span>
+                </span>
+                85%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://redcanary.com/blog/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://redcanary.com/blog/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://redcanary.com/blog/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">SANS Internet Storm Center</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 85%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:85%"></span>
+                </span>
+                85%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://isc.sans.edu/rssfeed_full.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://isc.sans.edu/rssfeed_full.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">research</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://isc.sans.edu/rssfeed_full.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Schneier on Security</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 85%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:85%"></span>
+                </span>
+                85%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://www.schneier.com/feed/atom/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.schneier.com/feed/atom/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">blog</span>
+              <span class="source-tag">expert</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.schneier.com/feed/atom/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Securelist (Kaspersky)</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 80%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:80%"></span>
+                </span>
+                80%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://securelist.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://securelist.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://securelist.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Secureworks Blog</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 85%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:85%"></span>
+                </span>
+                85%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.secureworks.com/rss?feed=blog" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.secureworks.com/rss?feed=blog</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.secureworks.com/rss?feed=blog" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Security Affairs</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 78%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:78%"></span>
+                </span>
+                78%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://securityaffairs.com/feed" target="_blank" rel="noopener"
+                 class="source-url-link">https://securityaffairs.com/feed</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">journalism</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://securityaffairs.com/feed" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">SecurityWeek</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--both">both</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 80%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:80%"></span>
+                </span>
+                80%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://feeds.feedburner.com/securityweek" target="_blank" rel="noopener"
+                 class="source-url-link">https://feeds.feedburner.com/securityweek</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://feeds.feedburner.com/securityweek" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Sekoia.io Blog</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 84%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:84%"></span>
+                </span>
+                84%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://blog.sekoia.io/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://blog.sekoia.io/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://blog.sekoia.io/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">SentinelOne Blog</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 83%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:83%"></span>
+                </span>
+                83%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://www.sentinelone.com/blog/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.sentinelone.com/blog/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.sentinelone.com/blog/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Singapore CSA</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 87%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:87%"></span>
+                </span>
+                87%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.csa.gov.sg/feed/news" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.csa.gov.sg/feed/news</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">sg</span>
+              <span class="source-tag">government</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.csa.gov.sg/feed/news" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Sky News Technology</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 77%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:77%"></span>
+                </span>
+                77%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://feeds.skynews.com/feeds/rss/technology.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://feeds.skynews.com/feeds/rss/technology.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">uk</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://feeds.skynews.com/feeds/rss/technology.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="13 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Sophos X-Ops</span>
+              <span class="source-status-label source-status-label--green">
+                13 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 84%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:84%"></span>
+                </span>
+                84%
+              </span>
+              <span>Items collected: 13</span>
+            </div>
+            <div>
+              <a href="https://www.sophos.com/en-us/blog/feed?id=blt6f15f4f7deaf4242" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.sophos.com/en-us/blog/feed?id=blt6f15f4f7deaf4242</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.sophos.com/en-us/blog/feed?id=blt6f15f4f7deaf4242" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">TeamCymru Blog</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 85%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:85%"></span>
+                </span>
+                85%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://team-cymru.com/blog/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://team-cymru.com/blog/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">threat-intel</span>
+              <span class="source-tag">network</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://team-cymru.com/blog/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="20 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">TechCrunch</span>
+              <span class="source-status-label source-status-label--green">
+                20 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 79%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:79%"></span>
+                </span>
+                79%
+              </span>
+              <span>Items collected: 20</span>
+            </div>
+            <div>
+              <a href="https://techcrunch.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://techcrunch.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://techcrunch.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="10 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Tenable Blog</span>
+              <span class="source-status-label source-status-label--green">
+                10 item(s)
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 82%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:82%"></span>
+                </span>
+                82%
+              </span>
+              <span>Items collected: 10</span>
+            </div>
+            <div>
+              <a href="https://www.tenable.com/blog/feed" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.tenable.com/blog/feed</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">vulnerability</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.tenable.com/blog/feed" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="23 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">The Guardian Technology</span>
+              <span class="source-status-label source-status-label--green">
+                23 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 80%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:80%"></span>
+                </span>
+                80%
+              </span>
+              <span>Items collected: 23</span>
+            </div>
+            <div>
+              <a href="https://www.theguardian.com/uk/technology/rss" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.theguardian.com/uk/technology/rss</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">uk</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.theguardian.com/uk/technology/rss" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">The Hacker News</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--both">both</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 78%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:78%"></span>
+                </span>
+                78%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://feeds.feedburner.com/TheHackersNews" target="_blank" rel="noopener"
+                 class="source-url-link">https://feeds.feedburner.com/TheHackersNews</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://feeds.feedburner.com/TheHackersNews" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="1 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">The Independent Technology</span>
+              <span class="source-status-label source-status-label--green">
+                1 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 76%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:76%"></span>
+                </span>
+                76%
+              </span>
+              <span>Items collected: 1</span>
+            </div>
+            <div>
+              <a href="https://www.independent.co.uk/topic/technology/rss" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.independent.co.uk/topic/technology/rss</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">uk</span>
+              <span class="source-tag">broadsheet</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.independent.co.uk/topic/technology/rss" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="22 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">The New York Times Technology</span>
+              <span class="source-status-label source-status-label--green">
+                22 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 82%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:82%"></span>
+                </span>
+                82%
+              </span>
+              <span>Items collected: 22</span>
+            </div>
+            <div>
+              <a href="https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">us</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="5 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">The Record (Recorded Future)</span>
+              <span class="source-status-label source-status-label--green">
+                5 item(s)
+              </span>
+              <span class="stream-badge stream-badge--both">both</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 80%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:80%"></span>
+                </span>
+                80%
+              </span>
+              <span>Items collected: 5</span>
+            </div>
+            <div>
+              <a href="https://therecord.media/feed" target="_blank" rel="noopener"
+                 class="source-url-link">https://therecord.media/feed</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://therecord.media/feed" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="50 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">The Telegraph Technology</span>
+              <span class="source-status-label source-status-label--green">
+                50 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 79%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:79%"></span>
+                </span>
+                79%
+              </span>
+              <span>Items collected: 50</span>
+            </div>
+            <div>
+              <a href="https://www.telegraph.co.uk/technology/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.telegraph.co.uk/technology/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">uk</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.telegraph.co.uk/technology/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="2 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">The Washington Post Technology</span>
+              <span class="source-status-label source-status-label--green">
+                2 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 83%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:83%"></span>
+                </span>
+                83%
+              </span>
+              <span>Items collected: 2</span>
+            </div>
+            <div>
+              <a href="https://feeds.washingtonpost.com/rss/business/technology" target="_blank" rel="noopener"
+                 class="source-url-link">https://feeds.washingtonpost.com/rss/business/technology</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">us</span>
+              <span class="source-tag">broadsheet</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://feeds.washingtonpost.com/rss/business/technology" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Trellix Threat Research</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 83%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:83%"></span>
+                </span>
+                83%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.trellix.com/blogs/research-and-intelligence/rss/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.trellix.com/blogs/research-and-intelligence/rss/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.trellix.com/blogs/research-and-intelligence/rss/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="amber">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--amber"
+                  title="0 items"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Trend Micro Research</span>
+              <span class="source-status-label source-status-label--amber">
+                0 items
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 85%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:85%"></span>
+                </span>
+                85%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.trendmicro.com/en_us/research.rss" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.trendmicro.com/en_us/research.rss</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+            <div class="source-notes">
+              No items collected in the current window. Verify the feed URL is accessible and contains recent entries.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.trendmicro.com/en_us/research.rss" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="15 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Troy Hunt (Have I Been Pwned)</span>
+              <span class="source-status-label source-status-label--green">
+                15 item(s)
+              </span>
+              <span class="stream-badge stream-badge--both">both</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 86%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:86%"></span>
+                </span>
+                86%
+              </span>
+              <span>Items collected: 15</span>
+            </div>
+            <div>
+              <a href="https://www.troyhunt.com/rss/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.troyhunt.com/rss/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">blog</span>
+              <span class="source-tag">breach</span>
+              <span class="source-tag">expert</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.troyhunt.com/rss/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="20 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">WIRED Security</span>
+              <span class="source-status-label source-status-label--green">
+                20 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 82%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:82%"></span>
+                </span>
+                82%
+              </span>
+              <span>Items collected: 20</span>
+            </div>
+            <div>
+              <a href="https://www.wired.com/feed/category/security/latest/rss" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.wired.com/feed/category/security/latest/rss</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.wired.com/feed/category/security/latest/rss" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="green">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--green"
+                  title="20 item(s)"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">ZDNet Security</span>
+              <span class="source-status-label source-status-label--green">
+                20 item(s)
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 78%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:78%"></span>
+                </span>
+                78%
+              </span>
+              <span>Items collected: 20</span>
+            </div>
+            <div>
+              <a href="https://www.zdnet.com/topic/security/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.zdnet.com/topic/security/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">journalism</span>
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.zdnet.com/topic/security/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Ars Technica Security</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 83%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:83%"></span>
+                </span>
+                83%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://feeds.arstechnica.com/arstechnica/security" target="_blank" rel="noopener"
+                 class="source-url-link">https://feeds.arstechnica.com/arstechnica/security</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">journalism</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed returns malformed XML. Verify the feed URL in a browser and check for encoding issues.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://feeds.arstechnica.com/arstechnica/security" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Australian Cyber Security Centre</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 90%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:90%"></span>
+                </span>
+                90%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.cyber.gov.au/about-us/view-all-content/alerts-and-advisories/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.cyber.gov.au/about-us/view-all-content/alerts-and-advisories/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">au</span>
+              <span class="source-tag">government</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed URL hangs without returning data. May be a server-side rate limit or firewall block — test from a different network.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.cyber.gov.au/about-us/view-all-content/alerts-and-advisories/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">CERT-EU</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 92%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:92%"></span>
+                </span>
+                92%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://cert.europa.eu/publications/security-advisories/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://cert.europa.eu/publications/security-advisories/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">eu</span>
+              <span class="source-tag">government</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed returns malformed XML. Verify the feed URL in a browser and check for encoding issues.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://cert.europa.eu/publications/security-advisories/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">CERT-NZ</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 89%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:89%"></span>
+                </span>
+                89%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.cert.govt.nz/it-specialists/advisories/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.cert.govt.nz/it-specialists/advisories/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">nz</span>
+              <span class="source-tag">government</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed returns malformed XML. Verify the feed URL in a browser and check for encoding issues.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.cert.govt.nz/it-specialists/advisories/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Dragos Blog</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 87%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:87%"></span>
+                </span>
+                87%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.dragos.com/blog/industry-news/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.dragos.com/blog/industry-news/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+              <span class="source-tag">ics-ot</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed returns malformed XML. Verify the feed URL in a browser and check for encoding issues.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.dragos.com/blog/industry-news/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">ENISA Publications</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 90%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:90%"></span>
+                </span>
+                90%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.enisa.europa.eu/publications/rss.xml" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.enisa.europa.eu/publications/rss.xml</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">advisory</span>
+              <span class="source-tag">eu</span>
+              <span class="source-tag">government</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed returns malformed XML. Verify the feed URL in a browser and check for encoding issues.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.enisa.europa.eu/publications/rss.xml" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Lumen Black Lotus Labs</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 84%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:84%"></span>
+                </span>
+                84%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://blog.lumen.com/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://blog.lumen.com/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed returns malformed XML. Verify the feed URL in a browser and check for encoding issues.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://blog.lumen.com/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Packet Storm Security</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 73%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:73%"></span>
+                </span>
+                73%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://rss.packetstormsecurity.com/news/" target="_blank" rel="noopener"
+                 class="source-url-link">https://rss.packetstormsecurity.com/news/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">vulnerability</span>
+              <span class="source-tag">exploit</span>
+              <span class="source-tag">news</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> SSL certificate hostname mismatch. The certificate presented does not match the feed URL — the SSL setup may need renewing or the URL has moved.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://rss.packetstormsecurity.com/news/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Rapid7 Blog</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 82%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:82%"></span>
+                </span>
+                82%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.rapid7.com/blog/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.rapid7.com/blog/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed URL returns HTML instead of XML. The feed path may have changed — check the Rapid7 blog for an updated RSS URL.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.rapid7.com/blog/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Reuters Technology</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 85%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:85%"></span>
+                </span>
+                85%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://feeds.reuters.com/reuters/technologyNews" target="_blank" rel="noopener"
+                 class="source-url-link">https://feeds.reuters.com/reuters/technologyNews</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">wire</span>
+              <span class="source-tag">global</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed domain is DNS-unreachable. Reuters discontinued their legacy RSS feeds — search for a current feed URL or use a third-party aggregator.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://feeds.reuters.com/reuters/technologyNews" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">The Hill Cybersecurity</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--mainstream">mainstream</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 78%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:78%"></span>
+                </span>
+                78%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://thehill.com/policy/cybersecurity/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://thehill.com/policy/cybersecurity/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">news</span>
+              <span class="source-tag">mainstream</span>
+              <span class="source-tag">us</span>
+              <span class="source-tag">policy</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed returns valid XML but contains no items. The section may have been reorganised — check for an updated RSS URL on The Hill website.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://thehill.com/policy/cybersecurity/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">Volexity Blog</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 87%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:87%"></span>
+                </span>
+                87%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://www.volexity.com/blog/feed/" target="_blank" rel="noopener"
+                 class="source-url-link">https://www.volexity.com/blog/feed/</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">threat-intel</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed returns malformed XML. Verify the feed URL in a browser and check for encoding issues.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://www.volexity.com/blog/feed/" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+        <div class="source-row" data-status="red">
+          <div class="source-dot-col">
+            <span class="traffic-dot traffic-dot--red"
+                  title="Disabled"></span>
+          </div>
+          <div class="source-body">
+            <div class="source-name-row">
+              <span class="source-name">WithSecure Labs</span>
+              <span class="source-status-label source-status-label--red">
+                Disabled
+              </span>
+              <span class="stream-badge stream-badge--technical">technical</span>
+            </div>
+            <div class="source-meta">
+              <span class="cred-bar-wrap" title="Credibility: 83%">
+                <span class="cred-bar-track">
+                  <span class="cred-bar-fill" style="width:83%"></span>
+                </span>
+                83%
+              </span>
+              <span>Items collected: 0</span>
+            </div>
+            <div>
+              <a href="https://labs.withsecure.com/publications/feed" target="_blank" rel="noopener"
+                 class="source-url-link">https://labs.withsecure.com/publications/feed</a>
+            </div>
+            <div class="source-tags">
+              <span class="source-tag">research</span>
+              <span class="source-tag">vendor</span>
+            </div>
+            <div class="source-notes source-notes--red">
+              <strong>Note:</strong> Feed returns malformed XML. Verify the feed URL in a browser and check for encoding issues.
+            </div>
+          </div>
+          <div class="source-actions">
+            <a href="https://labs.withsecure.com/publications/feed" target="_blank" rel="noopener"
+               class="btn-test-url" title="Open feed URL in new tab">Test URL ↗</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /debug-dashboard -->
+  </div>
+</main>
+
+<!-- ── Footer ───────────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="container">
+    <p>Barry Cheevers · Source Health Dashboard · 21 April 2026 at 07:14 UTC</p>
+  </div>
+</footer>
+
+<!-- ── Password + filter JS ─────────────────────────────────── -->
+<script>
+const STORED_HASH = "1e071afa9cc44f5942a9382e4140ecebf9e9cb3cd4ce7e9641a3412065f42013";
+
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPassword() {
+  const val = document.getElementById('pw-input').value;
+  const hash = await sha256(val);
+  if (hash === STORED_HASH) {
+    document.getElementById('pw-gate').style.display = 'none';
+    const dash = document.getElementById('debug-dashboard');
+    dash.classList.add('unlocked');
+    sessionStorage.setItem('debug_unlocked', STORED_HASH);
+  } else {
+    document.getElementById('pw-error').style.display = 'block';
+  }
+}
+
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPassword();
+});
+
+// Persist unlock within browser session
+(async function() {
+  const stored = sessionStorage.getItem('debug_unlocked');
+  if (stored && stored === STORED_HASH) {
+    document.getElementById('pw-gate').style.display = 'none';
+    document.getElementById('debug-dashboard').classList.add('unlocked');
+  }
+})();
+
+function filterSources(status, btn) {
+  document.querySelectorAll('.debug-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.source-row').forEach(row => {
+    row.style.display = (status === 'all' || row.dataset.status === status) ? '' : 'none';
+  });
+}
+</script>
+
+</body>
+</html>
