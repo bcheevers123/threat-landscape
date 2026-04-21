@@ -502,7 +502,7 @@
     nameEl.classList.add("has-explain");
   });
 
-  // ── Countdown to next 09:00 UTC refresh ─────────────────
+  // ── Countdown to next 07:00 GMT refresh ─────────────────
 
   (function () {
     var el = document.getElementById("refresh-countdown");
@@ -510,7 +510,7 @@
     function pad2(n) { return ("0" + n).slice(-2); }
     function tick() {
       var now    = new Date();
-      var next   = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 9, 0, 0));
+      var next   = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 7, 0, 0));
       if (now >= next) next = new Date(next.getTime() + 86400000);
       var diff   = next - now;
       var h      = Math.floor(diff / 3600000);
