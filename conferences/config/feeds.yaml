@@ -1,0 +1,61 @@
+# Conference feed sources — polled at build time to supplement the static YAML.
+#
+# Each entry is fetched during the conferences build step and merged with
+# data/conferences.yaml.  Events already in the static YAML (matched by URL)
+# are kept as-is; new events found only in feeds are appended automatically.
+#
+# type: json_api  — expects a JSON array of conference objects
+#       rss       — parses an RSS feed; extracts what structured data it can
+#
+# tag_map: maps category strings in the feed to our standard tag vocabulary.
+#
+# Only events with a parseable start_date and country are accepted.
+# All others are silently skipped to avoid cluttering the calendar.
+
+feeds:
+
+  - name: "CFP Land — Security"
+    url: "https://www.cfpland.com/api/v1/conferences?category=security"
+    type: json_api
+    enabled: true
+    field_map:
+      name: name
+      url: url
+      start_date: start_date
+      end_date: end_date
+      city: city
+      country: country
+      description: description
+      cost: cost            # "free" | "paid" | null
+    tag_defaults: [Industry]
+    notes: "CFP Land JSON API — security category. Returns upcoming conferences with structured dates."
+
+  - name: "CFP Land — Hacking / Offensive"
+    url: "https://www.cfpland.com/api/v1/conferences?category=hacking"
+    type: json_api
+    enabled: true
+    field_map:
+      name: name
+      url: url
+      start_date: start_date
+      end_date: end_date
+      city: city
+      country: country
+      description: description
+      cost: cost
+    tag_defaults: [Hacking, Research]
+    notes: "CFP Land JSON API — hacking / offensive security category."
+
+  - name: "Infosec Conferences RSS"
+    url: "https://infosec-conferences.com/feed/"
+    type: rss
+    enabled: true
+    tag_defaults: [Industry]
+    notes: "RSS announcements from infosec-conferences.com. Date/location extracted from title/description where available."
+
+  - name: "Security BSides Events RSS"
+    url: "https://www.securitybsides.com/feed"
+    type: rss
+    enabled: true
+    tag_defaults: [Regional, Beginner-Friendly, Hacking]
+    notes: "Security BSides global events RSS."

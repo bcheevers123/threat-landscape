@@ -176,7 +176,7 @@ class GitHubPagesDeployer:
         dst_root = self.staging_path / self.subdir if self.subdir else self.staging_path
         dst_root.mkdir(parents=True, exist_ok=True)
 
-        for name in ("index.html", "latest.json"):
+        for name in ("index.html", "latest.json", "source_debug.html"):
             src = output_dir / name
             if src.exists():
                 shutil.copy2(src, dst_root / name)
