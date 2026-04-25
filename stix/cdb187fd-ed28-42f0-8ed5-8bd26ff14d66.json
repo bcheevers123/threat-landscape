@@ -1,0 +1,108 @@
+{
+  "type": "bundle",
+  "id": "bundle--3ca88261-cd78-4998-9597-7581a87abaf2",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--b986ffac-badd-462b-882b-a2532998c2f1",
+      "created": "2026-04-25T07:58:25.000Z",
+      "modified": "2026-04-25T07:58:25.000Z",
+      "name": "FIRESTARTER Backdoor",
+      "description": "CISA and the United Kingdom National Cyber Security Centre (NCSC) assess that FIRESTARTER\u2014a backdoor that allows remote access and control\u2014is part of a widespread campaign that afforded an advanced persistent threat (APT) actor initial access to Cisco Adaptive Security Appliance (ASA) firmware by exploiting CVE-2025-20333 [ CWE-862: Missing Authorization ] and/or CVE-2025-20362 [ CWE-120: Classic Buffer Overflow ].",
+      "published": "2026-04-23T12:00:00.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--3e531ca7-b7d7-4c30-9b17-7869eb3aaa74",
+        "vulnerability--2054a010-c494-4e89-b24f-5d4a51415f47",
+        "attack-pattern--1d87c390-9879-4182-b21f-6c7fd31b7c76",
+        "attack-pattern--248940f3-04ee-459b-ad2b-e0d5e0545998"
+      ],
+      "external_references": [
+        {
+          "source_name": "CISA Advisories",
+          "url": "https://www.cisa.gov/news-events/analysis-reports/ar26-113a",
+          "description": "FIRESTARTER Backdoor"
+        }
+      ],
+      "labels": [
+        "Government",
+        "Critical Infrastructure"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--3e531ca7-b7d7-4c30-9b17-7869eb3aaa74",
+      "created": "2026-04-25T07:58:25.000Z",
+      "modified": "2026-04-25T07:58:25.000Z",
+      "name": "CVE-2025-20333",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2025-20333",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-20333"
+        }
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--2054a010-c494-4e89-b24f-5d4a51415f47",
+      "created": "2026-04-25T07:58:25.000Z",
+      "modified": "2026-04-25T07:58:25.000Z",
+      "name": "CVE-2025-20362",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2025-20362",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-20362"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--1d87c390-9879-4182-b21f-6c7fd31b7c76",
+      "created": "2026-04-25T07:58:25.000Z",
+      "modified": "2026-04-25T07:58:25.000Z",
+      "name": "Scheduled Task/Job",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1053",
+          "url": "https://attack.mitre.org/techniques/T1053/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--248940f3-04ee-459b-ad2b-e0d5e0545998",
+      "created": "2026-04-25T07:58:25.000Z",
+      "modified": "2026-04-25T07:58:25.000Z",
+      "name": "Internal Spearphishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1534",
+          "url": "https://attack.mitre.org/techniques/T1534/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    }
+  ]
+}
