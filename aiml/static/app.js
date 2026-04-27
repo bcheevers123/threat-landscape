@@ -484,7 +484,59 @@
     nameEl.classList.add("has-explain");
   });
 
-  // ── Countdown to next 07:00 GMT refresh ─────────────────
+  // ── Dynamic Europe/London time display ───────────────────
+
+  (function () {
+    if (!window.Intl || !Intl.DateTimeFormat) return;
+
+    function londonTzName(date) {
+      var parts = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Europe/London",
+        timeZoneName: "short",
+        hour: "numeric",
+      }).formatToParts(date);
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i].type === "timeZoneName") return parts[i].value;
+      }
+      return "GMT";
+    }
+
+    document.querySelectorAll(".js-london-time").forEach(function (el) {
+      if (!el.dataset.utc) return;
+      var dt = new Date(el.dataset.utc);
+      if (isNaN(dt)) return;
+
+      var londonDate = new Intl.DateTimeFormat("en-GB", {
+        day: "numeric", month: "long", year: "numeric",
+        timeZone: "Europe/London",
+      }).format(dt);
+
+      if (el.dataset.format === "date") {
+        el.textContent = londonDate;
+        return;
+      }
+
+      var londonTime = new Intl.DateTimeFormat("en-GB", {
+        hour: "2-digit", minute: "2-digit", hour12: false,
+        timeZone: "Europe/London",
+      }).format(dt);
+
+      el.textContent = londonDate + " at " + londonTime + " " + londonTzName(dt);
+    });
+
+    var caveatel = document.getElementById("refresh-caveat");
+    if (caveatel) {
+      var now = new Date();
+      var ref07 = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 7, 0, 0));
+      var localTime = new Intl.DateTimeFormat("en-GB", {
+        hour: "2-digit", minute: "2-digit", hour12: false,
+        timeZone: "Europe/London",
+      }).format(ref07);
+      caveatel.textContent = "(approx. " + localTime + " " + londonTzName(ref07) + " — may vary slightly)";
+    }
+  }());
+
+  // ── Countdown to next 07:00 UTC refresh ──────────────────
 
   (function () {
     var el = document.getElementById("refresh-countdown");

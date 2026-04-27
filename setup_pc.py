@@ -54,7 +54,7 @@ _handler_stderr = logging.StreamHandler(sys.stderr)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  %(levelname)-8s  %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S UTC",
+    datefmt="%Y-%m-%d %H:%M:%S GMT",
     handlers=[_handler_file, _handler_stderr],
 )
 # Use UTC timestamps throughout
@@ -173,7 +173,7 @@ def _daemon_loop() -> None:
     _write_pid(os.getpid())
     logger.info("=" * 60)
     logger.info("Threat Landscape service started  (PID %d)", os.getpid())
-    logger.info("Daily run time: %02d:00 UTC", RUN_HOUR_UTC)
+    logger.info("Daily run time: %02d:00 GMT", RUN_HOUR_UTC)
     logger.info("Project dir:    %s", PROJECT_DIR)
     logger.info("=" * 60)
 
@@ -198,7 +198,7 @@ def _daemon_loop() -> None:
         next_run = _next_run_time()
         wait_secs = _seconds_until(next_run)
         logger.info(
-            "Next run scheduled at %s UTC (in %.0f minutes).",
+            "Next run scheduled at %s GMT (in %.0f minutes).",
             next_run.strftime("%Y-%m-%d %H:%M"),
             wait_secs / 60,
         )
@@ -301,7 +301,7 @@ def cmd_status() -> None:
         secs = _seconds_until(nxt)
         hours, rem = divmod(int(secs), 3600)
         mins = rem // 60
-        print(f"  Next run: {nxt.strftime('%Y-%m-%d %H:%M UTC')}  ({hours}h {mins}m from now)")
+        print(f"  Next run: {nxt.strftime('%Y-%m-%d %H:%M GMT')}  ({hours}h {mins}m from now)")
     else:
         print("Service is NOT RUNNING.")
         if pid:

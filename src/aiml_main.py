@@ -689,7 +689,8 @@ class AIMLRenderer(Renderer):
         html = template.render(
             threats=threats_data,
             mainstream_threats=mainstream_data,
-            generated_at=output.generated_at.strftime("%d %B %Y at %H:%M UTC"),
+            generated_at=output.generated_at.strftime("%d %B %Y at %H:%M GMT"),
+            generated_at_iso=output.generated_at.isoformat(),
             total_collected=output.total_items_collected,
             total_after_dedupe=output.total_items_after_dedupe,
             generation_notes=output.generation_notes,

@@ -38,7 +38,7 @@
           {% if stats.this_month %}
           <span class="stat-pill">{{ stats.this_month }} this month</span>
           {% endif %}
-          <span class="stat-pill">Updated {{ generated_at }}</span>
+          <span class="stat-pill">Updated <span class="js-london-time" data-utc="{{ generated_at_iso }}" data-format="date">{{ generated_at }}</span></span>
         </div>
         <nav class="site-nav" aria-label="Related pages">
           <a href="../index.html" class="btn-nav btn-nav--cyber">&#8592; Cyber Threats</a>
@@ -410,7 +410,7 @@ for event in upcoming[:5]:
       <a href="{{ branding.get('site_url', '#') }}" target="_blank" rel="noopener noreferrer">{{ branding.get('site_name', 'Barry Cheevers') }}</a>
     </p>
     <p class="footer-note">
-      Generated {{ generated_at }}. Events shown are within the next 12 months. Always verify dates with the official event website.
+      Generated <span class="js-london-time" data-utc="{{ generated_at_iso }}" data-format="date">{{ generated_at }}</span>. Events shown are within the next 12 months. Always verify dates with the official event website.
     </p>
     <a href="../source_debug.html" class="settings-cog" title="Source health dashboard" aria-label="Settings">&#9881;</a>
   </div>

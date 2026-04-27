@@ -45,7 +45,7 @@ def _threat_to_dict(threat: EnrichedThreat) -> dict[str, Any]:
         stix_json_str = _safe_json_for_script(threat.stix_bundle)
 
     pub = (
-        threat.published_at.strftime("%d %B %Y, %H:%M UTC")
+        threat.published_at.strftime("%d %B %Y, %H:%M GMT")
         if threat.published_at
         else "Unknown"
     )
@@ -173,7 +173,8 @@ class Renderer:
         html = template.render(
             threats=threats_data,
             mainstream_threats=mainstream_data,
-            generated_at=output.generated_at.strftime("%d %B %Y at %H:%M UTC"),
+            generated_at=output.generated_at.strftime("%d %B %Y at %H:%M GMT"),
+            generated_at_iso=output.generated_at.isoformat(),
             total_collected=output.total_items_collected,
             total_after_dedupe=output.total_items_after_dedupe,
             generation_notes=output.generation_notes,
@@ -277,7 +278,8 @@ class Renderer:
             green_count=green_count,
             amber_count=amber_count,
             red_count=red_count,
-            generated_at=output.generated_at.strftime("%d %B %Y at %H:%M UTC"),
+            generated_at=output.generated_at.strftime("%d %B %Y at %H:%M GMT"),
+            generated_at_iso=output.generated_at.isoformat(),
             branding=self.branding,
             password_hash=password_hash,
         )

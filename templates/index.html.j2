@@ -40,7 +40,7 @@
       <div class="header-meta">
         <div class="updated-badge">
           <span class="updated-label">Last updated</span>
-          <span class="updated-value">{{ generated_at }}</span>
+          <span class="updated-value js-london-time" data-utc="{{ generated_at_iso }}">{{ generated_at }}</span>
         </div>
         <div class="stats-pills">
           <span class="stat-pill">Today&rsquo;s top {{ threats|length }}</span>
@@ -58,7 +58,7 @@
         <div class="countdown-wrap" aria-live="polite">
           <span>Next refresh in</span>
           <span id="refresh-countdown" class="countdown-value" aria-label="Countdown to next refresh">--:--:--</span>
-          <span class="countdown-caveat">(approx. 07:00 GMT &mdash; may vary slightly)</span>
+          <span class="countdown-caveat" id="refresh-caveat">(approx. 07:00 GMT &mdash; may vary slightly)</span>
         </div>
         <nav class="site-nav" aria-label="Related pages">
           <a href="aiml/index.html" class="btn-nav btn-nav--aiml">
@@ -655,7 +655,7 @@ for threat in data["threats"][:3]:
 <footer class="site-footer">
   <div class="container" style="position:relative;">
     <p>
-      Generated at {{ generated_at }} &middot;
+      Generated at <span class="js-london-time" data-utc="{{ generated_at_iso }}">{{ generated_at }}</span> &middot;
       {% if branding.get('site_url') %}
       <a href="{{ branding.site_url }}" class="footer-link">{{ branding.get('site_name', '') }}</a> &middot;
       {% endif %}

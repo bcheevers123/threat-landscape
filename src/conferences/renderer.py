@@ -57,7 +57,9 @@ class ConferencesRenderer:
         env.filters["fmt_date"] = _fmt_date
         template = env.get_template("index.html.j2")
 
-        generated_at = datetime.now(tz=timezone.utc).strftime("%d %B %Y")
+        _now = datetime.now(tz=timezone.utc)
+        generated_at = _now.strftime("%d %B %Y")
+        generated_at_iso = _now.isoformat()
         events_json = json.dumps([e.to_dict() for e in events], ensure_ascii=False)
 
         html = template.render(
@@ -66,6 +68,7 @@ class ConferencesRenderer:
             all_tags=all_tags,
             stats=stats,
             generated_at=generated_at,
+            generated_at_iso=generated_at_iso,
             branding=self.branding,
         )
         out = self.output_dir / "index.html"

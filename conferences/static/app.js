@@ -309,6 +309,23 @@
     map.addLayer(markerGroup);
   }
 
+  // ── Dynamic Europe/London date display ───────────────────
+
+  (function () {
+    if (!window.Intl || !Intl.DateTimeFormat) return;
+
+    document.querySelectorAll(".js-london-time").forEach(function (el) {
+      if (!el.dataset.utc) return;
+      var dt = new Date(el.dataset.utc);
+      if (isNaN(dt)) return;
+
+      el.textContent = new Intl.DateTimeFormat("en-GB", {
+        day: "numeric", month: "long", year: "numeric",
+        timeZone: "Europe/London",
+      }).format(dt);
+    });
+  }());
+
   // ── Dark mode toggle ──────────────────────────────────────
   (function () {
     var btn    = document.getElementById("dark-mode-toggle");
