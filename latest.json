@@ -1,162 +1,410 @@
 {
-  "generated_at": "2026-05-05T09:03:29.160147Z",
+  "generated_at": "2026-05-06T09:16:17.974463Z",
   "threats": [
     {
-      "id": "1996b609-7755-4d92-90be-5c3e8db0a3c6",
-      "title": "CVE-2026-35469 SpdyStream: DOS on CRI",
-      "primary_url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-35469",
-      "primary_source": "Microsoft MSRC",
+      "id": "c9f8f44c-da04-47e8-bc3f-cff45c5ade2e",
+      "title": "ABB B&R Automation Studio",
+      "primary_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-125-04",
+      "primary_source": "CISA Advisories",
       "supporting_sources": [
-        "Help Net Security",
-        "TechCrunch",
-        "Cyber Scoop",
-        "Mashable Tech",
         "Dark Reading",
-        "Politico Cybersecurity",
-        "The New York Times Technology",
-        "BBC News Technology",
-        "NBC News Technology",
-        "ABC News Technology",
-        "The Hacker News"
+        "Cyber Scoop",
+        "Elastic Security Labs",
+        "Security Affairs",
+        "The Hacker News",
+        "CERT-FR (ANSSI)"
       ],
-      "published_at": "2026-05-05T08:02:50Z",
-      "summary": "Information published.",
-      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-35469) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Coverage across 12 independent sources increases analytical confidence.",
-      "attack_techniques": [],
+      "published_at": "2026-05-05T12:00:00Z",
+      "summary": "The following versions of ABB B&R Automation Studio are affected: Automation Studio <6.5, 6.5 (CVE-2025-11043) CVSS Vendor Equipment Vulnerabilities v3 7.4 ABB ABB B&R Automation Studio Improper Certificate Validation Background Critical Infrastructure Sectors: Critical Manufacturing Countries/Areas Deployed: Worldwide Company Headquarters Location: Switzerland Vulnerabilities Expand All + CVE-2025-11043 An Improper Certificate Validation vulnerability in the OPC-UA client and ANSL over TLS client used in Automation Studio versions before 6.5 could allow an unauthenticated attacker on the network to position themselves to...",
+      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2025-11043) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Primary exposure: Critical Infrastructure, Manufacturing, Media sector(s). Attack pattern consistent with malicious code running on victim systems. Coverage across 7 independent sources increases analytical confidence.",
+      "attack_techniques": [
+        {
+          "technique_id": "T1059",
+          "technique_name": "Command and Scripting Interpreter",
+          "tactic": "Execution",
+          "confidence": "Low"
+        },
+        {
+          "technique_id": "T1557",
+          "technique_name": "Adversary-in-the-Middle",
+          "tactic": "Credential Access",
+          "confidence": "Low"
+        },
+        {
+          "technique_id": "T1534",
+          "technique_name": "Internal Spearphishing",
+          "tactic": "Lateral Movement",
+          "confidence": "Low"
+        }
+      ],
       "attribution": [],
       "countries_affected": [],
       "companies_affected": [],
-      "industries_affected": [],
+      "industries_affected": [
+        "Critical Infrastructure",
+        "Manufacturing",
+        "Media"
+      ],
       "threat_types": [
-        "Other"
+        "BEC",
+        "Vulnerability"
       ],
       "cves": [
-        "CVE-2026-35469"
+        "CVE-2025-11043"
       ],
       "malware_families": [],
-      "score": 0.8189,
+      "score": 0.943,
       "score_breakdown": {
-        "recency": 0.32,
-        "source_credibility": 0.1656,
+        "recency": 0.272,
+        "source_credibility": 0.171,
         "corroboration": 0.12,
         "severity": 0.2,
-        "breadth": 0.0,
-        "actionability": 0.0133,
-        "total": 0.8189
+        "breadth": 0.1,
+        "actionability": 0.08,
+        "total": 0.943
       },
       "stix_bundle": {
         "type": "bundle",
-        "id": "bundle--d2767370-2950-43f6-8eb3-abe0b10734dc",
+        "id": "bundle--12c3e4ea-68d9-42a3-8dac-979b40d78738",
         "objects": [
           {
             "type": "report",
             "spec_version": "2.1",
-            "id": "report--99c89a4e-992e-40ee-8bfd-119c0cd165ee",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2026-35469 SpdyStream: DOS on CRI",
-            "description": "Information published.",
-            "published": "2026-05-05T08:02:50.000Z",
+            "id": "report--1db470a7-55dc-4391-80bf-c44c86a1170e",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "ABB B&R Automation Studio",
+            "description": "The following versions of ABB B&R Automation Studio are affected: Automation Studio <6.5, 6.5 (CVE-2025-11043) CVSS Vendor Equipment Vulnerabilities v3 7.4 ABB ABB B&R Automation Studio Improper Certificate Validation Background Critical Infrastructure Sectors: Critical Manufacturing Countries/Areas Deployed: Worldwide Company Headquarters Location: Switzerland Vulnerabilities Expand All + CVE-2025-11043 An Improper Certificate Validation vulnerability in the OPC-UA client and ANSL over TLS client used in Automation Studio versions before 6.5 could allow an unauthenticated attacker on the network to position themselves to...",
+            "published": "2026-05-05T12:00:00.000Z",
             "report_types": [
               "threat-report"
             ],
             "object_refs": [
-              "vulnerability--1de780cb-9a32-40a4-bb81-03db08709418"
+              "vulnerability--d7accd14-64c8-4b1b-a4e9-06bea9508494",
+              "attack-pattern--b473c266-cbdc-443a-8b21-811d0049b8fa",
+              "attack-pattern--d65b00f1-e6ef-4a26-8e9a-48351c89fc30",
+              "attack-pattern--8473e57b-2a6b-4dd3-a8f5-7ea143bb8ef3"
             ],
             "external_references": [
               {
-                "source_name": "Microsoft MSRC",
-                "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-35469",
-                "description": "CVE-2026-35469 SpdyStream: DOS on CRI"
+                "source_name": "CISA Advisories",
+                "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-125-04",
+                "description": "ABB B&R Automation Studio"
               }
             ],
-            "labels": []
+            "labels": [
+              "Critical Infrastructure",
+              "Manufacturing",
+              "Media"
+            ]
           },
           {
             "type": "vulnerability",
             "spec_version": "2.1",
-            "id": "vulnerability--1de780cb-9a32-40a4-bb81-03db08709418",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2026-35469",
+            "id": "vulnerability--d7accd14-64c8-4b1b-a4e9-06bea9508494",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2025-11043",
             "external_references": [
               {
                 "source_name": "cve",
-                "external_id": "CVE-2026-35469",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-35469"
+                "external_id": "CVE-2025-11043",
+                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-11043"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--b473c266-cbdc-443a-8b21-811d0049b8fa",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Command and Scripting Interpreter",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "external_id": "T1059",
+                "url": "https://attack.mitre.org/techniques/T1059/"
+              }
+            ],
+            "kill_chain_phases": [
+              {
+                "kill_chain_name": "mitre-attack",
+                "phase_name": "execution"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--d65b00f1-e6ef-4a26-8e9a-48351c89fc30",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Adversary-in-the-Middle",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "external_id": "T1557",
+                "url": "https://attack.mitre.org/techniques/T1557/"
+              }
+            ],
+            "kill_chain_phases": [
+              {
+                "kill_chain_name": "mitre-attack",
+                "phase_name": "credential-access"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--8473e57b-2a6b-4dd3-a8f5-7ea143bb8ef3",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Internal Spearphishing",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "external_id": "T1534",
+                "url": "https://attack.mitre.org/techniques/T1534/"
+              }
+            ],
+            "kill_chain_phases": [
+              {
+                "kill_chain_name": "mitre-attack",
+                "phase_name": "lateral-movement"
               }
             ]
           }
         ]
       },
-      "stix_file": "stix/1996b609-7755-4d92-90be-5c3e8db0a3c6.json",
+      "stix_file": "stix/c9f8f44c-da04-47e8-bc3f-cff45c5ade2e.json",
       "supporting_source_details": [
         {
-          "name": "BBC News Technology",
-          "url": "https://www.bbc.com/news/articles/cn8pjz2qwego?at_medium=RSS&at_campaign=rss"
+          "name": "CERT-FR (ANSSI)",
+          "url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0532"
         },
         {
-          "name": "The New York Times Technology",
-          "url": "https://www.nytimes.com/2026/04/28/technology/elon-musk-social-posts-sam-altman-openai.html"
-        },
-        {
-          "name": "Politico Cybersecurity",
-          "url": "https://www.politico.com/news/2026/04/30/white-house-ai-cyber-threats-mythos-00902045"
-        },
-        {
-          "name": "TechCrunch",
-          "url": "https://techcrunch.com/2026/05/04/openais-cozy-partner-cerebras-is-on-track-for-a-blockbuster-ipo"
-        },
-        {
-          "name": "NBC News Technology",
-          "url": "https://www.nbcnews.com/tech/tech-news/elon-musk-openai-sam-altman-trial-day-two-testimony-cross-examination-rcna342660"
+          "name": "Elastic Security Labs",
+          "url": "https://www.elastic.co/security-labs/elastic-workflows-ga-9-4"
         },
         {
           "name": "The Hacker News",
-          "url": "https://thehackernews.com/2026/04/new-linux-copy-fail-vulnerability.html"
+          "url": "https://thehackernews.com/2026/05/progress-patches-critical-moveit.html"
         },
         {
           "name": "Cyber Scoop",
-          "url": "https://cyberscoop.com/data-centers-critical-infrastructure-ai-security-op-ed"
+          "url": "https://cyberscoop.com/cisa-ai-automation-security-operations-efficiency-uipath-fusion-event"
         },
         {
           "name": "Dark Reading",
-          "url": "https://www.darkreading.com/endpoint-security/silver-fox-tax-themed-attacks-india-russia"
+          "url": "https://www.darkreading.com/identity-access-management-security/oracle-red-bull-racing-team-revs-up-automation-to-boost-security"
         },
         {
-          "name": "ABC News Technology",
-          "url": "https://abcnews.com/Technology/wireStory/new-mexico-seeks-child-safety-restrictions-meta-apps-132625773"
-        },
-        {
-          "name": "Help Net Security",
-          "url": "https://www.helpnetsecurity.com/2026/05/05/china-scarcruft-supply-chain-attack"
-        },
-        {
-          "name": "Mashable Tech",
-          "url": "https://mashable.com/article/may-4-dreame-air-purifier-deal"
+          "name": "Security Affairs",
+          "url": "https://securityaffairs.com/191681/security/moveit-automation-flaws-could-enable-full-system-compromise.html"
         }
       ],
-      "corroboration_count": 12,
-      "confidence_note": "Affected countries could not be determined from available text.",
-      "cve_details": {},
+      "corroboration_count": 7,
+      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs. Affected countries could not be determined from available text.",
+      "cve_details": {
+        "CVE-2025-11043": {
+          "score": 7.4,
+          "severity": "HIGH",
+          "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+          "version": "3.1"
+        }
+      },
       "prevalent_days": 0
     },
     {
-      "id": "62c4c86d-acd7-42a0-a5f1-1886e62d15cd",
-      "title": "CVE-2026-28532 FRRouting < 10.5.3 Integer Overflow in OSPF TLV Parser Functions",
-      "primary_url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-28532",
+      "id": "72f4a56c-fb69-4292-bc95-3170d467fc2d",
+      "title": "Hitachi Energy PCM600",
+      "primary_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-125-01",
+      "primary_source": "CISA Advisories",
+      "supporting_sources": [
+        "Dark Reading",
+        "ABC News Technology"
+      ],
+      "published_at": "2026-05-05T12:00:00Z",
+      "summary": "The following versions of Hitachi Energy PCM600 are affected: PCM600 Legacy vers:PCM600_Legacy/<=2.11 (CVE-2018-1002208) PCM600 3.0, 3.0_HF1, 3.0_HF2, 3.0_HF3, 3.1, 3.1_SP1, 3.1_SP2, 3.1_SP3 (CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208) CVSS Vendor Equipment Vulnerabilities v3 4.4 Hitachi Energy Hitachi Energy PCM600 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') Background Critical Infrastructure Sectors: Energy Countries/Areas Deployed: Worldwide Company Headquarters Location: Switzerland Vulnerabilities Expand All + CVE-2018-1002208 SharpZipLib before 1.0 RC1 is vulnerable to directory traversal, allowing attackers...",
+      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2018-1002208) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Primary exposure: Energy, Critical Infrastructure, Manufacturing and others sector(s). Attack pattern consistent with credential harvesting to compromise user accounts. Coverage across 3 independent sources increases analytical confidence.",
+      "attack_techniques": [
+        {
+          "technique_id": "T1557",
+          "technique_name": "Adversary-in-the-Middle",
+          "tactic": "Credential Access",
+          "confidence": "Low"
+        },
+        {
+          "technique_id": "T1534",
+          "technique_name": "Internal Spearphishing",
+          "tactic": "Lateral Movement",
+          "confidence": "Low"
+        }
+      ],
+      "attribution": [],
+      "countries_affected": [
+        "United States"
+      ],
+      "companies_affected": [],
+      "industries_affected": [
+        "Energy",
+        "Critical Infrastructure",
+        "Manufacturing",
+        "Media"
+      ],
+      "threat_types": [
+        "BEC",
+        "OT/ICS",
+        "Vulnerability"
+      ],
+      "cves": [
+        "CVE-2018-1002208"
+      ],
+      "malware_families": [],
+      "score": 0.907,
+      "score_breakdown": {
+        "recency": 0.272,
+        "source_credibility": 0.171,
+        "corroboration": 0.084,
+        "severity": 0.2,
+        "breadth": 0.1,
+        "actionability": 0.08,
+        "total": 0.907
+      },
+      "stix_bundle": {
+        "type": "bundle",
+        "id": "bundle--4b2fbc15-0ff7-4f3f-a838-c9f2e6d32875",
+        "objects": [
+          {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--132d7fd5-cea1-41ee-ab98-8065700589a2",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Hitachi Energy PCM600",
+            "description": "The following versions of Hitachi Energy PCM600 are affected: PCM600 Legacy vers:PCM600_Legacy/<=2.11 (CVE-2018-1002208) PCM600 3.0, 3.0_HF1, 3.0_HF2, 3.0_HF3, 3.1, 3.1_SP1, 3.1_SP2, 3.1_SP3 (CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208, CVE-2018-1002208) CVSS Vendor Equipment Vulnerabilities v3 4.4 Hitachi Energy Hitachi Energy PCM600 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') Background Critical Infrastructure Sectors: Energy Countries/Areas Deployed: Worldwide Company Headquarters Location: Switzerland Vulnerabilities Expand All + CVE-2018-1002208 SharpZipLib before 1.0 RC1 is vulnerable to directory traversal, allowing attackers...",
+            "published": "2026-05-05T12:00:00.000Z",
+            "report_types": [
+              "threat-report"
+            ],
+            "object_refs": [
+              "vulnerability--586d6baa-be33-4b28-ae4b-b342c5cc82df",
+              "attack-pattern--73ba519b-7907-40aa-b414-51a97d818e10",
+              "attack-pattern--d2e9c3d6-87bc-4ca7-b104-c0312f017381"
+            ],
+            "external_references": [
+              {
+                "source_name": "CISA Advisories",
+                "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-125-01",
+                "description": "Hitachi Energy PCM600"
+              }
+            ],
+            "labels": [
+              "Energy",
+              "Critical Infrastructure",
+              "Manufacturing",
+              "Media"
+            ]
+          },
+          {
+            "type": "vulnerability",
+            "spec_version": "2.1",
+            "id": "vulnerability--586d6baa-be33-4b28-ae4b-b342c5cc82df",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2018-1002208",
+            "external_references": [
+              {
+                "source_name": "cve",
+                "external_id": "CVE-2018-1002208",
+                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-1002208"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--73ba519b-7907-40aa-b414-51a97d818e10",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Adversary-in-the-Middle",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "external_id": "T1557",
+                "url": "https://attack.mitre.org/techniques/T1557/"
+              }
+            ],
+            "kill_chain_phases": [
+              {
+                "kill_chain_name": "mitre-attack",
+                "phase_name": "credential-access"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--d2e9c3d6-87bc-4ca7-b104-c0312f017381",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Internal Spearphishing",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "external_id": "T1534",
+                "url": "https://attack.mitre.org/techniques/T1534/"
+              }
+            ],
+            "kill_chain_phases": [
+              {
+                "kill_chain_name": "mitre-attack",
+                "phase_name": "lateral-movement"
+              }
+            ]
+          }
+        ]
+      },
+      "stix_file": "stix/72f4a56c-fb69-4292-bc95-3170d467fc2d.json",
+      "supporting_source_details": [
+        {
+          "name": "Dark Reading",
+          "url": "https://www.darkreading.com/cyber-risk/lotus-wiper-attack-targeted-venezuelan-energy-firms-utilities"
+        },
+        {
+          "name": "ABC News Technology",
+          "url": "https://abcnews.com/Technology/wireStory/experts-warn-rising-lead-risks-africas-solar-energy-132524232"
+        }
+      ],
+      "corroboration_count": 3,
+      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs.",
+      "cve_details": {
+        "CVE-2018-1002208": {
+          "score": 5.5,
+          "severity": "MEDIUM",
+          "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N",
+          "version": "3.1"
+        }
+      },
+      "prevalent_days": 0
+    },
+    {
+      "id": "73532f69-b946-4959-bdc4-0f3e6dccbb3d",
+      "title": "CVE-2026-41205 Mako: Path traversal via double-slash URI prefix in TemplateLookup",
+      "primary_url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-41205",
       "primary_source": "Microsoft MSRC",
       "supporting_sources": [
-        "Mashable Tech",
-        "The Guardian Technology",
-        "Schneier on Security",
         "Dark Reading",
         "The New York Times Technology",
-        "NBC News Technology"
+        "Schneier on Security",
+        "Infosecurity Magazine",
+        "Exploit Database"
       ],
-      "published_at": "2026-05-05T08:02:55Z",
+      "published_at": "2026-05-06T08:41:40Z",
       "summary": "Information published.",
-      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-28532) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Coverage across 7 independent sources increases analytical confidence.",
+      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-41205) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Coverage across 6 independent sources increases analytical confidence.",
       "attack_techniques": [],
       "attribution": [],
       "countries_affected": [],
@@ -166,43 +414,43 @@
         "Other"
       ],
       "cves": [
-        "CVE-2026-28532"
+        "CVE-2026-41205"
       ],
       "malware_families": [],
-      "score": 0.8189,
+      "score": 0.8456,
       "score_breakdown": {
         "recency": 0.32,
         "source_credibility": 0.1656,
         "corroboration": 0.12,
         "severity": 0.2,
         "breadth": 0.0,
-        "actionability": 0.0133,
-        "total": 0.8189
+        "actionability": 0.04,
+        "total": 0.8456
       },
       "stix_bundle": {
         "type": "bundle",
-        "id": "bundle--ee64a54b-6442-44c8-b5b2-9ec5e19adffc",
+        "id": "bundle--a7bd19b2-043c-4c4a-8f55-01691f975987",
         "objects": [
           {
             "type": "report",
             "spec_version": "2.1",
-            "id": "report--cd362259-2369-4229-89ff-05b236fce328",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2026-28532 FRRouting < 10.5.3 Integer Overflow in OSPF TLV Parser Functions",
+            "id": "report--663ddaaf-543e-48e8-8cfa-d4f0e4f28c5e",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2026-41205 Mako: Path traversal via double-slash URI prefix in TemplateLookup",
             "description": "Information published.",
-            "published": "2026-05-05T08:02:55.000Z",
+            "published": "2026-05-06T08:41:40.000Z",
             "report_types": [
               "threat-report"
             ],
             "object_refs": [
-              "vulnerability--ea901d78-74b2-4afb-81b6-91e8931ef5af"
+              "vulnerability--b845f6c3-dd21-4cfa-82ec-11cbffa0899e"
             ],
             "external_references": [
               {
                 "source_name": "Microsoft MSRC",
-                "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-28532",
-                "description": "CVE-2026-28532 FRRouting < 10.5.3 Integer Overflow in OSPF TLV Parser Functions"
+                "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-41205",
+                "description": "CVE-2026-41205 Mako: Path traversal via double-slash URI prefix in TemplateLookup"
               }
             ],
             "labels": []
@@ -210,21 +458,21 @@
           {
             "type": "vulnerability",
             "spec_version": "2.1",
-            "id": "vulnerability--ea901d78-74b2-4afb-81b6-91e8931ef5af",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2026-28532",
+            "id": "vulnerability--b845f6c3-dd21-4cfa-82ec-11cbffa0899e",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2026-41205",
             "external_references": [
               {
                 "source_name": "cve",
-                "external_id": "CVE-2026-28532",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-28532"
+                "external_id": "CVE-2026-41205",
+                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-41205"
               }
             ]
           }
         ]
       },
-      "stix_file": "stix/62c4c86d-acd7-42a0-a5f1-1886e62d15cd.json",
+      "stix_file": "stix/73532f69-b946-4959-bdc4-0f3e6dccbb3d.json",
       "supporting_source_details": [
         {
           "name": "Schneier on Security",
@@ -232,163 +480,44 @@
         },
         {
           "name": "The New York Times Technology",
-          "url": "https://www.nytimes.com/2026/04/29/technology/ai-spending-tech-data-centers.html"
-        },
-        {
-          "name": "The Guardian Technology",
-          "url": "https://www.theguardian.com/books/2026/may/03/will-human-minds-still-be-special-in-an-age-of-ai"
-        },
-        {
-          "name": "NBC News Technology",
-          "url": "https://www.nbcnews.com/nightly-news/video/iran-attacks-oil-tankers-in-strait-of-hormuz-262699077577"
+          "url": "https://www.nytimes.com/2026/05/03/business/costa-rica-electric-vehicle-road-trip.html"
         },
         {
           "name": "Dark Reading",
           "url": "https://www.darkreading.com/vulnerabilities-threats/how-dark-reading-lifted-off-launchpad-2006"
         },
         {
-          "name": "Mashable Tech",
-          "url": "https://mashable.com/article/may-4-fastestvpn-lifetime-subscription-10-user-access"
+          "name": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/one-eight-workers-sold-corporate"
+        },
+        {
+          "name": "Exploit Database",
+          "url": "https://www.exploit-db.com/exploits/52543"
         }
       ],
-      "corroboration_count": 7,
+      "corroboration_count": 6,
       "confidence_note": "Affected countries could not be determined from available text.",
       "cve_details": {
-        "CVE-2026-28532": {
-          "score": 6.5,
-          "severity": "MEDIUM",
-          "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVE-2026-41205": {
+          "score": 7.5,
+          "severity": "HIGH",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
           "version": "3.1"
         }
       },
       "prevalent_days": 0
     },
     {
-      "id": "5914dbf6-c7e3-4f85-a1a1-459b2d1d945a",
-      "title": "Broadcom VMware security advisory (AV26-419)",
-      "primary_url": "https://cyber.gc.ca/en/alerts-advisories/broadcom-vmware-security-advisory-av26-419",
-      "primary_source": "Canadian Centre for Cyber Security",
-      "supporting_sources": [
-        "CERT-FR (ANSSI)",
-        "CrowdStrike Blog",
-        "Infosecurity Magazine",
-        "Elastic Security Labs",
-        "SecurityWeek",
-        "Security Affairs"
-      ],
-      "published_at": "2026-05-04T17:13:34Z",
-      "summary": "Serial number: AV26-419 Date: May 4, 2026 On May 1, 2026, Broadcom published a security advisory to address a vulnerability in the following product: Tanzu Jammy Stemcell \u2013 versions prior to 1.1193 The Cyber Centre encourages users and administrators to review the web links provided and apply the necessary updates. Tanzu Security Advisory CVE-2026-341431 Security Advisories - Application Networking and Security",
-      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-341431) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Coverage across 7 independent sources increases analytical confidence.",
-      "attack_techniques": [],
-      "attribution": [],
-      "countries_affected": [],
-      "companies_affected": [],
-      "industries_affected": [],
-      "threat_types": [
-        "Vulnerability"
-      ],
-      "cves": [
-        "CVE-2026-341431"
-      ],
-      "malware_families": [],
-      "score": 0.7843,
-      "score_breakdown": {
-        "recency": 0.272,
-        "source_credibility": 0.1656,
-        "corroboration": 0.12,
-        "severity": 0.16,
-        "breadth": 0.0,
-        "actionability": 0.0667,
-        "total": 0.7843
-      },
-      "stix_bundle": {
-        "type": "bundle",
-        "id": "bundle--1b73a6e9-f431-4055-88d2-c27a9c7373ad",
-        "objects": [
-          {
-            "type": "report",
-            "spec_version": "2.1",
-            "id": "report--03dd97fc-9dc1-4492-9465-bde23b163b9c",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Broadcom VMware security advisory (AV26-419)",
-            "description": "Serial number: AV26-419 Date: May 4, 2026 On May 1, 2026, Broadcom published a security advisory to address a vulnerability in the following product: Tanzu Jammy Stemcell \u2013 versions prior to 1.1193 The Cyber Centre encourages users and administrators to review the web links provided and apply the necessary updates. Tanzu Security Advisory CVE-2026-341431 Security Advisories - Application Networking and Security",
-            "published": "2026-05-04T17:13:34.000Z",
-            "report_types": [
-              "threat-report"
-            ],
-            "object_refs": [
-              "vulnerability--9b98ad1b-157b-4c4f-bd89-05520e70847e"
-            ],
-            "external_references": [
-              {
-                "source_name": "Canadian Centre for Cyber Security",
-                "url": "https://cyber.gc.ca/en/alerts-advisories/broadcom-vmware-security-advisory-av26-419",
-                "description": "Broadcom VMware security advisory (AV26-419)"
-              }
-            ],
-            "labels": []
-          },
-          {
-            "type": "vulnerability",
-            "spec_version": "2.1",
-            "id": "vulnerability--9b98ad1b-157b-4c4f-bd89-05520e70847e",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2026-341431",
-            "external_references": [
-              {
-                "source_name": "cve",
-                "external_id": "CVE-2026-341431",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-341431"
-              }
-            ]
-          }
-        ]
-      },
-      "stix_file": "stix/5914dbf6-c7e3-4f85-a1a1-459b2d1d945a.json",
-      "supporting_source_details": [
-        {
-          "name": "CERT-FR (ANSSI)",
-          "url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0527"
-        },
-        {
-          "name": "CrowdStrike Blog",
-          "url": "https://www.crowdstrike.com/en-us/blog/crowdstrike-falcon-cloud-security-delivers-264-percent-roi-through-unified-cloud-protection"
-        },
-        {
-          "name": "Elastic Security Labs",
-          "url": "https://www.elastic.co/security-labs/elastic-workflows-ga-9-4"
-        },
-        {
-          "name": "SecurityWeek",
-          "url": "https://www.securityweek.com/cisco-moves-to-acquire-astrix-security-to-tackle-non-human-identity-risks"
-        },
-        {
-          "name": "Security Affairs",
-          "url": "https://securityaffairs.com/191607/breaking-news/security-affairs-newsletter-round-575-by-pierluigi-paganini-international-edition.html"
-        },
-        {
-          "name": "Infosecurity Magazine",
-          "url": "https://www.infosecurity-magazine.com/news/zero-day-2017-linux-kernel"
-        }
-      ],
-      "corroboration_count": 7,
-      "confidence_note": "Affected countries could not be determined from available text.",
-      "cve_details": {},
-      "prevalent_days": 0
-    },
-    {
-      "id": "61fcd989-899c-42a9-9bb1-690fc9e844ff",
-      "title": "Weaver E-cology RCE Flaw CVE-2026-22679 Actively Exploited via Debug API",
-      "primary_url": "https://thehackernews.com/2026/05/weaver-e-cology-rce-flaw-cve-2026-22679.html",
+      "id": "f9ac28eb-8c13-42eb-948d-619831e01051",
+      "title": "Palo Alto PAN-OS Flaw Under Active Exploitation Enables Remote Code Execution",
+      "primary_url": "https://thehackernews.com/2026/05/palo-alto-pan-os-flaw-under-active.html",
       "primary_source": "The Hacker News",
       "supporting_sources": [
         "Infosecurity Magazine"
       ],
-      "published_at": "2026-05-05T07:37:00Z",
-      "summary": "A critical security vulnerability in Weaver (Fanwei) E-cology, an enterprise office automation (OA) and collaboration platform, has come under active exploitation in the wild. The vulnerability (CVE-2026-22679, CVSS score: 9.8) relates to a case of unauthenticated remote code execution affecting Weaver E-cology 10.0 versions prior to 20260312. The issue resides in the \"/papi/esearch/data/devops/",
-      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-22679) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Attack pattern consistent with malicious code running on victim systems. Independently corroborated by a second source.",
+      "published_at": "2026-05-06T06:14:00Z",
+      "summary": "Palo Alto Networks has released an advisory warning that a critical buffer overflow vulnerability in its PAN-OS software has been exploited in the wild. The vulnerability, tracked as CVE-2026-0300, has been described as a case of unauthenticated remote code execution. It carries a CVSS score of 9.3 if the User-ID Authentication Portal is configured to enable access from the internet or any",
+      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-0300) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Attack pattern consistent with malicious code running on victim systems. Independently corroborated by a second source.",
       "attack_techniques": [
         {
           "technique_id": "T1059",
@@ -406,44 +535,44 @@
         "Vulnerability"
       ],
       "cves": [
-        "CVE-2026-22679"
+        "CVE-2026-0300"
       ],
       "malware_families": [],
-      "score": 0.7737,
+      "score": 0.8004,
       "score_breakdown": {
         "recency": 0.32,
         "source_credibility": 0.1404,
         "corroboration": 0.06,
         "severity": 0.2,
         "breadth": 0.0,
-        "actionability": 0.0533,
-        "total": 0.7737
+        "actionability": 0.08,
+        "total": 0.8004
       },
       "stix_bundle": {
         "type": "bundle",
-        "id": "bundle--0d343d41-8763-4493-810a-ac2958fc1d27",
+        "id": "bundle--f4ebb973-681f-4a2b-b302-adcafb7bccd1",
         "objects": [
           {
             "type": "report",
             "spec_version": "2.1",
-            "id": "report--3a69cea3-4d65-48d9-a578-0d54107cb475",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Weaver E-cology RCE Flaw CVE-2026-22679 Actively Exploited via Debug API",
-            "description": "A critical security vulnerability in Weaver (Fanwei) E-cology, an enterprise office automation (OA) and collaboration platform, has come under active exploitation in the wild. The vulnerability (CVE-2026-22679, CVSS score: 9.8) relates to a case of unauthenticated remote code execution affecting Weaver E-cology 10.0 versions prior to 20260312. The issue resides in the \"/papi/esearch/data/devops/",
-            "published": "2026-05-05T07:37:00.000Z",
+            "id": "report--86d166d4-bb14-4306-8f5d-f05cbcde070b",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Palo Alto PAN-OS Flaw Under Active Exploitation Enables Remote Code Execution",
+            "description": "Palo Alto Networks has released an advisory warning that a critical buffer overflow vulnerability in its PAN-OS software has been exploited in the wild. The vulnerability, tracked as CVE-2026-0300, has been described as a case of unauthenticated remote code execution. It carries a CVSS score of 9.3 if the User-ID Authentication Portal is configured to enable access from the internet or any",
+            "published": "2026-05-06T06:14:00.000Z",
             "report_types": [
               "threat-report"
             ],
             "object_refs": [
-              "vulnerability--441dd075-b374-4556-a3bc-4bc4331045bb",
-              "attack-pattern--559bbae9-96d4-4ecf-a920-6773e2343fa6"
+              "vulnerability--78bb8169-89bb-4a9d-8f16-4af512ab9820",
+              "attack-pattern--51d63da6-4f53-4069-a05a-aa1428b62736"
             ],
             "external_references": [
               {
                 "source_name": "The Hacker News",
-                "url": "https://thehackernews.com/2026/05/weaver-e-cology-rce-flaw-cve-2026-22679.html",
-                "description": "Weaver E-cology RCE Flaw CVE-2026-22679 Actively Exploited via Debug API"
+                "url": "https://thehackernews.com/2026/05/palo-alto-pan-os-flaw-under-active.html",
+                "description": "Palo Alto PAN-OS Flaw Under Active Exploitation Enables Remote Code Execution"
               }
             ],
             "labels": []
@@ -451,24 +580,24 @@
           {
             "type": "vulnerability",
             "spec_version": "2.1",
-            "id": "vulnerability--441dd075-b374-4556-a3bc-4bc4331045bb",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2026-22679",
+            "id": "vulnerability--78bb8169-89bb-4a9d-8f16-4af512ab9820",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2026-0300",
             "external_references": [
               {
                 "source_name": "cve",
-                "external_id": "CVE-2026-22679",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-22679"
+                "external_id": "CVE-2026-0300",
+                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-0300"
               }
             ]
           },
           {
             "type": "attack-pattern",
             "spec_version": "2.1",
-            "id": "attack-pattern--559bbae9-96d4-4ecf-a920-6773e2343fa6",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
+            "id": "attack-pattern--51d63da6-4f53-4069-a05a-aa1428b62736",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
             "name": "Command and Scripting Interpreter",
             "external_references": [
               {
@@ -486,7 +615,7 @@
           }
         ]
       },
-      "stix_file": "stix/61fcd989-899c-42a9-9bb1-690fc9e844ff.json",
+      "stix_file": "stix/f9ac28eb-8c13-42eb-948d-619831e01051.json",
       "supporting_source_details": [
         {
           "name": "Infosecurity Magazine",
@@ -495,8 +624,255 @@
       ],
       "corroboration_count": 2,
       "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs. Affected countries could not be determined from available text.",
+      "cve_details": {},
+      "prevalent_days": 0
+    },
+    {
+      "id": "221e7705-9365-45cc-b203-bdde761b9f9c",
+      "title": "Redis security advisory (AV26-423)",
+      "primary_url": "https://cyber.gc.ca/en/alerts-advisories/redis-security-advisory-av26-423",
+      "primary_source": "Canadian Centre for Cyber Security",
+      "supporting_sources": [
+        "Tenable Blog",
+        "WIRED Security",
+        "ESET WeLiveSecurity",
+        "Microsoft Security Blog",
+        "Infosecurity Magazine",
+        "Huntress Labs Blog",
+        "SecurityWeek"
+      ],
+      "published_at": "2026-05-05T19:03:10Z",
+      "summary": "Serial number: AV26-423 Date: May 5, 2026 On May 5, 2026, Redis published a security advisory to address vulnerabilities in the following products: Redis Software \u2013 multiple versions Redis OSS/CE releases \u2013 multiple versions The Cyber Centre encourages users and administrators to review the provided web links and apply the necessary updates. Redis Security advisory: [CVE\u20112026\u201123479] [CVE\u20112026\u201125243] [CVE-2026-25588] [CVE\u20112026\u201125589] [CVE-2026-23631] Redis Security Advisories",
+      "why_it_matters": "Covers 2 tracked CVE(s) (CVE-2026-25588, CVE-2026-23631) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Coverage across 8 independent sources increases analytical confidence.",
+      "attack_techniques": [],
+      "attribution": [],
+      "countries_affected": [],
+      "companies_affected": [],
+      "industries_affected": [],
+      "threat_types": [
+        "Vulnerability"
+      ],
+      "cves": [
+        "CVE-2026-25588",
+        "CVE-2026-23631"
+      ],
+      "malware_families": [],
+      "score": 0.7976,
+      "score_breakdown": {
+        "recency": 0.272,
+        "source_credibility": 0.1656,
+        "corroboration": 0.12,
+        "severity": 0.16,
+        "breadth": 0.0,
+        "actionability": 0.08,
+        "total": 0.7976
+      },
+      "stix_bundle": {
+        "type": "bundle",
+        "id": "bundle--1f5e4461-69e7-4d23-a34f-3d7683937048",
+        "objects": [
+          {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--0da11c24-b8c4-412f-a87c-13b74e4d1276",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Redis security advisory (AV26-423)",
+            "description": "Serial number: AV26-423 Date: May 5, 2026 On May 5, 2026, Redis published a security advisory to address vulnerabilities in the following products: Redis Software \u2013 multiple versions Redis OSS/CE releases \u2013 multiple versions The Cyber Centre encourages users and administrators to review the provided web links and apply the necessary updates. Redis Security advisory: [CVE\u20112026\u201123479] [CVE\u20112026\u201125243] [CVE-2026-25588] [CVE\u20112026\u201125589] [CVE-2026-23631] Redis Security Advisories",
+            "published": "2026-05-05T19:03:10.000Z",
+            "report_types": [
+              "threat-report"
+            ],
+            "object_refs": [
+              "vulnerability--5d613a5b-765a-4f5b-980f-4dae3bff7777",
+              "vulnerability--f3dc5015-0056-4c61-8c41-6b8b9684b827"
+            ],
+            "external_references": [
+              {
+                "source_name": "Canadian Centre for Cyber Security",
+                "url": "https://cyber.gc.ca/en/alerts-advisories/redis-security-advisory-av26-423",
+                "description": "Redis security advisory (AV26-423)"
+              }
+            ],
+            "labels": []
+          },
+          {
+            "type": "vulnerability",
+            "spec_version": "2.1",
+            "id": "vulnerability--5d613a5b-765a-4f5b-980f-4dae3bff7777",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2026-25588",
+            "external_references": [
+              {
+                "source_name": "cve",
+                "external_id": "CVE-2026-25588",
+                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-25588"
+              }
+            ]
+          },
+          {
+            "type": "vulnerability",
+            "spec_version": "2.1",
+            "id": "vulnerability--f3dc5015-0056-4c61-8c41-6b8b9684b827",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2026-23631",
+            "external_references": [
+              {
+                "source_name": "cve",
+                "external_id": "CVE-2026-23631",
+                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-23631"
+              }
+            ]
+          }
+        ]
+      },
+      "stix_file": "stix/221e7705-9365-45cc-b203-bdde761b9f9c.json",
+      "supporting_source_details": [
+        {
+          "name": "Microsoft Security Blog",
+          "url": "https://www.microsoft.com/en-us/security/blog/2026/04/30/whats-new-updated-or-recently-released-in-microsoft-security"
+        },
+        {
+          "name": "ESET WeLiveSecurity",
+          "url": "https://www.welivesecurity.com/en/videos/month-security-tony-anscombe-april-2026"
+        },
+        {
+          "name": "Huntress Labs Blog",
+          "url": "https://www.huntress.com/blog/device-code-phishing-cyber-resilience-strategy"
+        },
+        {
+          "name": "Tenable Blog",
+          "url": "https://www.tenable.com/blog/mastering-agentic-ai-security-through-exposure-management"
+        },
+        {
+          "name": "WIRED Security",
+          "url": "https://www.wired.com/story/openai-chatgpt-codex-advanced-account-security"
+        },
+        {
+          "name": "SecurityWeek",
+          "url": "https://www.securityweek.com/oracle-debuts-monthly-critical-security-patch-updates"
+        },
+        {
+          "name": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/zero-trust-guidance-operational"
+        }
+      ],
+      "corroboration_count": 8,
+      "confidence_note": "Affected countries could not be determined from available text.",
+      "cve_details": {},
+      "prevalent_days": 0
+    },
+    {
+      "id": "5066fe3f-d6a4-4962-8628-fc68d6ed03f3",
+      "title": "CVE-2026-43037 ip6_tunnel: clear skb2->cb[] in ip4ip6_err()",
+      "primary_url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-43037",
+      "primary_source": "Microsoft MSRC",
+      "supporting_sources": [
+        "CrowdStrike Blog",
+        "TechCrunch",
+        "ABC News Technology",
+        "NBC News Technology",
+        "Mashable Tech"
+      ],
+      "published_at": "2026-05-06T08:01:29Z",
+      "summary": "Information published.",
+      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-43037) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Coverage across 6 independent sources increases analytical confidence.",
+      "attack_techniques": [],
+      "attribution": [],
+      "countries_affected": [],
+      "companies_affected": [],
+      "industries_affected": [],
+      "threat_types": [
+        "Other"
+      ],
+      "cves": [
+        "CVE-2026-43037"
+      ],
+      "malware_families": [],
+      "score": 0.7789,
+      "score_breakdown": {
+        "recency": 0.32,
+        "source_credibility": 0.1656,
+        "corroboration": 0.12,
+        "severity": 0.16,
+        "breadth": 0.0,
+        "actionability": 0.0133,
+        "total": 0.7789
+      },
+      "stix_bundle": {
+        "type": "bundle",
+        "id": "bundle--92cf4f05-9550-499b-beae-9248043ab6b7",
+        "objects": [
+          {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--2776f61f-274c-4d1a-8197-95e653e6b606",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2026-43037 ip6_tunnel: clear skb2->cb[] in ip4ip6_err()",
+            "description": "Information published.",
+            "published": "2026-05-06T08:01:29.000Z",
+            "report_types": [
+              "threat-report"
+            ],
+            "object_refs": [
+              "vulnerability--73b6e232-c8cf-4b19-b2c5-90437d250e43"
+            ],
+            "external_references": [
+              {
+                "source_name": "Microsoft MSRC",
+                "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-43037",
+                "description": "CVE-2026-43037 ip6_tunnel: clear skb2->cb[] in ip4ip6_err()"
+              }
+            ],
+            "labels": []
+          },
+          {
+            "type": "vulnerability",
+            "spec_version": "2.1",
+            "id": "vulnerability--73b6e232-c8cf-4b19-b2c5-90437d250e43",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2026-43037",
+            "external_references": [
+              {
+                "source_name": "cve",
+                "external_id": "CVE-2026-43037",
+                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-43037"
+              }
+            ]
+          }
+        ]
+      },
+      "stix_file": "stix/5066fe3f-d6a4-4962-8628-fc68d6ed03f3.json",
+      "supporting_source_details": [
+        {
+          "name": "CrowdStrike Blog",
+          "url": "https://www.crowdstrike.com/en-us/blog/crowdstrike-named-leader-2026-frost-sullivan-radar-cnapp"
+        },
+        {
+          "name": "TechCrunch",
+          "url": "https://techcrunch.com/2026/05/05/kaspersky-suspects-chinese-hackers-planted-a-backdoor-into-daemon-tools-in-widespread-attack"
+        },
+        {
+          "name": "NBC News Technology",
+          "url": "https://www.nbcnews.com/politics/2026-election/ohio-back-both-parties-navigate-competitive-midterm-races-forgotten-ba-rcna342230"
+        },
+        {
+          "name": "ABC News Technology",
+          "url": "https://abcnews.com/Technology/wireStory/new-mexico-seeks-child-safety-restrictions-meta-apps-132625773"
+        },
+        {
+          "name": "Mashable Tech",
+          "url": "https://mashable.com/article/sony-leak-1000x-headphones-airpods-max-price"
+        }
+      ],
+      "corroboration_count": 6,
+      "confidence_note": "Affected countries could not be determined from available text.",
       "cve_details": {
-        "CVE-2026-22679": {
+        "CVE-2026-43037": {
           "score": 9.8,
           "severity": "CRITICAL",
           "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
@@ -506,14 +882,109 @@
       "prevalent_days": 0
     },
     {
-      "id": "ca2be927-a400-4ed7-8942-9fe9abdf34e8",
+      "id": "8a0c0d77-9580-4ca6-b641-3260a8e8be07",
+      "title": "Government, Scientific Entities Hit via Daemon Tools Supply Chain Attack",
+      "primary_url": "https://www.securityweek.com/government-scientific-entities-hit-via-daemon-tools-supply-chain-attack",
+      "primary_source": "SecurityWeek",
+      "supporting_sources": [],
+      "published_at": "2026-05-06T08:33:40Z",
+      "summary": "While trojanized Daemon Tools versions were installed worldwide, a sophisticated backdoor was dropped only on a dozen systems. The post Government, Scientific Entities Hit via Daemon Tools Supply Chain Attack appeared first on SecurityWeek .",
+      "why_it_matters": "Attack pattern consistent with adversaries gaining their first foothold in the environment.",
+      "attack_techniques": [
+        {
+          "technique_id": "T1195",
+          "technique_name": "Supply Chain Compromise",
+          "tactic": "Initial Access",
+          "confidence": "Low"
+        }
+      ],
+      "attribution": [],
+      "countries_affected": [],
+      "companies_affected": [],
+      "industries_affected": [],
+      "threat_types": [
+        "Supply Chain",
+        "Malware"
+      ],
+      "cves": [],
+      "malware_families": [],
+      "score": 0.7667,
+      "score_breakdown": {
+        "recency": 0.32,
+        "source_credibility": 0.144,
+        "corroboration": 0.036,
+        "severity": 0.2,
+        "breadth": 0.0667,
+        "actionability": 0.0,
+        "total": 0.7667
+      },
+      "stix_bundle": {
+        "type": "bundle",
+        "id": "bundle--2a7b5eeb-67f8-4732-bcb4-5a6ffa6af504",
+        "objects": [
+          {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--efc35698-d680-49f4-b1d7-b0a038a88541",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Government, Scientific Entities Hit via Daemon Tools Supply Chain Attack",
+            "description": "While trojanized Daemon Tools versions were installed worldwide, a sophisticated backdoor was dropped only on a dozen systems. The post Government, Scientific Entities Hit via Daemon Tools Supply Chain Attack appeared first on SecurityWeek .",
+            "published": "2026-05-06T08:33:40.000Z",
+            "report_types": [
+              "threat-report"
+            ],
+            "object_refs": [
+              "attack-pattern--57bca380-c416-499a-8551-9ac4e38618da"
+            ],
+            "external_references": [
+              {
+                "source_name": "SecurityWeek",
+                "url": "https://www.securityweek.com/government-scientific-entities-hit-via-daemon-tools-supply-chain-attack",
+                "description": "Government, Scientific Entities Hit via Daemon Tools Supply Chain Attack"
+              }
+            ],
+            "labels": []
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--57bca380-c416-499a-8551-9ac4e38618da",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Supply Chain Compromise",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "external_id": "T1195",
+                "url": "https://attack.mitre.org/techniques/T1195/"
+              }
+            ],
+            "kill_chain_phases": [
+              {
+                "kill_chain_name": "mitre-attack",
+                "phase_name": "initial-access"
+              }
+            ]
+          }
+        ]
+      },
+      "stix_file": "stix/8a0c0d77-9580-4ca6-b641-3260a8e8be07.json",
+      "supporting_source_details": [],
+      "corroboration_count": 1,
+      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs. Affected countries could not be determined from available text.",
+      "cve_details": {},
+      "prevalent_days": 0
+    },
+    {
+      "id": "41341fe8-72d3-4063-bb25-fd6a34d61c59",
       "title": "Tune In: The Future of AI-Powered Vulnerability Discovery",
       "primary_url": "https://www.crowdstrike.com/en-us/blog/tune-in-future-of-ai-powered-vulnerability-discovery",
       "primary_source": "CrowdStrike Blog",
       "supporting_sources": [
         "The Hacker News"
       ],
-      "published_at": "2026-05-05T09:03:06.021091",
+      "published_at": "2026-05-06T09:14:06.325349",
       "summary": "This week, the shadows moved faster than the patches. While most teams were still triaging last month\u2019s alerts, attackers had already turned control panels into kill switches, kernels into open doors, and open-source pipelines into silent delivery systems. The game has shifted from breach to occupation.",
       "why_it_matters": "Primary exposure: Energy, Technology sector(s). Attack pattern consistent with malicious code running on victim systems. Independently corroborated by a second source.",
       "attack_techniques": [
@@ -548,22 +1019,22 @@
       },
       "stix_bundle": {
         "type": "bundle",
-        "id": "bundle--6dcc5140-40ba-48ce-acc7-a8e8343039b2",
+        "id": "bundle--4d2dd08f-6341-429b-8389-55f78a95d123",
         "objects": [
           {
             "type": "report",
             "spec_version": "2.1",
-            "id": "report--a139ff61-441c-4b92-b4c9-4d6b46b7e991",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
+            "id": "report--1b62e668-3606-448b-a517-fd7819e2fcf7",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
             "name": "Tune In: The Future of AI-Powered Vulnerability Discovery",
             "description": "This week, the shadows moved faster than the patches. While most teams were still triaging last month\u2019s alerts, attackers had already turned control panels into kill switches, kernels into open doors, and open-source pipelines into silent delivery systems. The game has shifted from breach to occupation.",
-            "published": "2026-05-05T09:03:06.000Z",
+            "published": "2026-05-06T09:14:06.000Z",
             "report_types": [
               "threat-report"
             ],
             "object_refs": [
-              "attack-pattern--1eac8ccd-978a-4ddb-a1d5-937380ec3ccf"
+              "attack-pattern--05f3a155-b840-45aa-a1ec-32224bdd9026"
             ],
             "external_references": [
               {
@@ -580,9 +1051,9 @@
           {
             "type": "attack-pattern",
             "spec_version": "2.1",
-            "id": "attack-pattern--1eac8ccd-978a-4ddb-a1d5-937380ec3ccf",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
+            "id": "attack-pattern--05f3a155-b840-45aa-a1ec-32224bdd9026",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
             "name": "Command and Scripting Interpreter",
             "external_references": [
               {
@@ -600,7 +1071,7 @@
           }
         ]
       },
-      "stix_file": "stix/ca2be927-a400-4ed7-8942-9fe9abdf34e8.json",
+      "stix_file": "stix/41341fe8-72d3-4063-bb25-fd6a34d61c59.json",
       "supporting_source_details": [
         {
           "name": "The Hacker News",
@@ -613,137 +1084,19 @@
       "prevalent_days": 0
     },
     {
-      "id": "99299e6b-44c8-4694-a0d5-ae874653b84c",
-      "title": "Red Hat security advisory (AV26-418)",
-      "primary_url": "https://cyber.gc.ca/en/alerts-advisories/red-hat-security-advisory-av26-418",
-      "primary_source": "Canadian Centre for Cyber Security",
-      "supporting_sources": [
-        "CERT-FR (ANSSI)",
-        "Tenable Blog",
-        "WIRED Security",
-        "Dark Reading",
-        "BleepingComputer",
-        "ESET WeLiveSecurity",
-        "Huntress Labs Blog",
-        "Infosecurity Magazine",
-        "SecurityWeek",
-        "Microsoft Security Blog"
-      ],
-      "published_at": "2026-05-04T14:17:57Z",
-      "summary": "Serial number: AV26-418 Date: May 4, 2026 Between April 27 and May 3, 2026, Red Hat published security advisories to address vulnerabilities in multiple products.",
-      "why_it_matters": "An official security advisory has been published. Prompt patching is strongly recommended before adversaries weaponise the disclosed vulnerability. Coverage across 11 independent sources increases analytical confidence.",
-      "attack_techniques": [],
-      "attribution": [],
-      "countries_affected": [],
-      "companies_affected": [],
-      "industries_affected": [],
-      "threat_types": [
-        "Vulnerability"
-      ],
-      "cves": [],
-      "malware_families": [],
-      "score": 0.7309,
-      "score_breakdown": {
-        "recency": 0.272,
-        "source_credibility": 0.1656,
-        "corroboration": 0.12,
-        "severity": 0.12,
-        "breadth": 0.0,
-        "actionability": 0.0533,
-        "total": 0.7309
-      },
-      "stix_bundle": {
-        "type": "bundle",
-        "id": "bundle--394e6b52-3452-42a9-a0b8-ac6a698146a3",
-        "objects": [
-          {
-            "type": "report",
-            "spec_version": "2.1",
-            "id": "report--b254cb1b-0be0-4d8b-968f-ccec3a16f9ab",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Red Hat security advisory (AV26-418)",
-            "description": "Serial number: AV26-418 Date: May 4, 2026 Between April 27 and May 3, 2026, Red Hat published security advisories to address vulnerabilities in multiple products.",
-            "published": "2026-05-04T14:17:57.000Z",
-            "report_types": [
-              "threat-report"
-            ],
-            "object_refs": [
-              "report--b254cb1b-0be0-4d8b-968f-ccec3a16f9ab"
-            ],
-            "external_references": [
-              {
-                "source_name": "Canadian Centre for Cyber Security",
-                "url": "https://cyber.gc.ca/en/alerts-advisories/red-hat-security-advisory-av26-418",
-                "description": "Red Hat security advisory (AV26-418)"
-              }
-            ],
-            "labels": []
-          }
-        ]
-      },
-      "stix_file": "stix/99299e6b-44c8-4694-a0d5-ae874653b84c.json",
-      "supporting_source_details": [
-        {
-          "name": "CERT-FR (ANSSI)",
-          "url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0521"
-        },
-        {
-          "name": "Microsoft Security Blog",
-          "url": "https://www.microsoft.com/en-us/security/blog/2026/04/30/whats-new-updated-or-recently-released-in-microsoft-security"
-        },
-        {
-          "name": "ESET WeLiveSecurity",
-          "url": "https://www.welivesecurity.com/en/videos/month-security-tony-anscombe-april-2026"
-        },
-        {
-          "name": "Huntress Labs Blog",
-          "url": "https://www.huntress.com/blog/device-code-phishing-cyber-resilience-strategy"
-        },
-        {
-          "name": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/webinar-why-msps-must-rethink-security-and-backup-strategies"
-        },
-        {
-          "name": "Tenable Blog",
-          "url": "https://www.tenable.com/blog/mastering-agentic-ai-security-through-exposure-management"
-        },
-        {
-          "name": "WIRED Security",
-          "url": "https://www.wired.com/story/openai-chatgpt-codex-advanced-account-security"
-        },
-        {
-          "name": "SecurityWeek",
-          "url": "https://www.securityweek.com/openai-rolls-out-advanced-security-for-chatgpt-accounts"
-        },
-        {
-          "name": "Dark Reading",
-          "url": "https://www.darkreading.com/identity-access-management-security/oracle-red-bull-racing-team-revs-up-automation-to-boost-security"
-        },
-        {
-          "name": "Infosecurity Magazine",
-          "url": "https://www.infosecurity-magazine.com/news/zero-trust-guidance-operational"
-        }
-      ],
-      "corroboration_count": 11,
-      "confidence_note": "Affected countries could not be determined from available text.",
-      "cve_details": {},
-      "prevalent_days": 0
-    },
-    {
-      "id": "f15541b6-fbf7-4472-ad71-9f9cfb71e9a4",
-      "title": "Critical MOVEit Automation auth bypass vulnerability fixed (CVE-2026-4670)",
-      "primary_url": "https://www.helpnetsecurity.com/2026/05/04/critical-moveit-automation-auth-bypass-vulnerability-fixed-cve-2026-4670",
-      "primary_source": "Help Net Security",
+      "id": "6c3663f9-061d-4ed9-b7f4-bf95f20a4f2b",
+      "title": "Palo Alto Networks to Patch Zero-Day Exploited to Hack Firewalls",
+      "primary_url": "https://www.securityweek.com/palo-alto-networks-to-patch-zero-day-exploited-to-hack-firewalls",
+      "primary_source": "SecurityWeek",
       "supporting_sources": [],
-      "published_at": "2026-05-04T14:58:24Z",
-      "summary": "Progress Software has fixed a critical authentication bypass (CVE-2026-4670) and a privilege escalation (CVE-2026-5174) vulnerability in MOVEit Automation, exploitation of which \u201cmay lead to unauthorized access, administrative control, and data exposure.\u201d The vulnerabilities were reported privately by Airbus researchers and there\u2019s no mention of them being leveraged by attackers in the wild.",
-      "why_it_matters": "Covers 2 tracked CVE(s) (CVE-2026-4670, CVE-2026-5174) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Attack pattern consistent with attackers escalating to higher system privileges.",
+      "published_at": "2026-05-06T04:46:23Z",
+      "summary": "CVE-2026-0300 affects the Captive Portal service of PAN-OS software on PA and VM series firewalls. The post Palo Alto Networks to Patch Zero-Day Exploited to Hack Firewalls appeared first on SecurityWeek .",
+      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-0300) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Attack pattern consistent with adversaries gaining their first foothold in the environment.",
       "attack_techniques": [
         {
-          "technique_id": "T1068",
-          "technique_name": "Exploitation for Privilege Escalation",
-          "tactic": "Privilege Escalation",
+          "technique_id": "T1190",
+          "technique_name": "Exploit Public-Facing Application",
+          "tactic": "Initial Access",
           "confidence": "Low"
         }
       ],
@@ -752,51 +1105,47 @@
       "companies_affected": [],
       "industries_affected": [],
       "threat_types": [
-        "MFA Bypass",
-        "Data Breach",
-        "Vulnerability"
+        "Zero-Day"
       ],
       "cves": [
-        "CVE-2026-4670",
-        "CVE-2026-5174"
+        "CVE-2026-0300"
       ],
       "malware_families": [],
-      "score": 0.6848,
+      "score": 0.74,
       "score_breakdown": {
-        "recency": 0.272,
-        "source_credibility": 0.1368,
+        "recency": 0.32,
+        "source_credibility": 0.144,
         "corroboration": 0.036,
-        "severity": 0.16,
+        "severity": 0.2,
         "breadth": 0.0,
-        "actionability": 0.08,
-        "total": 0.6848
+        "actionability": 0.04,
+        "total": 0.74
       },
       "stix_bundle": {
         "type": "bundle",
-        "id": "bundle--1f8cffc2-2e1f-4c12-8368-6d9c8024b0c9",
+        "id": "bundle--65f59892-9b88-405a-8dd3-7d6194a3e274",
         "objects": [
           {
             "type": "report",
             "spec_version": "2.1",
-            "id": "report--cb2370fd-c75d-46a0-884e-05d715c80077",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Critical MOVEit Automation auth bypass vulnerability fixed (CVE-2026-4670)",
-            "description": "Progress Software has fixed a critical authentication bypass (CVE-2026-4670) and a privilege escalation (CVE-2026-5174) vulnerability in MOVEit Automation, exploitation of which \u201cmay lead to unauthorized access, administrative control, and data exposure.\u201d The vulnerabilities were reported privately by Airbus researchers and there\u2019s no mention of them being leveraged by attackers in the wild.",
-            "published": "2026-05-04T14:58:24.000Z",
+            "id": "report--70766a10-dde3-41e2-9124-3eddb1c99c9a",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Palo Alto Networks to Patch Zero-Day Exploited to Hack Firewalls",
+            "description": "CVE-2026-0300 affects the Captive Portal service of PAN-OS software on PA and VM series firewalls. The post Palo Alto Networks to Patch Zero-Day Exploited to Hack Firewalls appeared first on SecurityWeek .",
+            "published": "2026-05-06T04:46:23.000Z",
             "report_types": [
               "threat-report"
             ],
             "object_refs": [
-              "vulnerability--01199c16-f15f-41ef-ad03-f5d454834167",
-              "vulnerability--611525f9-9896-49b4-acfd-1e3f1479b91c",
-              "attack-pattern--caf92e15-26bb-4df1-a8cb-901040e1e294"
+              "vulnerability--8666be4a-4211-484a-8a3d-732bbbbda04f",
+              "attack-pattern--587248b3-8ceb-4fd0-aef2-d4a9027b54ae"
             ],
             "external_references": [
               {
-                "source_name": "Help Net Security",
-                "url": "https://www.helpnetsecurity.com/2026/05/04/critical-moveit-automation-auth-bypass-vulnerability-fixed-cve-2026-4670",
-                "description": "Critical MOVEit Automation auth bypass vulnerability fixed (CVE-2026-4670)"
+                "source_name": "SecurityWeek",
+                "url": "https://www.securityweek.com/palo-alto-networks-to-patch-zero-day-exploited-to-hack-firewalls",
+                "description": "Palo Alto Networks to Patch Zero-Day Exploited to Hack Firewalls"
               }
             ],
             "labels": []
@@ -804,499 +1153,661 @@
           {
             "type": "vulnerability",
             "spec_version": "2.1",
-            "id": "vulnerability--01199c16-f15f-41ef-ad03-f5d454834167",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2026-4670",
+            "id": "vulnerability--8666be4a-4211-484a-8a3d-732bbbbda04f",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2026-0300",
             "external_references": [
               {
                 "source_name": "cve",
-                "external_id": "CVE-2026-4670",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-4670"
-              }
-            ]
-          },
-          {
-            "type": "vulnerability",
-            "spec_version": "2.1",
-            "id": "vulnerability--611525f9-9896-49b4-acfd-1e3f1479b91c",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2026-5174",
-            "external_references": [
-              {
-                "source_name": "cve",
-                "external_id": "CVE-2026-5174",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-5174"
+                "external_id": "CVE-2026-0300",
+                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-0300"
               }
             ]
           },
           {
             "type": "attack-pattern",
             "spec_version": "2.1",
-            "id": "attack-pattern--caf92e15-26bb-4df1-a8cb-901040e1e294",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Exploitation for Privilege Escalation",
+            "id": "attack-pattern--587248b3-8ceb-4fd0-aef2-d4a9027b54ae",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Exploit Public-Facing Application",
             "external_references": [
               {
                 "source_name": "mitre-attack",
-                "external_id": "T1068",
-                "url": "https://attack.mitre.org/techniques/T1068/"
+                "external_id": "T1190",
+                "url": "https://attack.mitre.org/techniques/T1190/"
               }
             ],
             "kill_chain_phases": [
               {
                 "kill_chain_name": "mitre-attack",
-                "phase_name": "privilege-escalation"
+                "phase_name": "initial-access"
               }
             ]
           }
         ]
       },
-      "stix_file": "stix/f15541b6-fbf7-4472-ad71-9f9cfb71e9a4.json",
+      "stix_file": "stix/6c3663f9-061d-4ed9-b7f4-bf95f20a4f2b.json",
       "supporting_source_details": [],
       "corroboration_count": 1,
       "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs. Affected countries could not be determined from available text.",
-      "cve_details": {
-        "CVE-2026-4670": {
-          "score": 9.8,
-          "severity": "CRITICAL",
-          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-          "version": "3.1"
-        },
-        "CVE-2026-5174": {
-          "score": 7.7,
-          "severity": "HIGH",
-          "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H",
-          "version": "3.1"
-        }
-      },
+      "cve_details": {},
       "prevalent_days": 0
     },
     {
-      "id": "9ba43213-59d3-43ce-ab40-3187c2cadf83",
-      "title": "CrowdStrike Expands ChatGPT Enterprise Integration with Enhanced Audit Logging and Activity Monitoring",
-      "primary_url": "https://www.crowdstrike.com/en-us/blog/crowdstrike-expands-chatgpt-enterprise-integration",
-      "primary_source": "CrowdStrike Blog",
+      "id": "87670e2b-831d-42ea-824e-ccee03c85851",
+      "title": "Copy Fail: What You Need to Know About the Most Severe Linux Threat in Years",
+      "primary_url": "https://unit42.paloaltonetworks.com/cve-2026-31431-copy-fail",
+      "primary_source": "Palo Alto Unit 42",
       "supporting_sources": [
-        "Mashable Tech",
-        "Recorded Future News",
-        "The Guardian Technology",
-        "Malwarebytes Labs",
-        "Dark Reading",
-        "BleepingComputer",
-        "Politico Cybersecurity",
         "The New York Times Technology",
-        "Huntress Labs Blog",
-        "BBC News Technology",
-        "Infosecurity Magazine",
-        "ABC News Technology",
+        "The Independent Technology",
         "The Hacker News",
-        "Microsoft Security Blog"
+        "Sophos X-Ops",
+        "SecurityWeek",
+        "Mashable Tech"
       ],
-      "published_at": "2026-05-05T09:03:06.021183",
-      "summary": "Learn how Microsoft Sentinel UEBA helps defenders distinguish benign AWS activity from attacker behavior by enriching raw CloudTrail logs with clear, binary behavioral signals derived from baseline user, peer, and device behavior patterns. The post Simplifying AWS defense with Microsoft Sentinel UEBA appeared first on Microsoft Security Blog .",
-      "why_it_matters": "Primary exposure: Government, Technology sector(s). Coverage across 15 independent sources increases analytical confidence.",
+      "published_at": "2026-05-05T23:00:33Z",
+      "summary": "Copy Fail (CVE-2026-31431) is a critical Linux kernel LPE that allows stealthy root access. This flaw impacts millions of systems. The post Copy Fail: What You Need to Know About the Most Severe Linux Threat in Years appeared first on Unit 42 .",
+      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-31431) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Coverage across 7 independent sources increases analytical confidence.",
       "attack_techniques": [],
       "attribution": [],
       "countries_affected": [],
       "companies_affected": [],
+      "industries_affected": [],
+      "threat_types": [
+        "Other"
+      ],
+      "cves": [
+        "CVE-2026-31431"
+      ],
+      "malware_families": [],
+      "score": 0.7299,
+      "score_breakdown": {
+        "recency": 0.32,
+        "source_credibility": 0.1566,
+        "corroboration": 0.12,
+        "severity": 0.12,
+        "breadth": 0.0,
+        "actionability": 0.0133,
+        "total": 0.7299
+      },
+      "stix_bundle": {
+        "type": "bundle",
+        "id": "bundle--684fe59f-1da7-4024-a167-8e3081875f99",
+        "objects": [
+          {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--4298ce91-f757-42fe-ab1b-a8b0997b8e02",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Copy Fail: What You Need to Know About the Most Severe Linux Threat in Years",
+            "description": "Copy Fail (CVE-2026-31431) is a critical Linux kernel LPE that allows stealthy root access. This flaw impacts millions of systems. The post Copy Fail: What You Need to Know About the Most Severe Linux Threat in Years appeared first on Unit 42 .",
+            "published": "2026-05-05T23:00:33.000Z",
+            "report_types": [
+              "threat-report"
+            ],
+            "object_refs": [
+              "vulnerability--71550de6-3d08-4079-b85f-7d57b1c39820"
+            ],
+            "external_references": [
+              {
+                "source_name": "Palo Alto Unit 42",
+                "url": "https://unit42.paloaltonetworks.com/cve-2026-31431-copy-fail",
+                "description": "Copy Fail: What You Need to Know About the Most Severe Linux Threat in Years"
+              }
+            ],
+            "labels": []
+          },
+          {
+            "type": "vulnerability",
+            "spec_version": "2.1",
+            "id": "vulnerability--71550de6-3d08-4079-b85f-7d57b1c39820",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2026-31431",
+            "external_references": [
+              {
+                "source_name": "cve",
+                "external_id": "CVE-2026-31431",
+                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-31431"
+              }
+            ]
+          }
+        ]
+      },
+      "stix_file": "stix/87670e2b-831d-42ea-824e-ccee03c85851.json",
+      "supporting_source_details": [
+        {
+          "name": "Sophos X-Ops",
+          "url": "https://www.sophos.com/en-us/blog/sophos-security-services-retainer"
+        },
+        {
+          "name": "The New York Times Technology",
+          "url": "https://www.nytimes.com/video/technology/100000010865043/musk-vs-altman-what-is-this-really-about.html"
+        },
+        {
+          "name": "SecurityWeek",
+          "url": "https://www.securityweek.com/karakurt-ransomware-negotiator-sentenced-to-prison"
+        },
+        {
+          "name": "The Hacker News",
+          "url": "https://thehackernews.com/2026/05/2026-year-of-ai-assisted-attacks.html"
+        },
+        {
+          "name": "The Independent Technology",
+          "url": "https://www.independent.co.uk/news/business/business-reporter/healthcare-ai-disease-cancer-diagnosis-medicine-b2970283.html"
+        },
+        {
+          "name": "Mashable Tech",
+          "url": "https://mashable.com/article/may-6-pdf-converter-pro-lifetime-license"
+        }
+      ],
+      "corroboration_count": 7,
+      "confidence_note": "Affected countries could not be determined from available text.",
+      "cve_details": {
+        "CVE-2026-31431": {
+          "score": 7.8,
+          "severity": "HIGH",
+          "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+          "version": "3.1"
+        }
+      },
+      "prevalent_days": 0
+    }
+  ],
+  "mainstream_threats": [
+    {
+      "id": "1e8f5a58-6e34-46a8-9d92-5a527ceb858a",
+      "title": "DarkSword Malware",
+      "primary_url": "https://www.schneier.com/blog/archives/2026/05/darksword-malware.html",
+      "primary_source": "Schneier on Security",
+      "supporting_sources": [
+        "Huntress Labs Blog",
+        "The Hacker News",
+        "BleepingComputer"
+      ],
+      "published_at": "2026-05-05T10:42:03Z",
+      "summary": "Google Threat Intelligence Group (GTIG) has identified a new iOS full-chain exploit that leveraged multiple zero-day vulnerabilities to fully compromise devices. Since at least November 2025, GTIG has observed multiple commercial surveillance vendors and suspected state-sponsored actors utilizing DarkSword in distinct campaigns. These threat actors have deployed the exploit chain against targets in Saudi Arabia, Turkey, Malaysia, and Ukraine...",
+      "why_it_matters": "Primary exposure: Technology sector(s). Attack pattern consistent with adversaries gaining their first foothold in the environment. Coverage across 4 independent sources increases analytical confidence.",
+      "attack_techniques": [
+        {
+          "technique_id": "T1190",
+          "technique_name": "Exploit Public-Facing Application",
+          "tactic": "Initial Access",
+          "confidence": "Low"
+        }
+      ],
+      "attribution": [],
+      "countries_affected": [
+        "Saudi Arabia",
+        "Malaysia",
+        "Ukraine",
+        "Turkey"
+      ],
+      "companies_affected": [],
       "industries_affected": [
-        "Government",
         "Technology"
+      ],
+      "threat_types": [
+        "Zero-Day",
+        "Exploitation",
+        "APT",
+        "Malware"
+      ],
+      "cves": [],
+      "malware_families": [],
+      "score": 0.7217,
+      "score_breakdown": {
+        "recency": 0.34,
+        "source_credibility": 0.085,
+        "corroboration": 0.255,
+        "severity": 0.025,
+        "breadth": 0.0167,
+        "actionability": 0.0,
+        "total": 0.7217
+      },
+      "stix_bundle": {
+        "type": "bundle",
+        "id": "bundle--39eec762-f8e5-4057-b43a-5e517e559a31",
+        "objects": [
+          {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--c417072e-8984-4dfd-b907-025bd3e0bc93",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "DarkSword Malware",
+            "description": "Google Threat Intelligence Group (GTIG) has identified a new iOS full-chain exploit that leveraged multiple zero-day vulnerabilities to fully compromise devices. Since at least November 2025, GTIG has observed multiple commercial surveillance vendors and suspected state-sponsored actors utilizing DarkSword in distinct campaigns. These threat actors have deployed the exploit chain against targets in Saudi Arabia, Turkey, Malaysia, and Ukraine...",
+            "published": "2026-05-05T10:42:03.000Z",
+            "report_types": [
+              "threat-report"
+            ],
+            "object_refs": [
+              "attack-pattern--6118f876-a197-41f4-9fb2-fe62c6c905c0"
+            ],
+            "external_references": [
+              {
+                "source_name": "Schneier on Security",
+                "url": "https://www.schneier.com/blog/archives/2026/05/darksword-malware.html",
+                "description": "DarkSword Malware"
+              }
+            ],
+            "labels": [
+              "Technology"
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--6118f876-a197-41f4-9fb2-fe62c6c905c0",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Exploit Public-Facing Application",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "external_id": "T1190",
+                "url": "https://attack.mitre.org/techniques/T1190/"
+              }
+            ],
+            "kill_chain_phases": [
+              {
+                "kill_chain_name": "mitre-attack",
+                "phase_name": "initial-access"
+              }
+            ]
+          }
+        ]
+      },
+      "stix_file": "stix/1e8f5a58-6e34-46a8-9d92-5a527ceb858a.json",
+      "supporting_source_details": [
+        {
+          "name": "Huntress Labs Blog",
+          "url": "https://www.huntress.com/blog/clickfix-castleloader-backgroundfix"
+        },
+        {
+          "name": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/new-stealthy-quasar-linux-malware-targets-software-developers"
+        },
+        {
+          "name": "The Hacker News",
+          "url": "https://thehackernews.com/2026/05/daemon-tools-supply-chain-attack.html"
+        }
+      ],
+      "corroboration_count": 4,
+      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs.",
+      "cve_details": {},
+      "prevalent_days": 0
+    },
+    {
+      "id": "f9ac28eb-8c13-42eb-948d-619831e01051",
+      "title": "Palo Alto PAN-OS Flaw Under Active Exploitation Enables Remote Code Execution",
+      "primary_url": "https://thehackernews.com/2026/05/palo-alto-pan-os-flaw-under-active.html",
+      "primary_source": "The Hacker News",
+      "supporting_sources": [
+        "Infosecurity Magazine"
+      ],
+      "published_at": "2026-05-06T06:14:00Z",
+      "summary": "Palo Alto Networks has released an advisory warning that a critical buffer overflow vulnerability in its PAN-OS software has been exploited in the wild. The vulnerability, tracked as CVE-2026-0300, has been described as a case of unauthenticated remote code execution. It carries a CVSS score of 9.3 if the User-ID Authentication Portal is configured to enable access from the internet or any",
+      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-0300) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Attack pattern consistent with malicious code running on victim systems. Independently corroborated by a second source.",
+      "attack_techniques": [
+        {
+          "technique_id": "T1059",
+          "technique_name": "Command and Scripting Interpreter",
+          "tactic": "Execution",
+          "confidence": "Low"
+        }
+      ],
+      "attribution": [],
+      "countries_affected": [],
+      "companies_affected": [],
+      "industries_affected": [],
+      "threat_types": [
+        "Exploitation",
+        "Vulnerability"
+      ],
+      "cves": [
+        "CVE-2026-0300"
+      ],
+      "malware_families": [],
+      "score": 0.6447,
+      "score_breakdown": {
+        "recency": 0.4,
+        "source_credibility": 0.078,
+        "corroboration": 0.15,
+        "severity": 0.0,
+        "breadth": 0.0,
+        "actionability": 0.0167,
+        "total": 0.6447
+      },
+      "stix_bundle": {
+        "type": "bundle",
+        "id": "bundle--19efd2d6-535e-4951-8e85-6b267bfa81f3",
+        "objects": [
+          {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--9cb0d892-4c10-491b-aa4f-0ff28a77f620",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Palo Alto PAN-OS Flaw Under Active Exploitation Enables Remote Code Execution",
+            "description": "Palo Alto Networks has released an advisory warning that a critical buffer overflow vulnerability in its PAN-OS software has been exploited in the wild. The vulnerability, tracked as CVE-2026-0300, has been described as a case of unauthenticated remote code execution. It carries a CVSS score of 9.3 if the User-ID Authentication Portal is configured to enable access from the internet or any",
+            "published": "2026-05-06T06:14:00.000Z",
+            "report_types": [
+              "threat-report"
+            ],
+            "object_refs": [
+              "vulnerability--249eca5b-576b-45b2-bdc4-d51f42e224d2",
+              "attack-pattern--33f447ca-78ee-4913-9a1d-f3f1fb53310c"
+            ],
+            "external_references": [
+              {
+                "source_name": "The Hacker News",
+                "url": "https://thehackernews.com/2026/05/palo-alto-pan-os-flaw-under-active.html",
+                "description": "Palo Alto PAN-OS Flaw Under Active Exploitation Enables Remote Code Execution"
+              }
+            ],
+            "labels": []
+          },
+          {
+            "type": "vulnerability",
+            "spec_version": "2.1",
+            "id": "vulnerability--249eca5b-576b-45b2-bdc4-d51f42e224d2",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2026-0300",
+            "external_references": [
+              {
+                "source_name": "cve",
+                "external_id": "CVE-2026-0300",
+                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-0300"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--33f447ca-78ee-4913-9a1d-f3f1fb53310c",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Command and Scripting Interpreter",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "external_id": "T1059",
+                "url": "https://attack.mitre.org/techniques/T1059/"
+              }
+            ],
+            "kill_chain_phases": [
+              {
+                "kill_chain_name": "mitre-attack",
+                "phase_name": "execution"
+              }
+            ]
+          }
+        ]
+      },
+      "stix_file": "stix/f9ac28eb-8c13-42eb-948d-619831e01051.json",
+      "supporting_source_details": [
+        {
+          "name": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/cursor-extension-flaw-exposes-api"
+        }
+      ],
+      "corroboration_count": 2,
+      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs. Affected countries could not be determined from available text.",
+      "cve_details": {},
+      "prevalent_days": 0
+    },
+    {
+      "id": "a88a2182-18ac-439a-8e47-aeefd8df7c8c",
+      "title": "Instructure hacker claims data theft from 8,800 schools, universities",
+      "primary_url": "https://www.bleepingcomputer.com/news/security/instructure-hacker-claims-data-theft-from-8-800-schools-universities",
+      "primary_source": "BleepingComputer",
+      "supporting_sources": [],
+      "published_at": "2026-05-05T21:20:23Z",
+      "summary": "The hacker behind a breach at education technology giant Instructure claims to have stolen 280 million data records for students and staff from 8,809 colleges, school districts, and online education platforms.",
+      "why_it_matters": "Primary exposure: Education sector(s). Attack pattern consistent with data being stolen from victim systems.",
+      "attack_techniques": [
+        {
+          "technique_id": "T1041",
+          "technique_name": "Exfiltration Over C2 Channel",
+          "tactic": "Exfiltration",
+          "confidence": "Low"
+        }
+      ],
+      "attribution": [],
+      "countries_affected": [],
+      "companies_affected": [],
+      "industries_affected": [
+        "Education"
       ],
       "threat_types": [
         "Other"
       ],
       "cves": [],
       "malware_families": [],
-      "score": 0.6766,
+      "score": 0.6387,
       "score_breakdown": {
-        "recency": 0.32,
-        "source_credibility": 0.1566,
-        "corroboration": 0.12,
-        "severity": 0.08,
-        "breadth": 0.0,
+        "recency": 0.4,
+        "source_credibility": 0.082,
+        "corroboration": 0.09,
+        "severity": 0.05,
+        "breadth": 0.0167,
         "actionability": 0.0,
-        "total": 0.6766
+        "total": 0.6387
       },
       "stix_bundle": {
         "type": "bundle",
-        "id": "bundle--f868970a-8c1e-4962-ac92-cf10968d76e5",
+        "id": "bundle--f4cd3232-bdb1-44e5-8543-b623283cb1f1",
         "objects": [
           {
             "type": "report",
             "spec_version": "2.1",
-            "id": "report--84035004-8322-4192-b492-f8e1e2e683f0",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CrowdStrike Expands ChatGPT Enterprise Integration with Enhanced Audit Logging and Activity Monitoring",
-            "description": "Learn how Microsoft Sentinel UEBA helps defenders distinguish benign AWS activity from attacker behavior by enriching raw CloudTrail logs with clear, binary behavioral signals derived from baseline user, peer, and device behavior patterns. The post Simplifying AWS defense with Microsoft Sentinel UEBA appeared first on Microsoft Security Blog .",
-            "published": "2026-05-05T09:03:06.000Z",
+            "id": "report--d16878b2-a814-4b58-bde3-4b035580f9d7",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Instructure hacker claims data theft from 8,800 schools, universities",
+            "description": "The hacker behind a breach at education technology giant Instructure claims to have stolen 280 million data records for students and staff from 8,809 colleges, school districts, and online education platforms.",
+            "published": "2026-05-05T21:20:23.000Z",
             "report_types": [
               "threat-report"
             ],
             "object_refs": [
-              "report--84035004-8322-4192-b492-f8e1e2e683f0"
+              "attack-pattern--44aa5c1e-19bc-4698-b553-f68a2dfd75af"
             ],
             "external_references": [
               {
-                "source_name": "CrowdStrike Blog",
-                "url": "https://www.crowdstrike.com/en-us/blog/crowdstrike-expands-chatgpt-enterprise-integration",
-                "description": "CrowdStrike Expands ChatGPT Enterprise Integration with Enhanced Audit Logging and Activity Monitoring"
+                "source_name": "BleepingComputer",
+                "url": "https://www.bleepingcomputer.com/news/security/instructure-hacker-claims-data-theft-from-8-800-schools-universities",
+                "description": "Instructure hacker claims data theft from 8,800 schools, universities"
               }
             ],
             "labels": [
-              "Government",
-              "Technology"
-            ]
-          }
-        ]
-      },
-      "stix_file": "stix/9ba43213-59d3-43ce-ab40-3187c2cadf83.json",
-      "supporting_source_details": [
-        {
-          "name": "Microsoft Security Blog",
-          "url": "https://www.microsoft.com/en-us/security/blog/2026/04/28/simplifying-aws-defense-microsoft-sentinel-ueba"
-        },
-        {
-          "name": "Huntress Labs Blog",
-          "url": "https://www.huntress.com/blog/komari-c2-agent-abuse"
-        },
-        {
-          "name": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/consentfix-v3-attacks-target-azure-with-automated-oauth-abuse"
-        },
-        {
-          "name": "Recorded Future News",
-          "url": "https://www.recordedfuture.com/blog/building-with-ai"
-        },
-        {
-          "name": "BBC News Technology",
-          "url": "https://www.bbc.com/news/articles/c5y9wen5z8ro?at_medium=RSS&at_campaign=rss"
-        },
-        {
-          "name": "The New York Times Technology",
-          "url": "https://www.nytimes.com/2026/05/04/business/anthropic-blackstone-goldman-sachs-artificial-intelligence-firm.html"
-        },
-        {
-          "name": "Malwarebytes Labs",
-          "url": "https://www.malwarebytes.com/blog/news/2026/04/chinese-engineer-stole-us-military-and-nasa-software-for-years"
-        },
-        {
-          "name": "The Guardian Technology",
-          "url": "https://www.theguardian.com/technology/2026/may/04/vine-video-sharing-back-battling-ai-slop-divine"
-        },
-        {
-          "name": "Politico Cybersecurity",
-          "url": "https://www.politico.com/news/2026/04/28/white-house-huddle-cyber-mythos-00896589"
-        },
-        {
-          "name": "The Hacker News",
-          "url": "https://thehackernews.com/2026/04/cisa-adds-actively-exploited.html"
-        },
-        {
-          "name": "Dark Reading",
-          "url": "https://www.darkreading.com/cloud-security/teampcp-sap-packages-mini-shai-hulud"
-        },
-        {
-          "name": "ABC News Technology",
-          "url": "https://abcnews.com/Technology/wireStory/apple-beats-earnings-estimates-continued-iphone-momentum-132553780"
-        },
-        {
-          "name": "Infosecurity Magazine",
-          "url": "https://www.infosecurity-magazine.com/news/ransomware-turf-war-0apt-krybit"
-        },
-        {
-          "name": "Mashable Tech",
-          "url": "https://mashable.com/article/star-wars-day-may-the-4th-deals-new-releases-2026"
-        }
-      ],
-      "corroboration_count": 15,
-      "confidence_note": "Affected countries could not be determined from available text.",
-      "cve_details": {},
-      "prevalent_days": 0
-    },
-    {
-      "id": "79e805d9-5204-4dc1-a985-fa4473f2d39c",
-      "title": "MOVEit automation flaws could enable full system compromise",
-      "primary_url": "https://securityaffairs.com/191681/security/moveit-automation-flaws-could-enable-full-system-compromise.html",
-      "primary_source": "Security Affairs",
-      "supporting_sources": [],
-      "published_at": "2026-05-04T21:32:10Z",
-      "summary": "Progress fixes critical MOVEit Automation flaws, including an authentication bypass bug that could let attackers gain unauthorized access to systems. Progress Software addressed two vulnerabilities in MOVEit Automation, a critical authentication bypass flaw tracked as CVE-2026-4670 and a privilege escalation issue tracked as CVE-2026-5174. If exploited, these bugs could allow attackers to gain unauthorized access [\u2026]",
-      "why_it_matters": "Covers 2 tracked CVE(s) (CVE-2026-4670, CVE-2026-5174) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Attack pattern consistent with attackers escalating to higher system privileges.",
-      "attack_techniques": [
-        {
-          "technique_id": "T1068",
-          "technique_name": "Exploitation for Privilege Escalation",
-          "tactic": "Privilege Escalation",
-          "confidence": "Low"
-        }
-      ],
-      "attribution": [],
-      "countries_affected": [],
-      "companies_affected": [],
-      "industries_affected": [],
-      "threat_types": [
-        "MFA Bypass",
-        "Vulnerability"
-      ],
-      "cves": [
-        "CVE-2026-4670",
-        "CVE-2026-5174"
-      ],
-      "malware_families": [],
-      "score": 0.6697,
-      "score_breakdown": {
-        "recency": 0.32,
-        "source_credibility": 0.1404,
-        "corroboration": 0.036,
-        "severity": 0.12,
-        "breadth": 0.0,
-        "actionability": 0.0533,
-        "total": 0.6697
-      },
-      "stix_bundle": {
-        "type": "bundle",
-        "id": "bundle--f9655ad4-1403-4438-94fd-9aca89973fb1",
-        "objects": [
-          {
-            "type": "report",
-            "spec_version": "2.1",
-            "id": "report--332b1ab7-e19f-49c3-9c7d-88876148bbf6",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "MOVEit automation flaws could enable full system compromise",
-            "description": "Progress fixes critical MOVEit Automation flaws, including an authentication bypass bug that could let attackers gain unauthorized access to systems. Progress Software addressed two vulnerabilities in MOVEit Automation, a critical authentication bypass flaw tracked as CVE-2026-4670 and a privilege escalation issue tracked as CVE-2026-5174. If exploited, these bugs could allow attackers to gain unauthorized access [\u2026]",
-            "published": "2026-05-04T21:32:10.000Z",
-            "report_types": [
-              "threat-report"
-            ],
-            "object_refs": [
-              "vulnerability--34a125c5-6acf-4720-818c-53debc1ef8cd",
-              "vulnerability--e958de41-048b-4c05-9526-164f68474f63",
-              "attack-pattern--270108ee-54bf-4a53-9afa-a4a85adb60ef"
-            ],
-            "external_references": [
-              {
-                "source_name": "Security Affairs",
-                "url": "https://securityaffairs.com/191681/security/moveit-automation-flaws-could-enable-full-system-compromise.html",
-                "description": "MOVEit automation flaws could enable full system compromise"
-              }
-            ],
-            "labels": []
-          },
-          {
-            "type": "vulnerability",
-            "spec_version": "2.1",
-            "id": "vulnerability--34a125c5-6acf-4720-818c-53debc1ef8cd",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2026-4670",
-            "external_references": [
-              {
-                "source_name": "cve",
-                "external_id": "CVE-2026-4670",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-4670"
-              }
-            ]
-          },
-          {
-            "type": "vulnerability",
-            "spec_version": "2.1",
-            "id": "vulnerability--e958de41-048b-4c05-9526-164f68474f63",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2026-5174",
-            "external_references": [
-              {
-                "source_name": "cve",
-                "external_id": "CVE-2026-5174",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-5174"
-              }
+              "Education"
             ]
           },
           {
             "type": "attack-pattern",
             "spec_version": "2.1",
-            "id": "attack-pattern--270108ee-54bf-4a53-9afa-a4a85adb60ef",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Exploitation for Privilege Escalation",
+            "id": "attack-pattern--44aa5c1e-19bc-4698-b553-f68a2dfd75af",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Exfiltration Over C2 Channel",
             "external_references": [
               {
                 "source_name": "mitre-attack",
-                "external_id": "T1068",
-                "url": "https://attack.mitre.org/techniques/T1068/"
+                "external_id": "T1041",
+                "url": "https://attack.mitre.org/techniques/T1041/"
               }
             ],
             "kill_chain_phases": [
               {
                 "kill_chain_name": "mitre-attack",
-                "phase_name": "privilege-escalation"
+                "phase_name": "exfiltration"
               }
             ]
           }
         ]
       },
-      "stix_file": "stix/79e805d9-5204-4dc1-a985-fa4473f2d39c.json",
+      "stix_file": "stix/a88a2182-18ac-439a-8e47-aeefd8df7c8c.json",
       "supporting_source_details": [],
       "corroboration_count": 1,
       "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs. Affected countries could not be determined from available text.",
-      "cve_details": {
-        "CVE-2026-4670": {
-          "score": 9.8,
-          "severity": "CRITICAL",
-          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
-          "version": "3.1"
-        },
-        "CVE-2026-5174": {
-          "score": 7.7,
-          "severity": "HIGH",
-          "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H",
-          "version": "3.1"
-        }
-      },
+      "cve_details": {},
       "prevalent_days": 0
     },
     {
-      "id": "31b8819c-bc01-40f7-9cd5-7c250f7e0a13",
-      "title": "ABB AWIN Gateways",
-      "primary_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-120-05",
-      "primary_source": "CISA Advisories",
+      "id": "ef0b82f8-963c-408d-97fb-9d5a71bb4873",
+      "title": "Hackers steal students\u2019 data during breach at education tech giant Instructure",
+      "primary_url": "https://techcrunch.com/2026/05/05/hackers-steal-students-data-during-breach-at-education-tech-giant-instructure",
+      "primary_source": "TechCrunch",
       "supporting_sources": [],
-      "published_at": "2026-04-30T12:00:00Z",
-      "summary": "The following versions of ABB AWIN Gateways are affected: ABB AWIN Firmware (2.0-0) installed on ABB AWIN GW100 rev.2 2.0-0 ABB AWIN Firmware (2.0-1) installed on ABB AWIN GW100 rev.2 2.0-1 ABB AWIN Firmware (1.2-0) installed on ABB AWIN GW120 1.2-0 ABB AWIN Firmware (1.2-1) installed on ABB AWIN GW120 1.2-1 CVSS Vendor Equipment Vulnerabilities v3 8.3 ABB ABB AWIN Gateways Authentication Bypass by Capture-replay, Missing Authentication for Critical Function Background Critical Infrastructure Sectors: Critical Manufacturing Countries/Areas Deployed: Worldwide Company...",
-      "why_it_matters": "Covers 3 tracked CVE(s) (CVE-2025-13777, CVE-2025-13778, CVE-2025-13779) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Primary exposure: Critical Infrastructure, Manufacturing sector(s). Attack pattern consistent with destructive actions targeting systems or data.",
+      "published_at": "2026-05-05T14:31:50Z",
+      "summary": "The data breach at education tech giant Instructure includes students' private data, according to a sample of the allegedly stolen data seen by TechCrunch.",
+      "why_it_matters": "A confirmed data incident indicates adversaries achieved persistent access and likely exfiltrated data, with downstream exposure risk for affected users and partners. Primary exposure: Education sector(s).",
+      "attack_techniques": [],
+      "attribution": [],
+      "countries_affected": [],
+      "companies_affected": [],
+      "industries_affected": [
+        "Education"
+      ],
+      "threat_types": [
+        "Data Breach"
+      ],
+      "cves": [],
+      "malware_families": [],
+      "score": 0.6257,
+      "score_breakdown": {
+        "recency": 0.34,
+        "source_credibility": 0.079,
+        "corroboration": 0.09,
+        "severity": 0.1,
+        "breadth": 0.0167,
+        "actionability": 0.0,
+        "total": 0.6257
+      },
+      "stix_bundle": {
+        "type": "bundle",
+        "id": "bundle--b4a78820-7e54-4518-9aa4-bc54fa150bb5",
+        "objects": [
+          {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--61936479-daf9-4c23-bf81-ad6aed60ebd4",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Hackers steal students\u2019 data during breach at education tech giant Instructure",
+            "description": "The data breach at education tech giant Instructure includes students' private data, according to a sample of the allegedly stolen data seen by TechCrunch.",
+            "published": "2026-05-05T14:31:50.000Z",
+            "report_types": [
+              "threat-report"
+            ],
+            "object_refs": [
+              "report--61936479-daf9-4c23-bf81-ad6aed60ebd4"
+            ],
+            "external_references": [
+              {
+                "source_name": "TechCrunch",
+                "url": "https://techcrunch.com/2026/05/05/hackers-steal-students-data-during-breach-at-education-tech-giant-instructure",
+                "description": "Hackers steal students\u2019 data during breach at education tech giant Instructure"
+              }
+            ],
+            "labels": [
+              "Education"
+            ]
+          }
+        ]
+      },
+      "stix_file": "stix/ef0b82f8-963c-408d-97fb-9d5a71bb4873.json",
+      "supporting_source_details": [],
+      "corroboration_count": 1,
+      "confidence_note": "Affected countries could not be determined from available text.",
+      "cve_details": {},
+      "prevalent_days": 0
+    },
+    {
+      "id": "cdc39f20-e763-4147-8087-384bb1106d93",
+      "title": "Karakurt extortion gang \u2018cold case\u2019 negotiator gets 8.5 years in prison",
+      "primary_url": "https://www.bleepingcomputer.com/news/security/karakurt-extortion-gang-negotiator-sentenced-to-85-years-in-prison",
+      "primary_source": "BleepingComputer",
+      "supporting_sources": [],
+      "published_at": "2026-05-05T10:13:17Z",
+      "summary": "A Latvian national extradited to the United States was sentenced to 8.5 years in prison for his \"cold case\" negotiator role in the Russian Karakurt ransomware group.",
+      "why_it_matters": "Attack pattern consistent with destructive actions targeting systems or data.",
       "attack_techniques": [
         {
-          "technique_id": "T1498",
-          "technique_name": "Network Denial of Service",
+          "technique_id": "T1486",
+          "technique_name": "Data Encrypted for Impact",
           "tactic": "Impact",
           "confidence": "Low"
         }
       ],
       "attribution": [],
-      "countries_affected": [],
+      "countries_affected": [
+        "United States"
+      ],
       "companies_affected": [],
-      "industries_affected": [
-        "Critical Infrastructure",
-        "Manufacturing"
-      ],
+      "industries_affected": [],
       "threat_types": [
-        "DDoS",
-        "MFA Bypass",
-        "Vulnerability"
+        "Ransomware"
       ],
-      "cves": [
-        "CVE-2025-13777",
-        "CVE-2025-13778",
-        "CVE-2025-13779"
-      ],
+      "cves": [],
       "malware_families": [],
-      "score": 0.667,
+      "score": 0.5787,
       "score_breakdown": {
-        "recency": 0.08,
-        "source_credibility": 0.171,
-        "corroboration": 0.036,
-        "severity": 0.2,
-        "breadth": 0.1,
-        "actionability": 0.08,
-        "total": 0.667
+        "recency": 0.34,
+        "source_credibility": 0.082,
+        "corroboration": 0.09,
+        "severity": 0.05,
+        "breadth": 0.0,
+        "actionability": 0.0167,
+        "total": 0.5787
       },
       "stix_bundle": {
         "type": "bundle",
-        "id": "bundle--91065483-4024-4bce-a5ee-a62bc3ce7385",
+        "id": "bundle--12b04d33-b403-4432-8991-7068cdc20927",
         "objects": [
           {
             "type": "report",
             "spec_version": "2.1",
-            "id": "report--0fcf45b4-eaa6-4cbc-b3cf-e3820b3fdb01",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "ABB AWIN Gateways",
-            "description": "The following versions of ABB AWIN Gateways are affected: ABB AWIN Firmware (2.0-0) installed on ABB AWIN GW100 rev.2 2.0-0 ABB AWIN Firmware (2.0-1) installed on ABB AWIN GW100 rev.2 2.0-1 ABB AWIN Firmware (1.2-0) installed on ABB AWIN GW120 1.2-0 ABB AWIN Firmware (1.2-1) installed on ABB AWIN GW120 1.2-1 CVSS Vendor Equipment Vulnerabilities v3 8.3 ABB ABB AWIN Gateways Authentication Bypass by Capture-replay, Missing Authentication for Critical Function Background Critical Infrastructure Sectors: Critical Manufacturing Countries/Areas Deployed: Worldwide Company...",
-            "published": "2026-04-30T12:00:00.000Z",
+            "id": "report--169c27a7-3796-4d4c-b54d-35a98b9fe275",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Karakurt extortion gang \u2018cold case\u2019 negotiator gets 8.5 years in prison",
+            "description": "A Latvian national extradited to the United States was sentenced to 8.5 years in prison for his \"cold case\" negotiator role in the Russian Karakurt ransomware group.",
+            "published": "2026-05-05T10:13:17.000Z",
             "report_types": [
               "threat-report"
             ],
             "object_refs": [
-              "vulnerability--34f305af-a0b6-4232-9214-0f1355b762e6",
-              "vulnerability--70844117-8236-4860-871c-fa5a8c423aec",
-              "vulnerability--20a13274-79c5-4e5f-87f1-8e839b8676c2",
-              "attack-pattern--5505ab5b-de1b-42b2-91c3-baebf52239c2"
+              "attack-pattern--5c6d66e0-c0a2-4c64-a72a-7402e9ff576e"
             ],
             "external_references": [
               {
-                "source_name": "CISA Advisories",
-                "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-120-05",
-                "description": "ABB AWIN Gateways"
+                "source_name": "BleepingComputer",
+                "url": "https://www.bleepingcomputer.com/news/security/karakurt-extortion-gang-negotiator-sentenced-to-85-years-in-prison",
+                "description": "Karakurt extortion gang \u2018cold case\u2019 negotiator gets 8.5 years in prison"
               }
             ],
-            "labels": [
-              "Critical Infrastructure",
-              "Manufacturing"
-            ]
-          },
-          {
-            "type": "vulnerability",
-            "spec_version": "2.1",
-            "id": "vulnerability--34f305af-a0b6-4232-9214-0f1355b762e6",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2025-13777",
-            "external_references": [
-              {
-                "source_name": "cve",
-                "external_id": "CVE-2025-13777",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-13777"
-              }
-            ]
-          },
-          {
-            "type": "vulnerability",
-            "spec_version": "2.1",
-            "id": "vulnerability--70844117-8236-4860-871c-fa5a8c423aec",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2025-13778",
-            "external_references": [
-              {
-                "source_name": "cve",
-                "external_id": "CVE-2025-13778",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-13778"
-              }
-            ]
-          },
-          {
-            "type": "vulnerability",
-            "spec_version": "2.1",
-            "id": "vulnerability--20a13274-79c5-4e5f-87f1-8e839b8676c2",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2025-13779",
-            "external_references": [
-              {
-                "source_name": "cve",
-                "external_id": "CVE-2025-13779",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-13779"
-              }
-            ]
+            "labels": []
           },
           {
             "type": "attack-pattern",
             "spec_version": "2.1",
-            "id": "attack-pattern--5505ab5b-de1b-42b2-91c3-baebf52239c2",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Network Denial of Service",
+            "id": "attack-pattern--5c6d66e0-c0a2-4c64-a72a-7402e9ff576e",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Data Encrypted for Impact",
             "external_references": [
               {
                 "source_name": "mitre-attack",
-                "external_id": "T1498",
-                "url": "https://attack.mitre.org/techniques/T1498/"
+                "external_id": "T1486",
+                "url": "https://attack.mitre.org/techniques/T1486/"
               }
             ],
             "kill_chain_phases": [
@@ -1308,49 +1819,26 @@
           }
         ]
       },
-      "stix_file": "stix/31b8819c-bc01-40f7-9cd5-7c250f7e0a13.json",
+      "stix_file": "stix/cdc39f20-e763-4147-8087-384bb1106d93.json",
       "supporting_source_details": [],
       "corroboration_count": 1,
-      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs. Affected countries could not be determined from available text.",
-      "cve_details": {
-        "CVE-2025-13777": {
-          "score": 8.3,
-          "severity": "HIGH",
-          "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:H",
-          "version": "3.1"
-        },
-        "CVE-2025-13778": {
-          "score": 6.5,
-          "severity": "MEDIUM",
-          "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-          "version": "3.1"
-        },
-        "CVE-2025-13779": {
-          "score": 8.3,
-          "severity": "HIGH",
-          "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:H",
-          "version": "3.1"
-        }
-      },
+      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs.",
+      "cve_details": {},
       "prevalent_days": 0
-    }
-  ],
-  "mainstream_threats": [
+    },
     {
-      "id": "efe4eba3-d391-44c2-a28c-803b75d0a5e8",
-      "title": "Phishing Campaign Hits 80+ Orgs Using SimpleHelp and ScreenConnect RMM Tools",
-      "primary_url": "https://thehackernews.com/2026/05/phishing-campaign-hits-80-orgs-using.html",
-      "primary_source": "The Hacker News",
-      "supporting_sources": [
-        "Dark Reading"
-      ],
-      "published_at": "2026-05-04T18:06:00Z",
-      "summary": "An active phishing campaign has been observed targeting multiple vectors since at least April 2025 with legitimate Remote Monitoring and Management (RMM) software as a way to establish persistent remote access to compromised hosts. The activity, codenamed VENOMOUS#HELPER, has impacted over 80 organizations, most of which are in the U.S., according to Securonix. It shares overlaps with clusters",
-      "why_it_matters": "Attack pattern consistent with adversaries gaining their first foothold in the environment. Independently corroborated by a second source.",
+      "id": "6c3663f9-061d-4ed9-b7f4-bf95f20a4f2b",
+      "title": "Palo Alto Networks to Patch Zero-Day Exploited to Hack Firewalls",
+      "primary_url": "https://www.securityweek.com/palo-alto-networks-to-patch-zero-day-exploited-to-hack-firewalls",
+      "primary_source": "SecurityWeek",
+      "supporting_sources": [],
+      "published_at": "2026-05-06T04:46:23Z",
+      "summary": "CVE-2026-0300 affects the Captive Portal service of PAN-OS software on PA and VM series firewalls. The post Palo Alto Networks to Patch Zero-Day Exploited to Hack Firewalls appeared first on SecurityWeek .",
+      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-0300) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Attack pattern consistent with adversaries gaining their first foothold in the environment.",
       "attack_techniques": [
         {
-          "technique_id": "T1566",
-          "technique_name": "Phishing",
+          "technique_id": "T1190",
+          "technique_name": "Exploit Public-Facing Application",
           "tactic": "Initial Access",
           "confidence": "Low"
         }
@@ -1360,44 +1848,158 @@
       "companies_affected": [],
       "industries_affected": [],
       "threat_types": [
-        "Phishing"
+        "Zero-Day"
       ],
-      "cves": [],
+      "cves": [
+        "CVE-2026-0300"
+      ],
       "malware_families": [],
-      "score": 0.618,
+      "score": 0.57,
       "score_breakdown": {
-        "recency": 0.34,
-        "source_credibility": 0.078,
-        "corroboration": 0.15,
-        "severity": 0.05,
+        "recency": 0.4,
+        "source_credibility": 0.08,
+        "corroboration": 0.09,
+        "severity": 0.0,
         "breadth": 0.0,
         "actionability": 0.0,
-        "total": 0.618
+        "total": 0.57
       },
       "stix_bundle": {
         "type": "bundle",
-        "id": "bundle--70c96d23-4421-4f03-823e-097822e6238d",
+        "id": "bundle--d5c9a8a8-ee70-4183-9b17-bf745a9e6f41",
         "objects": [
           {
             "type": "report",
             "spec_version": "2.1",
-            "id": "report--3cbce99c-05a3-4d8a-92f1-1ae9936c9bbe",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Phishing Campaign Hits 80+ Orgs Using SimpleHelp and ScreenConnect RMM Tools",
-            "description": "An active phishing campaign has been observed targeting multiple vectors since at least April 2025 with legitimate Remote Monitoring and Management (RMM) software as a way to establish persistent remote access to compromised hosts. The activity, codenamed VENOMOUS#HELPER, has impacted over 80 organizations, most of which are in the U.S., according to Securonix. It shares overlaps with clusters",
-            "published": "2026-05-04T18:06:00.000Z",
+            "id": "report--9b60d220-0130-4a7b-970b-7d7fb49d5521",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Palo Alto Networks to Patch Zero-Day Exploited to Hack Firewalls",
+            "description": "CVE-2026-0300 affects the Captive Portal service of PAN-OS software on PA and VM series firewalls. The post Palo Alto Networks to Patch Zero-Day Exploited to Hack Firewalls appeared first on SecurityWeek .",
+            "published": "2026-05-06T04:46:23.000Z",
             "report_types": [
               "threat-report"
             ],
             "object_refs": [
-              "attack-pattern--af8e7a69-aefe-4a15-a069-bee4df27524c"
+              "vulnerability--f879d9d1-d30e-48bf-87e8-75f3dcf86d84",
+              "attack-pattern--6713d02a-3339-41ea-a30d-89252af15ed3"
             ],
             "external_references": [
               {
-                "source_name": "The Hacker News",
-                "url": "https://thehackernews.com/2026/05/phishing-campaign-hits-80-orgs-using.html",
-                "description": "Phishing Campaign Hits 80+ Orgs Using SimpleHelp and ScreenConnect RMM Tools"
+                "source_name": "SecurityWeek",
+                "url": "https://www.securityweek.com/palo-alto-networks-to-patch-zero-day-exploited-to-hack-firewalls",
+                "description": "Palo Alto Networks to Patch Zero-Day Exploited to Hack Firewalls"
+              }
+            ],
+            "labels": []
+          },
+          {
+            "type": "vulnerability",
+            "spec_version": "2.1",
+            "id": "vulnerability--f879d9d1-d30e-48bf-87e8-75f3dcf86d84",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "CVE-2026-0300",
+            "external_references": [
+              {
+                "source_name": "cve",
+                "external_id": "CVE-2026-0300",
+                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-0300"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--6713d02a-3339-41ea-a30d-89252af15ed3",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Exploit Public-Facing Application",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "external_id": "T1190",
+                "url": "https://attack.mitre.org/techniques/T1190/"
+              }
+            ],
+            "kill_chain_phases": [
+              {
+                "kill_chain_name": "mitre-attack",
+                "phase_name": "initial-access"
+              }
+            ]
+          }
+        ]
+      },
+      "stix_file": "stix/6c3663f9-061d-4ed9-b7f4-bf95f20a4f2b.json",
+      "supporting_source_details": [],
+      "corroboration_count": 1,
+      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs. Affected countries could not be determined from available text.",
+      "cve_details": {},
+      "prevalent_days": 0
+    },
+    {
+      "id": "ba4263d9-8381-4f63-8f11-f89593f6ad0d",
+      "title": "Fake SSA Emails Drive Venomous#Helper Phishing Campaign",
+      "primary_url": "https://www.infosecurity-magazine.com/news/ssa-emails-venomous-helper-phishing",
+      "primary_source": "Infosecurity Magazine",
+      "supporting_sources": [],
+      "published_at": "2026-05-05T14:00:00Z",
+      "summary": "Venomous#Helper attackers impersonate the US Social Security Administration to deploy signed RMM software and maintain persistent access across US networks",
+      "why_it_matters": "Attack pattern consistent with adversaries gaining their first foothold in the environment.",
+      "attack_techniques": [
+        {
+          "technique_id": "T1566",
+          "technique_name": "Phishing",
+          "tactic": "Initial Access",
+          "confidence": "Low"
+        }
+      ],
+      "attribution": [],
+      "countries_affected": [
+        "United States"
+      ],
+      "companies_affected": [],
+      "industries_affected": [],
+      "threat_types": [
+        "Phishing"
+      ],
+      "cves": [],
+      "malware_families": [],
+      "score": 0.556,
+      "score_breakdown": {
+        "recency": 0.34,
+        "source_credibility": 0.076,
+        "corroboration": 0.09,
+        "severity": 0.05,
+        "breadth": 0.0,
+        "actionability": 0.0,
+        "total": 0.556
+      },
+      "stix_bundle": {
+        "type": "bundle",
+        "id": "bundle--903e0730-4d07-41cd-b62d-05e7a612f337",
+        "objects": [
+          {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--01cfb9e9-dc05-4b86-a88c-6ccbe5068ec3",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Fake SSA Emails Drive Venomous#Helper Phishing Campaign",
+            "description": "Venomous#Helper attackers impersonate the US Social Security Administration to deploy signed RMM software and maintain persistent access across US networks",
+            "published": "2026-05-05T14:00:00.000Z",
+            "report_types": [
+              "threat-report"
+            ],
+            "object_refs": [
+              "attack-pattern--7350b086-cd2d-49fd-b424-dc83623a2c4d"
+            ],
+            "external_references": [
+              {
+                "source_name": "Infosecurity Magazine",
+                "url": "https://www.infosecurity-magazine.com/news/ssa-emails-venomous-helper-phishing",
+                "description": "Fake SSA Emails Drive Venomous#Helper Phishing Campaign"
               }
             ],
             "labels": []
@@ -1405,9 +2007,9 @@
           {
             "type": "attack-pattern",
             "spec_version": "2.1",
-            "id": "attack-pattern--af8e7a69-aefe-4a15-a069-bee4df27524c",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
+            "id": "attack-pattern--7350b086-cd2d-49fd-b424-dc83623a2c4d",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
             "name": "Phishing",
             "external_references": [
               {
@@ -1425,106 +2027,25 @@
           }
         ]
       },
-      "stix_file": "stix/efe4eba3-d391-44c2-a28c-803b75d0a5e8.json",
-      "supporting_source_details": [
-        {
-          "name": "Dark Reading",
-          "url": "https://www.darkreading.com/cyberattacks-data-breaches/rmm-tools-stealthy-phishing-campaign"
-        }
-      ],
-      "corroboration_count": 2,
-      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs. Affected countries could not be determined from available text.",
+      "stix_file": "stix/ba4263d9-8381-4f63-8f11-f89593f6ad0d.json",
+      "supporting_source_details": [],
+      "corroboration_count": 1,
+      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs.",
       "cve_details": {},
       "prevalent_days": 0
     },
     {
-      "id": "d74402e6-e32c-4196-aaae-60103832acf0",
-      "title": "Educational company Infrastructure reports cyber incident",
-      "primary_url": "https://therecord.media/infrastructure-education-company-canvas-incident",
-      "primary_source": "The Record (Recorded Future)",
-      "supporting_sources": [
-        "Infosecurity Magazine"
-      ],
-      "published_at": "2026-05-04T17:19:00Z",
-      "summary": "By Saturday, Infrastructure\u2019s chief information security officer Steve Proud confirmed that the hackers gained access to information about users at some educational institutions, including names, email addresses, student ID numbers and messages between users.",
-      "why_it_matters": "Primary exposure: Education sector(s). Independently corroborated by a second source.",
-      "attack_techniques": [],
-      "attribution": [],
-      "countries_affected": [],
-      "companies_affected": [],
-      "industries_affected": [
-        "Education"
-      ],
-      "threat_types": [
-        "Other"
-      ],
-      "cves": [],
-      "malware_families": [],
-      "score": 0.6117,
-      "score_breakdown": {
-        "recency": 0.34,
-        "source_credibility": 0.08,
-        "corroboration": 0.15,
-        "severity": 0.025,
-        "breadth": 0.0167,
-        "actionability": 0.0,
-        "total": 0.6117
-      },
-      "stix_bundle": {
-        "type": "bundle",
-        "id": "bundle--b8e197e6-0d32-441d-93de-602c37731f1d",
-        "objects": [
-          {
-            "type": "report",
-            "spec_version": "2.1",
-            "id": "report--17d5f964-6103-4a85-97bc-eabe0767fe6e",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Educational company Infrastructure reports cyber incident",
-            "description": "By Saturday, Infrastructure\u2019s chief information security officer Steve Proud confirmed that the hackers gained access to information about users at some educational institutions, including names, email addresses, student ID numbers and messages between users.",
-            "published": "2026-05-04T17:19:00.000Z",
-            "report_types": [
-              "threat-report"
-            ],
-            "object_refs": [
-              "report--17d5f964-6103-4a85-97bc-eabe0767fe6e"
-            ],
-            "external_references": [
-              {
-                "source_name": "The Record (Recorded Future)",
-                "url": "https://therecord.media/infrastructure-education-company-canvas-incident",
-                "description": "Educational company Infrastructure reports cyber incident"
-              }
-            ],
-            "labels": [
-              "Education"
-            ]
-          }
-        ]
-      },
-      "stix_file": "stix/d74402e6-e32c-4196-aaae-60103832acf0.json",
-      "supporting_source_details": [
-        {
-          "name": "Infosecurity Magazine",
-          "url": "https://www.infosecurity-magazine.com/news/uk-education-sector-faces-surge-in"
-        }
-      ],
-      "corroboration_count": 2,
-      "confidence_note": "Affected countries could not be determined from available text.",
-      "cve_details": {},
-      "prevalent_days": 0
-    },
-    {
-      "id": "4eb34e6b-cddf-47aa-af04-822b853a631f",
+      "id": "5d313be2-c26b-4e21-9699-6206ddf6f71d",
       "title": "Hacking Polymarket",
       "primary_url": "https://www.schneier.com/blog/archives/2026/05/hacking-polymarket.html",
       "primary_source": "Schneier on Security",
       "supporting_sources": [
-        "Infosecurity Magazine"
+        "Infosecurity Magazine",
+        "SecurityWeek"
       ],
       "published_at": "2026-05-04T09:46:31Z",
       "summary": "Polymarket is a platform where people can bet on real-world events, political and otherwise. Leaving the ethical considerations of this aside (for one, it facilitates assassination ), one of the issues with making this work is the verification of these real-world events. Polymarket gamblers have threatened a journalist because his story was being used to verify an event.",
-      "why_it_matters": "Primary exposure: Finance sector(s). Attack pattern consistent with attackers moving laterally through the network. Independently corroborated by a second source.",
+      "why_it_matters": "Primary exposure: Finance sector(s). Attack pattern consistent with attackers moving laterally through the network. Coverage across 3 independent sources increases analytical confidence.",
       "attack_techniques": [
         {
           "technique_id": "T1534",
@@ -1544,26 +2065,26 @@
       ],
       "cves": [],
       "malware_families": [],
-      "score": 0.575,
+      "score": 0.555,
       "score_breakdown": {
-        "recency": 0.34,
+        "recency": 0.26,
         "source_credibility": 0.085,
-        "corroboration": 0.15,
+        "corroboration": 0.21,
         "severity": 0.0,
         "breadth": 0.0,
         "actionability": 0.0,
-        "total": 0.575
+        "total": 0.555
       },
       "stix_bundle": {
         "type": "bundle",
-        "id": "bundle--556cc23d-3ed4-4098-bd8c-3b2259d25d7a",
+        "id": "bundle--26b11621-1865-432c-95e4-7e243b7d6e10",
         "objects": [
           {
             "type": "report",
             "spec_version": "2.1",
-            "id": "report--c0bf4316-dbfb-427a-b881-52f10de8c1a8",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
+            "id": "report--156204f5-2082-4f6c-a3af-bc115dde836f",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
             "name": "Hacking Polymarket",
             "description": "Polymarket is a platform where people can bet on real-world events, political and otherwise. Leaving the ethical considerations of this aside (for one, it facilitates assassination ), one of the issues with making this work is the verification of these real-world events. Polymarket gamblers have threatened a journalist because his story was being used to verify an event.",
             "published": "2026-05-04T09:46:31.000Z",
@@ -1571,7 +2092,7 @@
               "threat-report"
             ],
             "object_refs": [
-              "attack-pattern--a9d47417-76a8-4554-be47-f4f6b538ec2e"
+              "attack-pattern--a69fddab-a9a0-4b15-8d2b-7076b27eb825"
             ],
             "external_references": [
               {
@@ -1587,9 +2108,9 @@
           {
             "type": "attack-pattern",
             "spec_version": "2.1",
-            "id": "attack-pattern--a9d47417-76a8-4554-be47-f4f6b538ec2e",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
+            "id": "attack-pattern--a69fddab-a9a0-4b15-8d2b-7076b27eb825",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
             "name": "Internal Spearphishing",
             "external_references": [
               {
@@ -1607,169 +2128,30 @@
           }
         ]
       },
-      "stix_file": "stix/4eb34e6b-cddf-47aa-af04-822b853a631f.json",
+      "stix_file": "stix/5d313be2-c26b-4e21-9699-6206ddf6f71d.json",
       "supporting_source_details": [
+        {
+          "name": "SecurityWeek",
+          "url": "https://www.securityweek.com/hacker-conversations-joey-melo-on-hacking-ai"
+        },
         {
           "name": "Infosecurity Magazine",
           "url": "https://www.infosecurity-magazine.com/news/three-arrested-over-roblox-hacking"
         }
       ],
-      "corroboration_count": 2,
+      "corroboration_count": 3,
       "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs. Affected countries could not be determined from available text.",
       "cve_details": {},
       "prevalent_days": 0
     },
     {
-      "id": "68b6871c-bd4a-4a7c-8a39-d4ea33c4cc4e",
-      "title": "CISA says \u2018Copy Fail\u2019 flaw now exploited to root Linux systems",
-      "primary_url": "https://www.bleepingcomputer.com/news/security/cisa-says-copy-fail-flaw-now-exploited-to-root-linux-systems",
-      "primary_source": "BleepingComputer",
-      "supporting_sources": [
-        "BBC News Technology"
-      ],
-      "published_at": "2026-05-04T11:28:15Z",
-      "summary": "CISA has warned that threat actors have started exploiting the \"Copy Fail\" Linux security vulnerability in the wild, one day after Theori researchers disclosed it and shared a proof-of-concept (PoC) exploit.",
-      "why_it_matters": "Independently corroborated by a second source.",
-      "attack_techniques": [],
-      "attribution": [],
-      "countries_affected": [],
-      "companies_affected": [],
-      "industries_affected": [],
-      "threat_types": [
-        "Vulnerability"
-      ],
-      "cves": [],
-      "malware_families": [],
-      "score": 0.572,
-      "score_breakdown": {
-        "recency": 0.34,
-        "source_credibility": 0.082,
-        "corroboration": 0.15,
-        "severity": 0.0,
-        "breadth": 0.0,
-        "actionability": 0.0,
-        "total": 0.572
-      },
-      "stix_bundle": {
-        "type": "bundle",
-        "id": "bundle--625318d8-dabf-4e9c-8a84-0d6f09908bdd",
-        "objects": [
-          {
-            "type": "report",
-            "spec_version": "2.1",
-            "id": "report--09d54d40-53dc-4f8f-870e-5514035bb485",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CISA says \u2018Copy Fail\u2019 flaw now exploited to root Linux systems",
-            "description": "CISA has warned that threat actors have started exploiting the \"Copy Fail\" Linux security vulnerability in the wild, one day after Theori researchers disclosed it and shared a proof-of-concept (PoC) exploit.",
-            "published": "2026-05-04T11:28:15.000Z",
-            "report_types": [
-              "threat-report"
-            ],
-            "object_refs": [
-              "report--09d54d40-53dc-4f8f-870e-5514035bb485"
-            ],
-            "external_references": [
-              {
-                "source_name": "BleepingComputer",
-                "url": "https://www.bleepingcomputer.com/news/security/cisa-says-copy-fail-flaw-now-exploited-to-root-linux-systems",
-                "description": "CISA says \u2018Copy Fail\u2019 flaw now exploited to root Linux systems"
-              }
-            ],
-            "labels": []
-          }
-        ]
-      },
-      "stix_file": "stix/68b6871c-bd4a-4a7c-8a39-d4ea33c4cc4e.json",
-      "supporting_source_details": [
-        {
-          "name": "BBC News Technology",
-          "url": "https://www.bbc.co.uk/iplayer/episode/m002w3sl?at_medium=RSS&at_campaign=rss"
-        }
-      ],
-      "corroboration_count": 2,
-      "confidence_note": "Affected countries could not be determined from available text.",
-      "cve_details": {},
-      "prevalent_days": 0
-    },
-    {
-      "id": "67da4298-f741-4213-9b64-33b66eac9bb2",
-      "title": "They don\u2019t hack, they borrow: How fraudsters target credit unions",
-      "primary_url": "https://www.bleepingcomputer.com/news/security/they-dont-hack-they-borrow-how-fraudsters-target-credit-unions",
-      "primary_source": "BleepingComputer",
+      "id": "466eb1ff-c2d7-4172-aaf9-637430998536",
+      "title": "Trojan abuses Microsoft Phone Link app to steal your passwords",
+      "primary_url": "https://www.zdnet.com/article/trojan-abuses-microsoft-phone-link-app-to-steal-passwords",
+      "primary_source": "ZDNet Security",
       "supporting_sources": [],
-      "published_at": "2026-05-04T13:42:51Z",
-      "summary": "Fraudsters aren't hacking credit unions, they are exploiting normal business processes. Flare reveals how structured loan fraud methods use stolen identities to pass verification and secure funds.",
-      "why_it_matters": "Primary exposure: Finance sector(s).",
-      "attack_techniques": [],
-      "attribution": [],
-      "countries_affected": [],
-      "companies_affected": [],
-      "industries_affected": [
-        "Finance"
-      ],
-      "threat_types": [
-        "Other"
-      ],
-      "cves": [],
-      "malware_families": [],
-      "score": 0.562,
-      "score_breakdown": {
-        "recency": 0.34,
-        "source_credibility": 0.082,
-        "corroboration": 0.09,
-        "severity": 0.05,
-        "breadth": 0.0,
-        "actionability": 0.0,
-        "total": 0.562
-      },
-      "stix_bundle": {
-        "type": "bundle",
-        "id": "bundle--21aa91c2-9cf7-41f2-8e7d-0fb1ef9a5a8e",
-        "objects": [
-          {
-            "type": "report",
-            "spec_version": "2.1",
-            "id": "report--ba7007c0-b90d-4e1b-b590-1573cdd41258",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "They don\u2019t hack, they borrow: How fraudsters target credit unions",
-            "description": "Fraudsters aren't hacking credit unions, they are exploiting normal business processes. Flare reveals how structured loan fraud methods use stolen identities to pass verification and secure funds.",
-            "published": "2026-05-04T13:42:51.000Z",
-            "report_types": [
-              "threat-report"
-            ],
-            "object_refs": [
-              "report--ba7007c0-b90d-4e1b-b590-1573cdd41258"
-            ],
-            "external_references": [
-              {
-                "source_name": "BleepingComputer",
-                "url": "https://www.bleepingcomputer.com/news/security/they-dont-hack-they-borrow-how-fraudsters-target-credit-unions",
-                "description": "They don\u2019t hack, they borrow: How fraudsters target credit unions"
-              }
-            ],
-            "labels": [
-              "Finance"
-            ]
-          }
-        ]
-      },
-      "stix_file": "stix/67da4298-f741-4213-9b64-33b66eac9bb2.json",
-      "supporting_source_details": [],
-      "corroboration_count": 1,
-      "confidence_note": "Affected countries could not be determined from available text.",
-      "cve_details": {},
-      "prevalent_days": 0
-    },
-    {
-      "id": "04b2eef5-0742-47a9-b544-fa3f7269b075",
-      "title": "Exploitation of \u2018Copy Fail\u2019 Linux Vulnerability Begins",
-      "primary_url": "https://www.securityweek.com/exploitation-of-copy-fail-linux-vulnerability-begins",
-      "primary_source": "SecurityWeek",
-      "supporting_sources": [],
-      "published_at": "2026-05-04T10:42:33Z",
-      "summary": "CISA has added the bug to its KEV list, and Microsoft has observed limited exploitation, mainly associated with PoC testing. The post Exploitation of \u2018Copy Fail\u2019 Linux Vulnerability Begins appeared first on SecurityWeek .",
+      "published_at": "2026-05-05T10:00:00Z",
+      "summary": "Cross-device syncing isn't always safe. Here's everything you need to know about this threat.",
       "why_it_matters": "Primary exposure: Technology sector(s).",
       "attack_techniques": [],
       "attribution": [],
@@ -1779,44 +2161,44 @@
         "Technology"
       ],
       "threat_types": [
-        "Vulnerability"
+        "Malware"
       ],
       "cves": [],
       "malware_families": [],
-      "score": 0.51,
+      "score": 0.508,
       "score_breakdown": {
         "recency": 0.34,
-        "source_credibility": 0.08,
+        "source_credibility": 0.078,
         "corroboration": 0.09,
         "severity": 0.0,
         "breadth": 0.0,
         "actionability": 0.0,
-        "total": 0.51
+        "total": 0.508
       },
       "stix_bundle": {
         "type": "bundle",
-        "id": "bundle--159bb895-f6aa-4bb5-9708-81886e9713e6",
+        "id": "bundle--749aa5af-5791-47eb-89cf-4dd48795410e",
         "objects": [
           {
             "type": "report",
             "spec_version": "2.1",
-            "id": "report--447bcfdc-3f38-478a-9992-6d4f554d96d7",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Exploitation of \u2018Copy Fail\u2019 Linux Vulnerability Begins",
-            "description": "CISA has added the bug to its KEV list, and Microsoft has observed limited exploitation, mainly associated with PoC testing. The post Exploitation of \u2018Copy Fail\u2019 Linux Vulnerability Begins appeared first on SecurityWeek .",
-            "published": "2026-05-04T10:42:33.000Z",
+            "id": "report--6b12acd3-b8d0-4e88-997b-72e6e29c891f",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Trojan abuses Microsoft Phone Link app to steal your passwords",
+            "description": "Cross-device syncing isn't always safe. Here's everything you need to know about this threat.",
+            "published": "2026-05-05T10:00:00.000Z",
             "report_types": [
               "threat-report"
             ],
             "object_refs": [
-              "report--447bcfdc-3f38-478a-9992-6d4f554d96d7"
+              "report--6b12acd3-b8d0-4e88-997b-72e6e29c891f"
             ],
             "external_references": [
               {
-                "source_name": "SecurityWeek",
-                "url": "https://www.securityweek.com/exploitation-of-copy-fail-linux-vulnerability-begins",
-                "description": "Exploitation of \u2018Copy Fail\u2019 Linux Vulnerability Begins"
+                "source_name": "ZDNet Security",
+                "url": "https://www.zdnet.com/article/trojan-abuses-microsoft-phone-link-app-to-steal-passwords",
+                "description": "Trojan abuses Microsoft Phone Link app to steal your passwords"
               }
             ],
             "labels": [
@@ -1825,7 +2207,7 @@
           }
         ]
       },
-      "stix_file": "stix/04b2eef5-0742-47a9-b544-fa3f7269b075.json",
+      "stix_file": "stix/466eb1ff-c2d7-4172-aaf9-637430998536.json",
       "supporting_source_details": [],
       "corroboration_count": 1,
       "confidence_note": "Affected countries could not be determined from available text.",
@@ -1833,261 +2215,14 @@
       "prevalent_days": 0
     },
     {
-      "id": "30836928-928f-4717-b92c-d5f7ed5fb16b",
-      "title": "Small Defense Firms Lack Network Data to Stop Nation-State Hackers, Analyst Says",
-      "primary_url": "https://www.infosecurity-magazine.com/news/small-defense-firms-lack-network",
-      "primary_source": "Infosecurity Magazine",
+      "id": "f972c6d0-bb10-4700-aa29-1dd648dbfbaa",
+      "title": "Phishing Campaign Hits 80+ Orgs Using SimpleHelp and ScreenConnect RMM Tools",
+      "primary_url": "https://thehackernews.com/2026/05/phishing-campaign-hits-80-orgs-using.html",
+      "primary_source": "The Hacker News",
       "supporting_sources": [],
-      "published_at": "2026-05-04T12:00:00Z",
-      "summary": "Team Cymru\u2019s Stephen Campbell warned that small US defense contractors are not well prepared to face cyber intrusions through edge devices",
-      "why_it_matters": "Primary exposure: Government sector(s).",
-      "attack_techniques": [],
-      "attribution": [],
-      "countries_affected": [
-        "United States"
-      ],
-      "companies_affected": [],
-      "industries_affected": [
-        "Government"
-      ],
-      "threat_types": [
-        "APT"
-      ],
-      "cves": [],
-      "malware_families": [],
-      "score": 0.506,
-      "score_breakdown": {
-        "recency": 0.34,
-        "source_credibility": 0.076,
-        "corroboration": 0.09,
-        "severity": 0.0,
-        "breadth": 0.0,
-        "actionability": 0.0,
-        "total": 0.506
-      },
-      "stix_bundle": {
-        "type": "bundle",
-        "id": "bundle--9f31f96d-0b62-4bb2-a137-4782acfb55c7",
-        "objects": [
-          {
-            "type": "report",
-            "spec_version": "2.1",
-            "id": "report--7f18870d-aa8b-4dfd-b202-5223ca2e3e88",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Small Defense Firms Lack Network Data to Stop Nation-State Hackers, Analyst Says",
-            "description": "Team Cymru\u2019s Stephen Campbell warned that small US defense contractors are not well prepared to face cyber intrusions through edge devices",
-            "published": "2026-05-04T12:00:00.000Z",
-            "report_types": [
-              "threat-report"
-            ],
-            "object_refs": [
-              "report--7f18870d-aa8b-4dfd-b202-5223ca2e3e88"
-            ],
-            "external_references": [
-              {
-                "source_name": "Infosecurity Magazine",
-                "url": "https://www.infosecurity-magazine.com/news/small-defense-firms-lack-network",
-                "description": "Small Defense Firms Lack Network Data to Stop Nation-State Hackers, Analyst Says"
-              }
-            ],
-            "labels": [
-              "Government"
-            ]
-          }
-        ]
-      },
-      "stix_file": "stix/30836928-928f-4717-b92c-d5f7ed5fb16b.json",
-      "supporting_source_details": [],
-      "corroboration_count": 1,
-      "confidence_note": null,
-      "cve_details": {},
-      "prevalent_days": 0
-    },
-    {
-      "id": "aa573050-d973-4711-94fc-6098eb21ef03",
-      "title": "Edtech Firm Instructure Discloses Data Breach Amid Hacker Leak Threats",
-      "primary_url": "https://www.securityweek.com/edtech-firm-instructure-discloses-data-breach",
-      "primary_source": "SecurityWeek",
-      "supporting_sources": [],
-      "published_at": "2026-05-04T07:02:51Z",
-      "summary": "Hackers disrupted services and stole names, email addresses, student ID numbers, and user messages. The post Edtech Firm Instructure Discloses Data Breach Amid Hacker Leak Threats appeared first on SecurityWeek .",
-      "why_it_matters": "A confirmed data incident indicates adversaries achieved persistent access and likely exfiltrated data, with downstream exposure risk for affected users and partners.",
-      "attack_techniques": [],
-      "attribution": [],
-      "countries_affected": [],
-      "companies_affected": [],
-      "industries_affected": [],
-      "threat_types": [
-        "Data Breach"
-      ],
-      "cves": [],
-      "malware_families": [],
-      "score": 0.505,
-      "score_breakdown": {
-        "recency": 0.26,
-        "source_credibility": 0.08,
-        "corroboration": 0.09,
-        "severity": 0.075,
-        "breadth": 0.0,
-        "actionability": 0.0,
-        "total": 0.505
-      },
-      "stix_bundle": {
-        "type": "bundle",
-        "id": "bundle--764c52ca-a560-40c0-81dd-6ed9df0de014",
-        "objects": [
-          {
-            "type": "report",
-            "spec_version": "2.1",
-            "id": "report--8d7ebfa6-022f-4ff2-8f0e-e2c6e73dbf16",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Edtech Firm Instructure Discloses Data Breach Amid Hacker Leak Threats",
-            "description": "Hackers disrupted services and stole names, email addresses, student ID numbers, and user messages. The post Edtech Firm Instructure Discloses Data Breach Amid Hacker Leak Threats appeared first on SecurityWeek .",
-            "published": "2026-05-04T07:02:51.000Z",
-            "report_types": [
-              "threat-report"
-            ],
-            "object_refs": [
-              "report--8d7ebfa6-022f-4ff2-8f0e-e2c6e73dbf16"
-            ],
-            "external_references": [
-              {
-                "source_name": "SecurityWeek",
-                "url": "https://www.securityweek.com/edtech-firm-instructure-discloses-data-breach",
-                "description": "Edtech Firm Instructure Discloses Data Breach Amid Hacker Leak Threats"
-              }
-            ],
-            "labels": []
-          }
-        ]
-      },
-      "stix_file": "stix/aa573050-d973-4711-94fc-6098eb21ef03.json",
-      "supporting_source_details": [],
-      "corroboration_count": 1,
-      "confidence_note": "Affected countries could not be determined from available text.",
-      "cve_details": {},
-      "prevalent_days": 0
-    },
-    {
-      "id": "72fad46c-2e63-4aac-ae03-d2deafb2b595",
-      "title": "Fast16 Malware",
-      "primary_url": "https://www.schneier.com/blog/archives/2026/04/fast16-malware.html",
-      "primary_source": "Schneier on Security",
-      "supporting_sources": [
-        "The Hacker News",
-        "Huntress Labs Blog",
-        "BleepingComputer",
-        "Security Affairs"
-      ],
-      "published_at": "2026-04-30T10:22:02Z",
-      "summary": "It\u2019s almost certainly state-sponsored, probably US in origin, and was deployed against Iran years before Stuxnet: \u201c\u2026the Fast16 malware was designed to carry out the most subtle form of sabotage ever seen in an in-the-wild malware tool: By automatically spreading across networks and then silently manipulating computation processes in certain software applications that perform high-precision mathematical calculations and simulate physical phenomena, Fast16 can alter the results of those programs to cause failures that range from faulty research results to catastrophic...",
-      "why_it_matters": "Involves Stuxnet, a established malware family with confirmed operational history and significant impact potential. Coverage across 5 independent sources increases analytical confidence.",
-      "attack_techniques": [],
-      "attribution": [],
-      "countries_affected": [
-        "Iran",
-        "United States"
-      ],
-      "companies_affected": [],
-      "industries_affected": [],
-      "threat_types": [
-        "Exploitation",
-        "APT",
-        "Malware"
-      ],
-      "cves": [],
-      "malware_families": [
-        "Stuxnet"
-      ],
-      "score": 0.485,
-      "score_breakdown": {
-        "recency": 0.1,
-        "source_credibility": 0.085,
-        "corroboration": 0.3,
-        "severity": 0.0,
-        "breadth": 0.0,
-        "actionability": 0.0,
-        "total": 0.485
-      },
-      "stix_bundle": {
-        "type": "bundle",
-        "id": "bundle--0c93e9d1-d544-4b3f-96cc-8b283c9cd204",
-        "objects": [
-          {
-            "type": "report",
-            "spec_version": "2.1",
-            "id": "report--21dade14-6796-4116-b86e-f15b5dce20e5",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Fast16 Malware",
-            "description": "It\u2019s almost certainly state-sponsored, probably US in origin, and was deployed against Iran years before Stuxnet: \u201c\u2026the Fast16 malware was designed to carry out the most subtle form of sabotage ever seen in an in-the-wild malware tool: By automatically spreading across networks and then silently manipulating computation processes in certain software applications that perform high-precision mathematical calculations and simulate physical phenomena, Fast16 can alter the results of those programs to cause failures that range from faulty research results to catastrophic...",
-            "published": "2026-04-30T10:22:02.000Z",
-            "report_types": [
-              "threat-report"
-            ],
-            "object_refs": [
-              "malware--f180a413-34b2-416d-a295-08e4087214ef"
-            ],
-            "external_references": [
-              {
-                "source_name": "Schneier on Security",
-                "url": "https://www.schneier.com/blog/archives/2026/04/fast16-malware.html",
-                "description": "Fast16 Malware"
-              }
-            ],
-            "labels": []
-          },
-          {
-            "type": "malware",
-            "spec_version": "2.1",
-            "id": "malware--f180a413-34b2-416d-a295-08e4087214ef",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "Stuxnet",
-            "malware_types": [
-              "unknown"
-            ],
-            "is_family": true
-          }
-        ]
-      },
-      "stix_file": "stix/72fad46c-2e63-4aac-ae03-d2deafb2b595.json",
-      "supporting_source_details": [
-        {
-          "name": "Huntress Labs Blog",
-          "url": "https://www.huntress.com/blog/clickfix-castleloader-backgroundfix"
-        },
-        {
-          "name": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/telegram-mini-apps-abused-for-crypto-scams-android-malware-delivery"
-        },
-        {
-          "name": "The Hacker News",
-          "url": "https://thehackernews.com/2026/05/silver-fox-deploys-abcdoor-malware-via.html"
-        },
-        {
-          "name": "Security Affairs",
-          "url": "https://securityaffairs.com/191623/malware/security-affairs-malware-newsletter-round-95.html"
-        }
-      ],
-      "corroboration_count": 5,
-      "confidence_note": null,
-      "cve_details": {},
-      "prevalent_days": 0
-    },
-    {
-      "id": "b2286408-f2d1-480a-a110-4b3337cd404a",
-      "title": "NSA GRASSMARLIN",
-      "primary_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-118-01",
-      "primary_source": "CISA Advisories",
-      "supporting_sources": [
-        "Dark Reading"
-      ],
-      "published_at": "2026-04-28T12:00:00Z",
-      "summary": "The following versions of NSA GRASSMARLIN are affected: GRASSMARLIN vers:all/* CVSS Vendor Equipment Vulnerabilities v3 5.5 NSA NSA GRASSMARLIN Improper Restriction of XML External Entity Reference Background Critical Infrastructure Sectors: Information Technology Countries/Areas Deployed: Worldwide Company Headquarters Location: United States Vulnerabilities Expand All + CVE-2026-6807 A vulnerability in GRASSMARLIN v3.2.1 allows crafted session data to trigger improper handling of XML input, which may result in unintended exposure of sensitive information.",
-      "why_it_matters": "Covers 1 tracked CVE(s) (CVE-2026-6807) with evidence of active exploitation in the wild\u2014affected software should be patched immediately. Primary exposure: Government, Critical Infrastructure, Manufacturing sector(s). Attack pattern consistent with adversaries gaining their first foothold in the environment. Independently corroborated by a second source.",
+      "published_at": "2026-05-04T18:06:00Z",
+      "summary": "An active phishing campaign has been observed targeting multiple vectors since at least April 2025 with legitimate Remote Monitoring and Management (RMM) software as a way to establish persistent remote access to compromised hosts. The activity, codenamed VENOMOUS#HELPER, has impacted over 80 organizations, most of which are in the U.S., according to Securonix. It shares overlaps with clusters",
+      "why_it_matters": "Attack pattern consistent with adversaries gaining their first foothold in the environment.",
       "attack_techniques": [
         {
           "technique_id": "T1566",
@@ -2097,89 +2232,58 @@
         }
       ],
       "attribution": [],
-      "countries_affected": [
-        "United States"
-      ],
+      "countries_affected": [],
       "companies_affected": [],
-      "industries_affected": [
-        "Government",
-        "Critical Infrastructure",
-        "Manufacturing"
-      ],
+      "industries_affected": [],
       "threat_types": [
-        "Phishing",
-        "Social Engineering",
-        "OT/ICS",
-        "Vulnerability"
+        "Phishing"
       ],
-      "cves": [
-        "CVE-2026-6807"
-      ],
+      "cves": [],
       "malware_families": [],
-      "score": 0.4533,
+      "score": 0.478,
       "score_breakdown": {
-        "recency": 0.1,
-        "source_credibility": 0.095,
-        "corroboration": 0.15,
-        "severity": 0.075,
-        "breadth": 0.0333,
+        "recency": 0.26,
+        "source_credibility": 0.078,
+        "corroboration": 0.09,
+        "severity": 0.05,
+        "breadth": 0.0,
         "actionability": 0.0,
-        "total": 0.4533
+        "total": 0.478
       },
       "stix_bundle": {
         "type": "bundle",
-        "id": "bundle--2a70043b-96ce-40fe-953a-f126cb6605b2",
+        "id": "bundle--a97f27ca-7080-4d8f-adc2-626cfbccc39e",
         "objects": [
           {
             "type": "report",
             "spec_version": "2.1",
-            "id": "report--16955686-85f6-4e7a-b8b5-291ebd9d3543",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "NSA GRASSMARLIN",
-            "description": "The following versions of NSA GRASSMARLIN are affected: GRASSMARLIN vers:all/* CVSS Vendor Equipment Vulnerabilities v3 5.5 NSA NSA GRASSMARLIN Improper Restriction of XML External Entity Reference Background Critical Infrastructure Sectors: Information Technology Countries/Areas Deployed: Worldwide Company Headquarters Location: United States Vulnerabilities Expand All + CVE-2026-6807 A vulnerability in GRASSMARLIN v3.2.1 allows crafted session data to trigger improper handling of XML input, which may result in unintended exposure of sensitive information.",
-            "published": "2026-04-28T12:00:00.000Z",
+            "id": "report--871f1f74-16f3-4c05-9e83-0f1fd1993035",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
+            "name": "Phishing Campaign Hits 80+ Orgs Using SimpleHelp and ScreenConnect RMM Tools",
+            "description": "An active phishing campaign has been observed targeting multiple vectors since at least April 2025 with legitimate Remote Monitoring and Management (RMM) software as a way to establish persistent remote access to compromised hosts. The activity, codenamed VENOMOUS#HELPER, has impacted over 80 organizations, most of which are in the U.S., according to Securonix. It shares overlaps with clusters",
+            "published": "2026-05-04T18:06:00.000Z",
             "report_types": [
               "threat-report"
             ],
             "object_refs": [
-              "vulnerability--c749fae3-8c56-4947-a660-ac0a7eb26c60",
-              "attack-pattern--f1f0e48b-2345-4f2c-b971-b4f73f3366b6"
+              "attack-pattern--c6b6afcb-f507-4e46-9eeb-b4eaf85c1c24"
             ],
             "external_references": [
               {
-                "source_name": "CISA Advisories",
-                "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-118-01",
-                "description": "NSA GRASSMARLIN"
+                "source_name": "The Hacker News",
+                "url": "https://thehackernews.com/2026/05/phishing-campaign-hits-80-orgs-using.html",
+                "description": "Phishing Campaign Hits 80+ Orgs Using SimpleHelp and ScreenConnect RMM Tools"
               }
             ],
-            "labels": [
-              "Government",
-              "Critical Infrastructure",
-              "Manufacturing"
-            ]
-          },
-          {
-            "type": "vulnerability",
-            "spec_version": "2.1",
-            "id": "vulnerability--c749fae3-8c56-4947-a660-ac0a7eb26c60",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
-            "name": "CVE-2026-6807",
-            "external_references": [
-              {
-                "source_name": "cve",
-                "external_id": "CVE-2026-6807",
-                "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-6807"
-              }
-            ]
+            "labels": []
           },
           {
             "type": "attack-pattern",
             "spec_version": "2.1",
-            "id": "attack-pattern--f1f0e48b-2345-4f2c-b971-b4f73f3366b6",
-            "created": "2026-05-05T09:03:29.000Z",
-            "modified": "2026-05-05T09:03:29.000Z",
+            "id": "attack-pattern--c6b6afcb-f507-4e46-9eeb-b4eaf85c1c24",
+            "created": "2026-05-06T09:16:17.000Z",
+            "modified": "2026-05-06T09:16:17.000Z",
             "name": "Phishing",
             "external_references": [
               {
@@ -2197,21 +2301,16 @@
           }
         ]
       },
-      "stix_file": "stix/b2286408-f2d1-480a-a110-4b3337cd404a.json",
-      "supporting_source_details": [
-        {
-          "name": "Dark Reading",
-          "url": "https://www.darkreading.com/cyber-risk/nsa-chief-during-snowden-affair-13-years-later"
-        }
-      ],
-      "corroboration_count": 2,
-      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs.",
+      "stix_file": "stix/f972c6d0-bb10-4700-aa29-1dd648dbfbaa.json",
+      "supporting_source_details": [],
+      "corroboration_count": 1,
+      "confidence_note": "ATT&CK technique mappings are inferred from keyword matching and may not reflect confirmed adversary TTPs. Affected countries could not be determined from available text.",
       "cve_details": {},
       "prevalent_days": 0
     }
   ],
-  "total_items_collected": 1312,
-  "total_items_after_dedupe": 183,
+  "total_items_collected": 1283,
+  "total_items_after_dedupe": 197,
   "generation_notes": [],
   "sources_queried": [
     {
@@ -3027,7 +3126,7 @@
     "Qualys Security Blog": 10,
     "Securelist (Kaspersky)": 10,
     "Malwarebytes Labs": 20,
-    "The Record (Recorded Future)": 5,
+    "The Record (Recorded Future)": 0,
     "Trend Micro Research": 0,
     "IBM Security Intelligence": 0,
     "Bitdefender Labs": 0,
@@ -3038,7 +3137,7 @@
     "Cyber Scoop": 10,
     "Dark Reading": 50,
     "Infosecurity Magazine": 50,
-    "Help Net Security": 10,
+    "Help Net Security": 0,
     "Security Affairs": 10,
     "Microsoft MSRC": 50,
     "Abuse.ch Blog": 0,
@@ -3051,16 +3150,16 @@
     "The Guardian Technology": 24,
     "Sky News Technology": 10,
     "WIRED Security": 20,
-    "The New York Times Technology": 46,
+    "The New York Times Technology": 31,
     "The Telegraph Technology": 50,
     "TechCrunch": 20,
     "Engadget": 20,
     "ZDNet Security": 20,
     "ABC News Technology": 25,
-    "Politico Cybersecurity": 21,
+    "Politico Cybersecurity": 19,
     "NBC News Technology": 25,
-    "The Washington Post Technology": 1,
-    "The Independent Technology": 0,
+    "The Washington Post Technology": 2,
+    "The Independent Technology": 2,
     "Mashable Tech": 50
   }
 }
