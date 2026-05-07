@@ -1,0 +1,116 @@
+{
+  "type": "bundle",
+  "id": "bundle--1b1e02a1-0403-469b-b8f7-75a1ccda3518",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--9797d2d6-29c0-4fd5-ab07-084363ea344d",
+      "created": "2026-05-07T09:24:23.000Z",
+      "modified": "2026-05-07T09:24:23.000Z",
+      "name": "ABB B&R Automation Runtime",
+      "description": "The following versions of ABB B&R Automation Runtime are affected: Automation Runtime <6.5, >=6.5, =R4.93 (CVE-2025-11044, CVE-2025-11044) CVSS Vendor Equipment Vulnerabilities v3 6.8 ABB ABB B&R Automation Runtime Allocation of Resources Without Limits or Throttling Background Critical Infrastructure Sectors: Critical Manufacturing Countries/Areas Deployed: Worldwide Company Headquarters Location: Switzerland Vulnerabilities Expand All + CVE-2025-11044 An Allocation of Resources Without Limits or Throttling vulnerability in the ANSL-Server component of B&R Automation Runtime versions prior to 6.5 and prior to R4.93 could be...",
+      "published": "2026-05-05T12:00:00.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--175ae236-57c2-4eac-8d0f-d6ee82138a9c",
+        "attack-pattern--4a7d2bd9-164d-493a-a336-a509496a1cbb",
+        "attack-pattern--acb1bcdb-c588-46b6-b0f9-da1cd11ea9a0",
+        "attack-pattern--a3f7cf0c-7c8c-4109-a4e8-57c6d9a5caa3"
+      ],
+      "external_references": [
+        {
+          "source_name": "CISA Advisories",
+          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-125-03",
+          "description": "ABB B&R Automation Runtime"
+        }
+      ],
+      "labels": [
+        "Government",
+        "Critical Infrastructure",
+        "Manufacturing",
+        "Media"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--175ae236-57c2-4eac-8d0f-d6ee82138a9c",
+      "created": "2026-05-07T09:24:23.000Z",
+      "modified": "2026-05-07T09:24:23.000Z",
+      "name": "CVE-2025-11044",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2025-11044",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-11044"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--4a7d2bd9-164d-493a-a336-a509496a1cbb",
+      "created": "2026-05-07T09:24:23.000Z",
+      "modified": "2026-05-07T09:24:23.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--acb1bcdb-c588-46b6-b0f9-da1cd11ea9a0",
+      "created": "2026-05-07T09:24:23.000Z",
+      "modified": "2026-05-07T09:24:23.000Z",
+      "name": "Adversary-in-the-Middle",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1557",
+          "url": "https://attack.mitre.org/techniques/T1557/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "credential-access"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--a3f7cf0c-7c8c-4109-a4e8-57c6d9a5caa3",
+      "created": "2026-05-07T09:24:23.000Z",
+      "modified": "2026-05-07T09:24:23.000Z",
+      "name": "Internal Spearphishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1534",
+          "url": "https://attack.mitre.org/techniques/T1534/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    }
+  ]
+}
