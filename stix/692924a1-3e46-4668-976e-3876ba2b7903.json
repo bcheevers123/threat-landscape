@@ -1,0 +1,127 @@
+{
+  "type": "bundle",
+  "id": "bundle--3d90dd97-c8a7-49e5-8a78-fee1c9601ea9",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--a14c6d36-ee96-4cce-95cd-e62b1ce2577f",
+      "created": "2026-05-09T08:24:10.000Z",
+      "modified": "2026-05-09T08:24:10.000Z",
+      "name": "AL26-011 - Vulnerabilities affecting Linux - CVE-2026-43284 and CVE-2026-43500",
+      "description": "Tracked as CVE-2026-43284, this is a Linux kernel Write-what-where Condition vulnerability (CWE-123) Footnote 3 that may allow a local attacker to execute arbitrary code. CVE-2026-43500 is a Linux kernel local privilege escalation (LPE) vulnerability in the RxRPC subsystem that may allow a local attacker to escalate privileges.",
+      "published": "2026-05-08T17:39:10.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--110ef411-17ea-47e2-9b0a-d6191aaafa0b",
+        "vulnerability--193c2316-be59-4e34-9807-c81049adfe66",
+        "attack-pattern--f4fdf94b-6f3e-485b-85a5-da1cb65fe04c",
+        "attack-pattern--862fe5f1-7372-4a57-a8fa-55230664c090",
+        "attack-pattern--7711b8bf-f4c1-42f3-aa18-d85703cf0d4e"
+      ],
+      "external_references": [
+        {
+          "source_name": "Canadian Centre for Cyber Security",
+          "url": "https://cyber.gc.ca/en/alerts-advisories/al26-011-vulnerabilities-affecting-linux-cve-2026-43284-cve-2026-43500",
+          "description": "AL26-011 - Vulnerabilities affecting Linux - CVE-2026-43284 and CVE-2026-43500"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--110ef411-17ea-47e2-9b0a-d6191aaafa0b",
+      "created": "2026-05-09T08:24:10.000Z",
+      "modified": "2026-05-09T08:24:10.000Z",
+      "name": "CVE-2026-43284",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-43284",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-43284"
+        }
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--193c2316-be59-4e34-9807-c81049adfe66",
+      "created": "2026-05-09T08:24:10.000Z",
+      "modified": "2026-05-09T08:24:10.000Z",
+      "name": "CVE-2026-43500",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-43500",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-43500"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--f4fdf94b-6f3e-485b-85a5-da1cb65fe04c",
+      "created": "2026-05-09T08:24:10.000Z",
+      "modified": "2026-05-09T08:24:10.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--862fe5f1-7372-4a57-a8fa-55230664c090",
+      "created": "2026-05-09T08:24:10.000Z",
+      "modified": "2026-05-09T08:24:10.000Z",
+      "name": "Exploitation for Privilege Escalation",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1068",
+          "url": "https://attack.mitre.org/techniques/T1068/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--7711b8bf-f4c1-42f3-aa18-d85703cf0d4e",
+      "created": "2026-05-09T08:24:10.000Z",
+      "modified": "2026-05-09T08:24:10.000Z",
+      "name": "Internal Spearphishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1534",
+          "url": "https://attack.mitre.org/techniques/T1534/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    }
+  ]
+}
