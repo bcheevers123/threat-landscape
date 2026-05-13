@@ -1,0 +1,117 @@
+{
+  "type": "bundle",
+  "id": "bundle--7d841421-a076-4165-8088-860bef895849",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--00d1208d-ca1c-4e72-b180-498e0394a8d2",
+      "created": "2026-05-13T09:34:14.000Z",
+      "modified": "2026-05-13T09:34:14.000Z",
+      "name": "ABB AC500 V3 Stack Buffer Overflow in Cryptographic Message Syntax",
+      "description": "The following versions of ABB AC500 V3 Stack Buffer Overflow in Cryptographic Message Syntax are affected: AC500 V3 PM5xxx 3.9.0, 3.9.0_HF1 CVSS Vendor Equipment Vulnerabilities v3 9.8 ABB ABB AC500 V3 Stack Buffer Overflow in Cryptographic Message Syntax Out-of-bounds Write Background Critical Infrastructure Sectors: Chemical, Critical Manufacturing, Energy, Water and Wastewater Countries/Areas Deployed: Worldwide Company Headquarters Location: Switzerland Vulnerabilities Expand All + CVE-2025-15467 When parsing CMS (Auth)EnvelopedData structures that use AEAD ciphers such as AES-GCM, the IV (Initialization Vector) encoded...",
+      "published": "2026-05-12T12:00:00.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--1bcf80bc-9326-4772-8cd0-e8dee05359c1",
+        "attack-pattern--42144f7f-90bc-496a-87be-e958a46ba0c1",
+        "attack-pattern--7477cffa-17e8-4014-aee5-0822aeff06ad",
+        "attack-pattern--1d07d887-eb23-4dcb-ba05-7ce3bddba832"
+      ],
+      "external_references": [
+        {
+          "source_name": "CISA Advisories",
+          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-132-05",
+          "description": "ABB AC500 V3 Stack Buffer Overflow in Cryptographic Message Syntax"
+        }
+      ],
+      "labels": [
+        "Finance",
+        "Energy",
+        "Critical Infrastructure",
+        "Manufacturing",
+        "Media"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--1bcf80bc-9326-4772-8cd0-e8dee05359c1",
+      "created": "2026-05-13T09:34:14.000Z",
+      "modified": "2026-05-13T09:34:14.000Z",
+      "name": "CVE-2025-15467",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2025-15467",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-15467"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--42144f7f-90bc-496a-87be-e958a46ba0c1",
+      "created": "2026-05-13T09:34:14.000Z",
+      "modified": "2026-05-13T09:34:14.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--7477cffa-17e8-4014-aee5-0822aeff06ad",
+      "created": "2026-05-13T09:34:14.000Z",
+      "modified": "2026-05-13T09:34:14.000Z",
+      "name": "Adversary-in-the-Middle",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1557",
+          "url": "https://attack.mitre.org/techniques/T1557/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "credential-access"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--1d07d887-eb23-4dcb-ba05-7ce3bddba832",
+      "created": "2026-05-13T09:34:14.000Z",
+      "modified": "2026-05-13T09:34:14.000Z",
+      "name": "Internal Spearphishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1534",
+          "url": "https://attack.mitre.org/techniques/T1534/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    }
+  ]
+}
