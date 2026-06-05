@@ -1,0 +1,121 @@
+{
+  "type": "bundle",
+  "id": "bundle--6f71b6dc-f8da-4cd6-9206-3885f4205be5",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--a148e1d3-189b-4c93-bfc9-4f5629b617ac",
+      "created": "2026-06-05T10:39:09.000Z",
+      "modified": "2026-06-05T10:39:09.000Z",
+      "name": "Cisco SD-WAN 0-day exploited, no patch available (CVE-2026-20245)",
+      "description": "A 0-day privilege escalation vulnerability (CVE-2026-20245) in Cisco Catalyst SD-WAN Manager that has yet to be patched by Cisco is being leveraged by attackers. \u201cTo exploit this vulnerability, an attacker must have netadmin privileges on an affected system. This would require valid credentials or exploitation of CVE-2026-20182 or CVE-2026-20127.",
+      "published": "2026-06-05T08:44:37.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--12a0ea76-877a-4a4d-b1bc-921268b9a18d",
+        "vulnerability--2a5dd334-fa62-4b51-abd6-d404d9023d2f",
+        "vulnerability--be8db4e6-f2fd-41fa-b10d-ab52da5c9f87",
+        "attack-pattern--586dae0b-0f02-4ff3-8145-9a53aabd86b0",
+        "attack-pattern--519c489a-cc9f-4711-b590-598f3677329b"
+      ],
+      "external_references": [
+        {
+          "source_name": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/06/05/cisco-sd-wan-cve-2026-20245-0-day-exploited",
+          "description": "Cisco SD-WAN 0-day exploited, no patch available (CVE-2026-20245)"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--12a0ea76-877a-4a4d-b1bc-921268b9a18d",
+      "created": "2026-06-05T10:39:09.000Z",
+      "modified": "2026-06-05T10:39:09.000Z",
+      "name": "CVE-2026-20245",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-20245",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-20245"
+        }
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--2a5dd334-fa62-4b51-abd6-d404d9023d2f",
+      "created": "2026-06-05T10:39:09.000Z",
+      "modified": "2026-06-05T10:39:09.000Z",
+      "name": "CVE-2026-20182",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-20182",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-20182"
+        }
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--be8db4e6-f2fd-41fa-b10d-ab52da5c9f87",
+      "created": "2026-06-05T10:39:09.000Z",
+      "modified": "2026-06-05T10:39:09.000Z",
+      "name": "CVE-2026-20127",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-20127",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-20127"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--586dae0b-0f02-4ff3-8145-9a53aabd86b0",
+      "created": "2026-06-05T10:39:09.000Z",
+      "modified": "2026-06-05T10:39:09.000Z",
+      "name": "Exploitation for Privilege Escalation",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1068",
+          "url": "https://attack.mitre.org/techniques/T1068/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--519c489a-cc9f-4711-b590-598f3677329b",
+      "created": "2026-06-05T10:39:09.000Z",
+      "modified": "2026-06-05T10:39:09.000Z",
+      "name": "Exploit Public-Facing Application",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1190",
+          "url": "https://attack.mitre.org/techniques/T1190/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ]
+    }
+  ]
+}
