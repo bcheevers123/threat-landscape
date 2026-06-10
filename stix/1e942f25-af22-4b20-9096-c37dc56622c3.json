@@ -1,0 +1,67 @@
+{
+  "type": "bundle",
+  "id": "bundle--b8080955-9595-42e9-9e8c-7e29cc8c5715",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--722d978e-1d2d-4894-91eb-8eb63ec69309",
+      "created": "2026-06-10T10:46:43.000Z",
+      "modified": "2026-06-10T10:46:43.000Z",
+      "name": "Veeam Backup & Replication RCE Flaw Lets Domain Users Run Remote Code",
+      "description": "Veeam has released security patches to address a critical flaw in its Backup & Replication software that could result in remote code execution. Tracked as CVE-2026-44963, the vulnerability carries a CVSS score of 9.4 out of a maximum of 10.0. \"A vulnerability allowing remote code execution (RCE) on the Backup Server by an authenticated domain user,\" Veeam said in a Tuesday advisory.",
+      "published": "2026-06-09T16:39:47.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--13bd4ea7-0071-4e61-9a75-41f617dcb6af",
+        "attack-pattern--809e4959-21ba-4922-9195-4bc085b5b596"
+      ],
+      "external_references": [
+        {
+          "source_name": "The Hacker News",
+          "url": "https://thehackernews.com/2026/06/veeam-backup-replication-rce-flaw-lets.html",
+          "description": "Veeam Backup & Replication RCE Flaw Lets Domain Users Run Remote Code"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--13bd4ea7-0071-4e61-9a75-41f617dcb6af",
+      "created": "2026-06-10T10:46:43.000Z",
+      "modified": "2026-06-10T10:46:43.000Z",
+      "name": "CVE-2026-44963",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-44963",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-44963"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--809e4959-21ba-4922-9195-4bc085b5b596",
+      "created": "2026-06-10T10:46:43.000Z",
+      "modified": "2026-06-10T10:46:43.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    }
+  ]
+}
