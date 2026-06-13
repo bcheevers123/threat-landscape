@@ -1,0 +1,159 @@
+{
+  "type": "bundle",
+  "id": "bundle--ea1516ae-7cc2-4904-a11f-53da1b482358",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--00f1a570-7408-42f9-88e1-bdb907169f4a",
+      "created": "2026-06-13T09:48:49.000Z",
+      "modified": "2026-06-13T09:48:49.000Z",
+      "name": "ShinyHunters Targets Education Sector with Oracle PeopleSoft Exploit",
+      "description": "The activity was observed between May 27, 2026, and June 9, 2026 and is consistent with the exploitation of CVE-2026-35273 , a critical remote code execution vulnerability (CVSS 9.8) in the Environment Management component. Because this activity predates Oracle's June 10, 2026 advisory, the vulnerability was exploited as a zero-day. This campaign directly correlates with subsequent data leaks of stolen organization data published on the ShinyHunters Data Leak Site (DLS) on June 9, 2026.",
+      "published": "2026-06-11T14:00:00.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--f432d0c7-3751-43e3-b69f-aea2c13e1158",
+        "attack-pattern--0d3ac2ad-6980-42a8-ba42-08fc22dc4549",
+        "attack-pattern--93e2bfcc-28c8-48fc-a8a3-2e90c12d0fc8",
+        "attack-pattern--93245ee9-6ec9-4aa1-9d64-ca23ee9581fc",
+        "attack-pattern--50d1af77-f3aa-412f-8569-2fc3b1721fb9",
+        "attack-pattern--d236e5be-c2f9-4eef-b520-a1c6eed982dc"
+      ],
+      "external_references": [
+        {
+          "source_name": "Mandiant Blog",
+          "url": "https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-targets-education-sector-oracle-exploit",
+          "description": "ShinyHunters Targets Education Sector with Oracle PeopleSoft Exploit"
+        }
+      ],
+      "labels": [
+        "Energy",
+        "Technology",
+        "Education"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--f432d0c7-3751-43e3-b69f-aea2c13e1158",
+      "created": "2026-06-13T09:48:49.000Z",
+      "modified": "2026-06-13T09:48:49.000Z",
+      "name": "CVE-2026-35273",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-35273",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-35273"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--0d3ac2ad-6980-42a8-ba42-08fc22dc4549",
+      "created": "2026-06-13T09:48:49.000Z",
+      "modified": "2026-06-13T09:48:49.000Z",
+      "name": "Remote Services",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1021",
+          "url": "https://attack.mitre.org/techniques/T1021/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--93e2bfcc-28c8-48fc-a8a3-2e90c12d0fc8",
+      "created": "2026-06-13T09:48:49.000Z",
+      "modified": "2026-06-13T09:48:49.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--93245ee9-6ec9-4aa1-9d64-ca23ee9581fc",
+      "created": "2026-06-13T09:48:49.000Z",
+      "modified": "2026-06-13T09:48:49.000Z",
+      "name": "Exfiltration Over C2 Channel",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1041",
+          "url": "https://attack.mitre.org/techniques/T1041/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "exfiltration"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--50d1af77-f3aa-412f-8569-2fc3b1721fb9",
+      "created": "2026-06-13T09:48:49.000Z",
+      "modified": "2026-06-13T09:48:49.000Z",
+      "name": "Application Layer Protocol",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1071",
+          "url": "https://attack.mitre.org/techniques/T1071/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--d236e5be-c2f9-4eef-b520-a1c6eed982dc",
+      "created": "2026-06-13T09:48:49.000Z",
+      "modified": "2026-06-13T09:48:49.000Z",
+      "name": "Exploit Public-Facing Application",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1190",
+          "url": "https://attack.mitre.org/techniques/T1190/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ]
+    }
+  ]
+}
