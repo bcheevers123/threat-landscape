@@ -1,0 +1,85 @@
+{
+  "type": "bundle",
+  "id": "bundle--0bf547dc-d959-469b-974b-dfa63024afc3",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--b75ac846-ed6b-42e9-93e3-e9bb07564a5d",
+      "created": "2026-07-01T10:36:38.000Z",
+      "modified": "2026-07-01T10:36:38.000Z",
+      "name": "CVE-2026-57062 CMS (Cryptographic Message Syntax) parsing in gpgsm in GnuPG through 2.5.20 mishandles the CMS format for AES-GCM because aes-ICVlen is supposed to be 12 bytes but 4 bytes is accepted. NOTE: this is related to CVE-2026-34182.",
+      "description": "Information published.",
+      "published": "2026-07-01T08:40:05.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--e9283b7d-66bf-4e13-9eb7-333d21cf6c2d",
+        "vulnerability--a6bbd2f7-c33d-44fa-ba4e-309d9f51f7c2",
+        "attack-pattern--16eb84e2-61b2-4689-aa42-797bc8711808"
+      ],
+      "external_references": [
+        {
+          "source_name": "Microsoft MSRC",
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-57062",
+          "description": "CVE-2026-57062 CMS (Cryptographic Message Syntax) parsing in gpgsm in GnuPG through 2.5.20 mishandles the CMS format for AES-GCM because aes-ICVlen is supposed to be 12 bytes but 4 bytes is accepted. NOTE: this is related to CVE-2026-34182."
+        }
+      ],
+      "labels": [
+        "Finance"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--e9283b7d-66bf-4e13-9eb7-333d21cf6c2d",
+      "created": "2026-07-01T10:36:38.000Z",
+      "modified": "2026-07-01T10:36:38.000Z",
+      "name": "CVE-2026-57062",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-57062",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-57062"
+        }
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--a6bbd2f7-c33d-44fa-ba4e-309d9f51f7c2",
+      "created": "2026-07-01T10:36:38.000Z",
+      "modified": "2026-07-01T10:36:38.000Z",
+      "name": "CVE-2026-34182",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-34182",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-34182"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--16eb84e2-61b2-4689-aa42-797bc8711808",
+      "created": "2026-07-01T10:36:38.000Z",
+      "modified": "2026-07-01T10:36:38.000Z",
+      "name": "Internal Spearphishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1534",
+          "url": "https://attack.mitre.org/techniques/T1534/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    }
+  ]
+}
