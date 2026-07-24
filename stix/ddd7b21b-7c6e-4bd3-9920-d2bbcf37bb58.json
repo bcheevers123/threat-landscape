@@ -1,0 +1,120 @@
+{
+  "type": "bundle",
+  "id": "bundle--b71b4f7a-7b89-4a41-aee5-d6694bb71ed0",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--a066984d-5da9-4a25-98a6-0e208b5649b5",
+      "created": "2026-07-24T09:13:25.000Z",
+      "modified": "2026-07-24T09:13:25.000Z",
+      "name": "AIDR: How CrowdStrike Is Defining the Next Era of Cybersecurity",
+      "description": "Attackers have shifted from hiding from AI tools to running inside them. This is a deliberate architectural choice: The attacker modeled the execution environment, identified the highest-privilege auto-run mechanism available on a developer\u2019s machine, and built the attack specifically for it. How AI agent harness attacks work in the wild Technique 1: SessionStart hook injection into AI agent settings The most direct attack targets the hooks system built into Claude Code and Gemini CLI.",
+      "published": "2026-07-24T09:13:07.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "attack-pattern--5d7f677d-4f2f-4c84-9aef-de869907911e",
+        "attack-pattern--fda22e47-a19e-4e59-99f1-549bea1ca3fd",
+        "attack-pattern--c76dbed7-4e2d-483a-9b31-ccf8cb09f8f6",
+        "attack-pattern--58935d71-8e02-49e9-9cf1-c42c5bacc5e3"
+      ],
+      "external_references": [
+        {
+          "source_name": "CrowdStrike Blog",
+          "url": "https://www.crowdstrike.com/en-us/blog/aidr-how-crowdstrike-is-defining-next-era-of-cybersecurity",
+          "description": "AIDR: How CrowdStrike Is Defining the Next Era of Cybersecurity"
+        }
+      ],
+      "labels": [
+        "Energy",
+        "Technology"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--5d7f677d-4f2f-4c84-9aef-de869907911e",
+      "created": "2026-07-24T09:13:25.000Z",
+      "modified": "2026-07-24T09:13:25.000Z",
+      "name": "OS Credential Dumping",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1003",
+          "url": "https://attack.mitre.org/techniques/T1003/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "credential-access"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--fda22e47-a19e-4e59-99f1-549bea1ca3fd",
+      "created": "2026-07-24T09:13:25.000Z",
+      "modified": "2026-07-24T09:13:25.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--c76dbed7-4e2d-483a-9b31-ccf8cb09f8f6",
+      "created": "2026-07-24T09:13:25.000Z",
+      "modified": "2026-07-24T09:13:25.000Z",
+      "name": "Scheduled Task/Job",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1053",
+          "url": "https://attack.mitre.org/techniques/T1053/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--58935d71-8e02-49e9-9cf1-c42c5bacc5e3",
+      "created": "2026-07-24T09:13:25.000Z",
+      "modified": "2026-07-24T09:13:25.000Z",
+      "name": "Internal Spearphishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1534",
+          "url": "https://attack.mitre.org/techniques/T1534/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    }
+  ]
+}
