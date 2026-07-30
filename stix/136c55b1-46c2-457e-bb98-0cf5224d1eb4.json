@@ -1,0 +1,73 @@
+{
+  "type": "bundle",
+  "id": "bundle--a69a4585-e43e-4083-9546-8612822e1629",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--1cf7f513-a713-4e6f-bcd7-cf27cf9bdb8a",
+      "created": "2026-07-30T09:23:43.000Z",
+      "modified": "2026-07-30T09:23:43.000Z",
+      "name": "Tengu botnet reboots Linux devices to survive removal",
+      "description": "A new Mirai-derived IoT botnet can force an infected Linux device to reboot once its main process is killed, giving its persistence mechanisms another opportunity to relaunch it, Nozomi Networks Labs has found. The malware, dubbed Tengu, was discovered by a machine-learning system the company uses to identify malware families that do not match known signatures. Researchers first observed the dropper reaching their honeypots through Telnet credential brute-force attacks.",
+      "published": "2026-07-29T13:52:33.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "attack-pattern--11b82b8a-d8a7-4b08-a100-c5e702b80df0",
+        "attack-pattern--7bf219a8-097c-4709-a29f-6c5748b09ddd"
+      ],
+      "external_references": [
+        {
+          "source_name": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/07/29/tengu-mirai-iot-botnet-linux",
+          "description": "Tengu botnet reboots Linux devices to survive removal"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--11b82b8a-d8a7-4b08-a100-c5e702b80df0",
+      "created": "2026-07-30T09:23:43.000Z",
+      "modified": "2026-07-30T09:23:43.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--7bf219a8-097c-4709-a29f-6c5748b09ddd",
+      "created": "2026-07-30T09:23:43.000Z",
+      "modified": "2026-07-30T09:23:43.000Z",
+      "name": "Scheduled Task/Job",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1053",
+          "url": "https://attack.mitre.org/techniques/T1053/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        }
+      ]
+    }
+  ]
+}
