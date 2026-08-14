@@ -1,0 +1,89 @@
+{
+  "type": "bundle",
+  "id": "bundle--0dbc9885-86b5-4d34-9126-b3f7ba6a5d50",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--d9d92d34-84b3-4ce3-8101-df0d33aaa57b",
+      "created": "2026-08-14T08:05:34.000Z",
+      "modified": "2026-08-14T08:05:34.000Z",
+      "name": "WebPros security advisory (AV26-815)",
+      "description": "Serial Number: AV26-815 Date: August 13, 2026 As of August 12, 2026, WebPros is affected by a vulnerability in the following product: Plesk (Windows/Linux) Prior to 18.0.79.6 Prior to 18.0.80.2 The Cyber Centre encourages users and administrators to review the provided web link and apply any necessary updates as they become available. Vulnerability CVE-2026-64639: Privilege Escalation via Database Cloning in Plesk",
+      "published": "2026-08-13T15:17:54.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--954cc8f5-8ba3-4468-b682-89a2de4d6c75",
+        "attack-pattern--40fb1bba-e9b4-407c-9b3a-d45c77325706",
+        "attack-pattern--a21a565f-2824-481f-8284-a65bef2290ef"
+      ],
+      "external_references": [
+        {
+          "source_name": "Canadian Centre for Cyber Security",
+          "url": "https://cyber.gc.ca/en/alerts-advisories/webpros-security-advisory-av26-815",
+          "description": "WebPros security advisory (AV26-815)"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--954cc8f5-8ba3-4468-b682-89a2de4d6c75",
+      "created": "2026-08-14T08:05:34.000Z",
+      "modified": "2026-08-14T08:05:34.000Z",
+      "name": "CVE-2026-64639",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-64639",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-64639"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--40fb1bba-e9b4-407c-9b3a-d45c77325706",
+      "created": "2026-08-14T08:05:34.000Z",
+      "modified": "2026-08-14T08:05:34.000Z",
+      "name": "Exploitation for Privilege Escalation",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1068",
+          "url": "https://attack.mitre.org/techniques/T1068/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--a21a565f-2824-481f-8284-a65bef2290ef",
+      "created": "2026-08-14T08:05:34.000Z",
+      "modified": "2026-08-14T08:05:34.000Z",
+      "name": "Internal Spearphishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1534",
+          "url": "https://attack.mitre.org/techniques/T1534/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    }
+  ]
+}
