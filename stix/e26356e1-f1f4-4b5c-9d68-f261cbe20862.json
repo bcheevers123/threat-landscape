@@ -1,0 +1,89 @@
+{
+  "type": "bundle",
+  "id": "bundle--f55a606d-2adc-4135-abba-bda33a1f9ccb",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--a22b3d70-1760-4714-8cd7-34de0eb7e792",
+      "created": "2026-09-15T12:17:22.000Z",
+      "modified": "2026-09-15T12:17:22.000Z",
+      "name": "Cisco security advisory (AV26-921)",
+      "description": "On September 14, 2026, Cybersecurity and Infrastructure Security Agency (CISA) added CVE-2026-76461 to their Known Exploited Vulnerabilities (KEV) Database.",
+      "published": "2026-09-14T19:23:22.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--cbef8330-9157-4a2b-abb4-d820b8d94440",
+        "attack-pattern--3989641a-aef8-4d26-aa53-ec1a1f71562b",
+        "attack-pattern--b6bc40e9-c2cb-40c4-b97e-c3e27108ad9a"
+      ],
+      "external_references": [
+        {
+          "source_name": "Canadian Centre for Cyber Security",
+          "url": "https://cyber.gc.ca/en/alerts-advisories/cisco-security-advisory-av26-921",
+          "description": "Cisco security advisory (AV26-921)"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--cbef8330-9157-4a2b-abb4-d820b8d94440",
+      "created": "2026-09-15T12:17:22.000Z",
+      "modified": "2026-09-15T12:17:22.000Z",
+      "name": "CVE-2026-76461",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-76461",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-76461"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--3989641a-aef8-4d26-aa53-ec1a1f71562b",
+      "created": "2026-09-15T12:17:22.000Z",
+      "modified": "2026-09-15T12:17:22.000Z",
+      "name": "Exploit Public-Facing Application",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1190",
+          "url": "https://attack.mitre.org/techniques/T1190/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--b6bc40e9-c2cb-40c4-b97e-c3e27108ad9a",
+      "created": "2026-09-15T12:17:22.000Z",
+      "modified": "2026-09-15T12:17:22.000Z",
+      "name": "Internal Spearphishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1534",
+          "url": "https://attack.mitre.org/techniques/T1534/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    }
+  ]
+}
