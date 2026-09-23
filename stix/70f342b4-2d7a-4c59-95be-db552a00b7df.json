@@ -1,0 +1,69 @@
+{
+  "type": "bundle",
+  "id": "bundle--b67981ba-3b08-4035-8dc2-4b8a74fef4d4",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--c0e4bb85-c5d2-4f24-9fdd-910dc1231db4",
+      "created": "2026-09-23T12:22:16.000Z",
+      "modified": "2026-09-23T12:22:16.000Z",
+      "name": "CVE-2026-87902: how close is your WordPress to remote code execution?",
+      "description": "WordPress 7.1.2 fixes an unauthenticated file inclusion bug active since version 4.7, patchable but exploitable into remote code execution. WordPress 7.1.2 shipped on September 22 address an unauthenticated local file inclusion, tracked as CVE-2026-87902 (CVSS score of 9.2), which stems of how the CMS resolves page templates, with a real path to remote code execution.",
+      "published": "2026-09-23T07:36:14.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--2519498c-136e-4bd9-9961-f4571c3d3f14",
+        "attack-pattern--080385b4-f71c-4c3b-9826-8e20aca0b706"
+      ],
+      "external_references": [
+        {
+          "source_name": "Security Affairs",
+          "url": "https://securityaffairs.com/199564/hacking/cve-2026-87902-how-close-is-your-wordpress-to-remote-code-execution.html",
+          "description": "CVE-2026-87902: how close is your WordPress to remote code execution?"
+        }
+      ],
+      "labels": [
+        "Media"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--2519498c-136e-4bd9-9961-f4571c3d3f14",
+      "created": "2026-09-23T12:22:16.000Z",
+      "modified": "2026-09-23T12:22:16.000Z",
+      "name": "CVE-2026-87902",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-87902",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-87902"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--080385b4-f71c-4c3b-9826-8e20aca0b706",
+      "created": "2026-09-23T12:22:16.000Z",
+      "modified": "2026-09-23T12:22:16.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    }
+  ]
+}
