@@ -1,0 +1,99 @@
+{
+  "type": "bundle",
+  "id": "bundle--b3a2862f-2217-43b4-b37d-a63fa92b359e",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--0625926b-0f8c-4ba8-bebe-515b5e15b241",
+      "created": "2026-09-26T11:53:33.000Z",
+      "modified": "2026-09-26T11:53:33.000Z",
+      "name": "ShinyHunters hacked Clop leak site using Grav CMS path traversal flaw",
+      "description": "The Clop ransomware gang has moved its data leak site to a new Tor address after confirming its previous server was compromised and defaced through an unpatched Grav CMS flaw that BleepingComputer has learned is an unauthenticated path traversal vulnerability.",
+      "published": "2026-09-25T20:57:55.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "threat-actor--b5f458ee-ae76-46d5-81a2-a352a1d287f4",
+        "malware--736058d5-da7f-498e-8f30-92687c2996d0",
+        "attack-pattern--a939400f-1017-4db3-a09e-2ddeabed3d06",
+        "attack-pattern--fd0deeff-05b4-4630-b24f-1184427f8a65"
+      ],
+      "external_references": [
+        {
+          "source_name": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/shinyhunters-hacked-clop-leak-site-using-grav-cms-path-traversal-flaw",
+          "description": "ShinyHunters hacked Clop leak site using Grav CMS path traversal flaw"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "threat-actor",
+      "spec_version": "2.1",
+      "id": "threat-actor--b5f458ee-ae76-46d5-81a2-a352a1d287f4",
+      "created": "2026-09-26T11:53:33.000Z",
+      "modified": "2026-09-26T11:53:33.000Z",
+      "name": "Clop",
+      "threat_actor_types": [
+        "unknown"
+      ],
+      "confidence": 25
+    },
+    {
+      "type": "malware",
+      "spec_version": "2.1",
+      "id": "malware--736058d5-da7f-498e-8f30-92687c2996d0",
+      "created": "2026-09-26T11:53:33.000Z",
+      "modified": "2026-09-26T11:53:33.000Z",
+      "name": "Clop",
+      "malware_types": [
+        "unknown"
+      ],
+      "is_family": true
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--a939400f-1017-4db3-a09e-2ddeabed3d06",
+      "created": "2026-09-26T11:53:33.000Z",
+      "modified": "2026-09-26T11:53:33.000Z",
+      "name": "Data Encrypted for Impact",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1486",
+          "url": "https://attack.mitre.org/techniques/T1486/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "impact"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--fd0deeff-05b4-4630-b24f-1184427f8a65",
+      "created": "2026-09-26T11:53:33.000Z",
+      "modified": "2026-09-26T11:53:33.000Z",
+      "name": "Exfiltration Over C2 Channel",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1041",
+          "url": "https://attack.mitre.org/techniques/T1041/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "exfiltration"
+        }
+      ]
+    }
+  ]
+}
