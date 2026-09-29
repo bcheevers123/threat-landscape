@@ -1,0 +1,171 @@
+{
+  "type": "bundle",
+  "id": "bundle--f9155ca5-7b1d-476e-ba15-fe2d19702644",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--757729a2-75c0-442f-baaf-20495828d066",
+      "created": "2026-09-29T13:28:34.000Z",
+      "modified": "2026-09-29T13:28:34.000Z",
+      "name": "AL26-024 - Critical vulnerabilities affecting Citrix NetScaler ADC and NetScaler Gateway \u2013 CVE-2026-88771 and CVE-2026-88772",
+      "description": "Purpose An Alert is used to raise awareness of a recently identified cyber threat that may impact cyber information assets, and to provide additional detection and mitigation advice to recipients. Tracked as CVE-2026-88771 Footnote 3 , this vulnerability is an Improper Input Validation vulnerability (CWE-20) Footnote 4 . Tracked as CVE-2026-88772 Footnote 5 , this vulnerability is a Buffer Overflow vulnerability (CWE-119) Footnote 6 .",
+      "published": "2026-09-27T18:02:05.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--34f427fd-d376-4bfa-827b-4b773d2c95d2",
+        "vulnerability--08c1e8ed-7c99-4de7-8f00-0237b6e65b87",
+        "attack-pattern--36f24568-3040-4284-86c6-de39ec38c42c",
+        "attack-pattern--9e1ba320-0c60-4d71-b57c-9be481c967f5",
+        "attack-pattern--a55ff65c-eaec-42ed-bec9-947b375d06bd",
+        "attack-pattern--1c118529-635d-462d-a39e-10f3e5ad17d7",
+        "attack-pattern--ddfa8739-2d0d-475d-9b93-a4295470fbdc"
+      ],
+      "external_references": [
+        {
+          "source_name": "Canadian Centre for Cyber Security",
+          "url": "https://cyber.gc.ca/en/alerts-advisories/al26-024-critical-vulnerabilities-affecting-citrix-netscaler-adc-netscaler-gateway-cve-2026-88771-cve-2026-88772",
+          "description": "AL26-024 - Critical vulnerabilities affecting Citrix NetScaler ADC and NetScaler Gateway \u2013 CVE-2026-88771 and CVE-2026-88772"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--34f427fd-d376-4bfa-827b-4b773d2c95d2",
+      "created": "2026-09-29T13:28:34.000Z",
+      "modified": "2026-09-29T13:28:34.000Z",
+      "name": "CVE-2026-88771",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-88771",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-88771"
+        }
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--08c1e8ed-7c99-4de7-8f00-0237b6e65b87",
+      "created": "2026-09-29T13:28:34.000Z",
+      "modified": "2026-09-29T13:28:34.000Z",
+      "name": "CVE-2026-88772",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-88772",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-88772"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--36f24568-3040-4284-86c6-de39ec38c42c",
+      "created": "2026-09-29T13:28:34.000Z",
+      "modified": "2026-09-29T13:28:34.000Z",
+      "name": "Remote Services",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1021",
+          "url": "https://attack.mitre.org/techniques/T1021/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--9e1ba320-0c60-4d71-b57c-9be481c967f5",
+      "created": "2026-09-29T13:28:34.000Z",
+      "modified": "2026-09-29T13:28:34.000Z",
+      "name": "OS Credential Dumping",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1003",
+          "url": "https://attack.mitre.org/techniques/T1003/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "credential-access"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--a55ff65c-eaec-42ed-bec9-947b375d06bd",
+      "created": "2026-09-29T13:28:34.000Z",
+      "modified": "2026-09-29T13:28:34.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--1c118529-635d-462d-a39e-10f3e5ad17d7",
+      "created": "2026-09-29T13:28:34.000Z",
+      "modified": "2026-09-29T13:28:34.000Z",
+      "name": "Scheduled Task/Job",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1053",
+          "url": "https://attack.mitre.org/techniques/T1053/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--ddfa8739-2d0d-475d-9b93-a4295470fbdc",
+      "created": "2026-09-29T13:28:34.000Z",
+      "modified": "2026-09-29T13:28:34.000Z",
+      "name": "Network Denial of Service",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1498",
+          "url": "https://attack.mitre.org/techniques/T1498/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "impact"
+        }
+      ]
+    }
+  ]
+}
