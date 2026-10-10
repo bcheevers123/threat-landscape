@@ -1,0 +1,89 @@
+{
+  "type": "bundle",
+  "id": "bundle--3a03a088-517a-414f-b7de-e1c1297b3ca4",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--3b923870-51ff-4dfe-8138-0d6565533798",
+      "created": "2026-10-10T13:07:16.000Z",
+      "modified": "2026-10-10T13:07:16.000Z",
+      "name": "SonicWall security advisory (AV26-1017) \u2013 Update 1",
+      "description": "Serial number: AV26-1017 Date: October 7, 2026 Updated: October 9, 2026 As of October 6, 2026, SonicWall is affected by vulnerabilities in the following product: SMA1000 Models - 6210, 7210, 8200v Version 12.4.3-03670 (platform-hotfix) and prior Version 12.5.0-03082 (platform-hotfix) and prior Update 1 Open source reporting indicates that CVE-2026-102255 is being exploited in the wild. SonicWall SMA1000 Series Appliances Affected By Multiple Vulnerabilities SonicWall Security Advisory",
+      "published": "2026-10-09T18:26:33.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--e4273b69-e9ee-43ba-bce9-08378448fc80",
+        "attack-pattern--862bdfc7-8f00-4921-8a73-1734778cbe5a",
+        "attack-pattern--c48b3c2b-d30a-4af0-a03b-279aed19c76c"
+      ],
+      "external_references": [
+        {
+          "source_name": "Canadian Centre for Cyber Security",
+          "url": "https://cyber.gc.ca/en/alerts-advisories/sonicwall-security-advisory-av26-1017",
+          "description": "SonicWall security advisory (AV26-1017) \u2013 Update 1"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--e4273b69-e9ee-43ba-bce9-08378448fc80",
+      "created": "2026-10-10T13:07:16.000Z",
+      "modified": "2026-10-10T13:07:16.000Z",
+      "name": "CVE-2026-102255",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-102255",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-102255"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--862bdfc7-8f00-4921-8a73-1734778cbe5a",
+      "created": "2026-10-10T13:07:16.000Z",
+      "modified": "2026-10-10T13:07:16.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--c48b3c2b-d30a-4af0-a03b-279aed19c76c",
+      "created": "2026-10-10T13:07:16.000Z",
+      "modified": "2026-10-10T13:07:16.000Z",
+      "name": "Internal Spearphishing",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1534",
+          "url": "https://attack.mitre.org/techniques/T1534/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ]
+    }
+  ]
+}
