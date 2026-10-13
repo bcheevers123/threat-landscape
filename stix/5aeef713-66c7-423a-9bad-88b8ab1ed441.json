@@ -1,0 +1,83 @@
+{
+  "type": "bundle",
+  "id": "bundle--03b62c57-304c-4e3a-b09e-5245f3231d0e",
+  "objects": [
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--ccd9fdda-7531-4b55-ab5e-923e1cadad4f",
+      "created": "2026-10-13T14:38:52.000Z",
+      "modified": "2026-10-13T14:38:52.000Z",
+      "name": "Request, Aggregate, Bypass: How Attackers Can Evade LLM Safety Classifiers",
+      "description": "TL;DR; Our security assessment of LiteLLM (v1.77.7), a widely used open-source LLM gateway, uncovered multiple high-impact vulnerabilities (tracked as CVE-2026-35029, CVE-2026-59823) which have been resolved as of LiteLLM version 1.83.9. The most significant issues stemmed from a missing authorization check on the /config/update endpoint, which allowed any authenticated user (including low-privileged accounts) to modify the [\u2026] The post When LLM Gateways Go Wrong: Findings from LiteLLM appeared first on Check Point Research .",
+      "published": "2026-10-13T14:38:21.000Z",
+      "report_types": [
+        "threat-report"
+      ],
+      "object_refs": [
+        "vulnerability--eb774f8e-c0ff-4499-9bd6-8d224886281d",
+        "vulnerability--469ed12d-7d26-489d-949e-2043bd539012",
+        "attack-pattern--1db20ae9-06b6-441e-b160-2045e56f1f86"
+      ],
+      "external_references": [
+        {
+          "source_name": "CrowdStrike Blog",
+          "url": "https://www.crowdstrike.com/en-us/blog/how-attackers-can-bypass-llm-safety-classifiers",
+          "description": "Request, Aggregate, Bypass: How Attackers Can Evade LLM Safety Classifiers"
+        }
+      ],
+      "labels": []
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--eb774f8e-c0ff-4499-9bd6-8d224886281d",
+      "created": "2026-10-13T14:38:52.000Z",
+      "modified": "2026-10-13T14:38:52.000Z",
+      "name": "CVE-2026-35029",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-35029",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-35029"
+        }
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--469ed12d-7d26-489d-949e-2043bd539012",
+      "created": "2026-10-13T14:38:52.000Z",
+      "modified": "2026-10-13T14:38:52.000Z",
+      "name": "CVE-2026-59823",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2026-59823",
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-59823"
+        }
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--1db20ae9-06b6-441e-b160-2045e56f1f86",
+      "created": "2026-10-13T14:38:52.000Z",
+      "modified": "2026-10-13T14:38:52.000Z",
+      "name": "Command and Scripting Interpreter",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1059",
+          "url": "https://attack.mitre.org/techniques/T1059/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ]
+    }
+  ]
+}
